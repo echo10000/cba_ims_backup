@@ -771,6 +771,7 @@ class CustodianReservationListView(CustodianRequiredMixin, ListView):
         context['approved_count'] = base_qs.filter(status=StudentReservation.Status.APPROVED).count()
         context['released_count'] = base_qs.filter(status=StudentReservation.Status.RELEASED).count()
         context['overdue_count'] = base_qs.filter(status=StudentReservation.Status.RELEASED, requested_return__lt=now).count()
+        context['awaiting_inspection_count'] = base_qs.filter(status=StudentReservation.Status.RETURNED_TO_GUARD).count()
         context['total_count'] = base_qs.count()
         context['current_status'] = self.request.GET.get('status', '')
         context['search_query'] = self.request.GET.get('q', '')
@@ -802,12 +803,16 @@ class CustodianReservationDetailView(CustodianRequiredMixin, DetailView):
             CustodianReleaseForm,
             CustodianOfficeReturnForm,
             CustodianGuardReturnForm,
+            CustodianGuardInspectionForm,
+            CustodianIDCollectionForm,
         )
         context['approval_form'] = CustodianApprovalForm(reservation=res)
         context['rejection_form'] = CustodianRejectionForm()
         context['release_form'] = CustodianReleaseForm()
         context['office_return_form'] = CustodianOfficeReturnForm()
         context['guard_return_form'] = CustodianGuardReturnForm()
+        context['guard_inspection_form'] = CustodianGuardInspectionForm()
+        context['id_collection_form'] = CustodianIDCollectionForm()
         return context
 
     def post(self, request, *args, **kwargs):
@@ -821,6 +826,8 @@ class CustodianReservationDetailView(CustodianRequiredMixin, DetailView):
             CustodianReleaseForm,
             CustodianOfficeReturnForm,
             CustodianGuardReturnForm,
+            CustodianGuardInspectionForm,
+            CustodianIDCollectionForm,
         )
 
         try:
@@ -936,6 +943,51 @@ class CustodianReservationDetailView(CustodianRequiredMixin, DetailView):
                     context = self.get_context_data()
                     context['guard_return_form'] = form
                     messages.error(request, "Failed to record guard handover.")
+                    return self.render_to_response(context)
+
+            elif action == 'inspect_guard':
+                form = CustodianGuardInspectionForm(request.POST)
+                if form.is_valid():
+                    cond = form.cleaned_data['condition_at_return']
+                    remarks = form.cleaned_data.get('inspection_remarks', '')
+                    id_col = form.cleaned_data.get('id_collected_now', False)
+                    services.complete_inspection(
+                        reservation=res,
+                        inspected_by=request.user,
+                        condition_at_return=cond,
+                        inspection_remarks=remarks,
+                        id_collected_now=id_col,
+                        request=request
+                    )
+                    if cond == Asset.Condition.UNSERVICEABLE:
+                        messages.warning(request, f"Guard return inspection completed for reservation #{res.pk}. Asset marked UNSERVICEABLE (Damaged).")
+                    else:
+                        messages.success(request, f"Guard return inspection completed for reservation #{res.pk}. Asset restored to AVAILABLE.")
+                    return redirect('student_reservations:custodian_detail', pk=res.pk)
+                else:
+                    context = self.get_context_data()
+                    context['guard_inspection_form'] = form
+                    messages.error(request, "Failed to complete inspection: please select a valid inspected condition.")
+                    return self.render_to_response(context)
+
+            elif action == 'collect_id':
+                if res.status != StudentReservation.Status.RETURNED:
+                    raise ValidationError("School ID collection can only be recorded after equipment return has been completed.")
+                form = CustodianIDCollectionForm(request.POST)
+                if form.is_valid():
+                    remarks = form.cleaned_data.get('remarks', '')
+                    services.record_id_collection(
+                        reservation=res,
+                        returned_by=request.user,
+                        remarks=remarks,
+                        request=request
+                    )
+                    messages.success(request, f"Physical School ID collection recorded for student {res.student_name} (#{res.pk}).")
+                    return redirect('student_reservations:custodian_detail', pk=res.pk)
+                else:
+                    context = self.get_context_data()
+                    context['id_collection_form'] = form
+                    messages.error(request, "Failed to record School ID collection: confirmation is required.")
                     return self.render_to_response(context)
 
             else:

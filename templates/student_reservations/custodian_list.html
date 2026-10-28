@@ -60,6 +60,12 @@
                     <i class="bi bi-exclamation-triangle me-1"></i> Overdue
                     <span class="badge {% if current_status == 'OVERDUE' %}bg-white text-danger{% else %}bg-danger text-white{% endif %} ms-1">{{ overdue_count }}</span>
                 </a>
+                <a href="{% url 'student_reservations:custodian_list' %}?status=RETURNED_TO_GUARD{% if search_query %}&q={{ search_query }}{% endif %}"
+                   class="btn btn-sm {% if current_status == 'RETURNED_TO_GUARD' %}btn-info text-white fw-semibold{% else %}btn-light text-secondary border{% endif %}"
+                   style="min-height: 36px; padding: 0.35rem 0.65rem;">
+                    <i class="bi bi-shield-check me-1"></i> Awaiting Inspection
+                    <span class="badge {% if current_status == 'RETURNED_TO_GUARD' %}bg-white text-info{% else %}bg-info text-white{% endif %} ms-1">{{ awaiting_inspection_count }}</span>
+                </a>
             </div>
 
             <!-- Search Form -->
@@ -155,6 +161,10 @@
                             <span class="badge bg-success-subtle text-success-emphasis border border-success-subtle font-sans">
                                 <i class="bi bi-box-arrow-up-right me-1"></i> RELEASED
                             </span>
+                            {% elif res.status == 'RETURNED_TO_GUARD' %}
+                            <span class="badge bg-info-subtle text-info-emphasis border border-info-subtle font-sans">
+                                <i class="bi bi-shield-check me-1"></i> AWAITING INSPECTION
+                            </span>
                             {% elif res.status == 'RETURNED' %}
                             <span class="badge bg-light text-secondary border font-sans">
                                 <i class="bi bi-archive me-1"></i> RETURNED
@@ -222,6 +232,10 @@
                     {% elif res.status == 'RELEASED' %}
                     <span class="badge bg-success-subtle text-success-emphasis border border-success-subtle font-sans">
                         <i class="bi bi-box-arrow-up-right me-1"></i> RELEASED
+                    </span>
+                    {% elif res.status == 'RETURNED_TO_GUARD' %}
+                    <span class="badge bg-info-subtle text-info-emphasis border border-info-subtle font-sans">
+                        <i class="bi bi-shield-check me-1"></i> AWAITING INSPECTION
                     </span>
                     {% elif res.status == 'RETURNED' %}
                     <span class="badge bg-light text-secondary border font-sans">

@@ -383,6 +383,10 @@ class CustodianGuardInspectionForm(forms.Form):
 
 
 class CustodianIDCollectionForm(forms.Form):
+    confirm_handed_back = forms.BooleanField(
+        required=True,
+        label="I confirm that the physical School ID has been handed back to the student."
+    )
     remarks = forms.CharField(
         max_length=255,
         required=False,
