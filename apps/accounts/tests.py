@@ -70,7 +70,7 @@ class AccountViewsTests(TestCase):
         self.client.login(username='sysadmin', password='Password123!')
         response = self.client.get(reverse('dashboard'))
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'Welcome back')
+        self.assertContains(response, 'Equipment operations')
 
     def test_user_list_admin_only(self):
         # Non-admin access should fail (403 or redirect)

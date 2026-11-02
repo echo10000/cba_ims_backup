@@ -1,0 +1,15 @@
+<article class="desk-row" data-type="{{ type_name }}" data-free="{{ free }}" data-search="{{ name|lower }} {{ type_name|lower }} {{ note|lower }}">
+    <img class="plate" src="{{ img }}" alt="" onerror="this.style.visibility='hidden'">
+    <div class="desk-row-text">
+        <h4>{{ name }}</h4>
+        <p>{{ note|truncatechars:80 }}</p>
+        {% if free <= 0 %}<p class="fw-bold">{% if out_note %}{{ out_note }}{% elif zero_stock %}Not currently available{% else %}Fully Booked{% endif %}</p>{% endif %}
+    </div>
+    {% if free > 0 %}
+    <span class="desk-stamp free">{{ free }} FREE</span>
+    <a class="btn btn-primary-cba desk-go" href="{% url 'student_reservations:public_request' %}?category={{ category_id }}{% if type_id %}&type={{ type_id }}{% endif %}&pickup={{ pickup_raw|urlencode }}&return={{ return_raw|urlencode }}">{{ label|default:"Reserve" }}<span class="visually-hidden"> {{ name }}</span></a>
+    {% else %}
+    <span class="desk-stamp out">ALL OUT</span>
+    <a class="btn btn-secondary-cba desk-go" href="#when">Change time</a>
+    {% endif %}
+</article>

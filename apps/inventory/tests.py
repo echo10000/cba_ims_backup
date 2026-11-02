@@ -1,8 +1,10 @@
 from django.test import TestCase, Client
 from django.urls import reverse
 from django.core.exceptions import ValidationError
+from datetime import date
 from decimal import Decimal
 from apps.accounts.models import User
+from apps.assignments.models import AssetAssignment
 from apps.organizations.models import Department, Location, Employee
 from apps.audit.models import AuditLog
 from .models import AssetCategory, Brand, Asset
@@ -462,6 +464,44 @@ class AssetViewTests(TestCase):
             HTTP_HX_REQUEST='true'
         )
         self.assertEqual(res_fac.status_code, 403)
+
+    def test_asset_list_status_tabs_count_ignores_selected_status(self):
+        self.asset_ba.status = Asset.Status.DAMAGED
+        self.asset_ba.save()
+        self.client.login(username='admin_inv', password='Password123!')
+        res = self.client.get(reverse('inventory:asset_list'), {'status': Asset.Status.DAMAGED})
+        tabs = {tab['label']: tab for tab in res.context['status_tabs']}
+        self.assertEqual(tabs['All']['count'], 2)
+        self.assertEqual(tabs['Available']['count'], 1)
+        self.assertEqual(tabs['Damaged']['count'], 1)
+        self.assertTrue(tabs['Damaged']['active'])
+        self.assertEqual(list(res.context['assets']), [self.asset_ba])
+
+    def test_asset_list_keeps_filter_values_and_lists_active_filters(self):
+        self.client.login(username='admin_inv', password='Password123!')
+        res = self.client.get(reverse('inventory:asset_list'), {'q': 'laptop', 'department': self.dept_acct.pk})
+        self.assertEqual(res.context['current_q'], 'laptop')
+        self.assertEqual(res.context['current_department'], str(self.dept_acct.pk))
+        self.assertEqual([f['field'] for f in res.context['active_filters']], ['q', 'department'])
+        self.assertContains(res, 'value="laptop"')
+
+    def test_asset_list_search_covers_location_and_current_holder(self):
+        AssetAssignment.objects.create(
+            asset=self.asset_acct, employee=self.chair_emp, assigned_date=date(2026, 1, 5), assigned_by=self.admin
+        )
+        self.client.login(username='admin_inv', password='Password123!')
+        by_room = self.client.get(reverse('inventory:asset_list'), {'q': 'BA Dean'})
+        self.assertEqual(list(by_room.context['assets']), [self.asset_ba])
+        by_holder = self.client.get(reverse('inventory:asset_list'), {'q': 'Elena Santos'})
+        self.assertEqual(list(by_holder.context['assets']), [self.asset_acct])
+        self.assertContains(by_holder, 'Elena Santos')
+
+    def test_asset_list_sort_puts_damaged_first(self):
+        self.asset_acct.status = Asset.Status.DAMAGED
+        self.asset_acct.save()
+        self.client.login(username='admin_inv', password='Password123!')
+        res = self.client.get(reverse('inventory:asset_list'), {'sort': 'need'})
+        self.assertEqual(list(res.context['assets']), [self.asset_acct, self.asset_ba])
 
     def test_asset_list_htmx_pagination(self):
         self.client.login(username='admin_inv', password='Password123!')

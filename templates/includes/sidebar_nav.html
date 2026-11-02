@@ -1,9 +1,8 @@
-<a href="{% url 'dashboard' %}" class="sidebar-brand d-none d-lg-flex align-items-center gap-2.5">
-    <div class="sidebar-brand-mark">
-        <i class="bi bi-grid-3x3-gap-fill text-white"></i>
-    </div>
+{% load static %}
+<a href="{% url 'dashboard' %}" class="sidebar-brand d-none d-lg-flex align-items-center gap-2">
+    <img class="register-seal" src="{% static 'img/brand/norsu_seal.png' %}" alt="Negros Oriental State University seal">
     <div class="d-flex flex-column lh-1">
-        <span class="sidebar-brand-title">CBA IMS</span>
+        <span class="sidebar-brand-title">CBA Equipment Library</span>
         <span class="sidebar-brand-subtitle">College of Business Administration</span>
     </div>
 </a>

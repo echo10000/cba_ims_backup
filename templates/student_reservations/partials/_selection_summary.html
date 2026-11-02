@@ -15,7 +15,7 @@
             </template>
             <template x-if="hasSelection && !hasChanged">
                 <span class="badge bg-success-subtle text-success-emphasis border border-success-subtle" style="font-size: 0.7rem;">
-                    <i class="bi bi-check-circle me-1"></i>Verified
+                    
                 </span>
             </template>
             <template x-if="!hasSelection">
@@ -28,25 +28,25 @@
         <!-- Selected State -->
         <template x-if="hasSelection">
             <div>
-                <div class="d-flex align-items-center gap-2.5 mb-2.5 min-w-0">
+                <div class="d-flex align-items-center gap-2 mb-2 min-w-0">
                     <div class="d-flex align-items-center justify-content-center rounded p-1 border bg-light flex-shrink-0"
-                         style="width: 44px; height: 44px;">
-                        <img src="{{ selection_display.illustration_url|default:'/static/images/student/equipment_generic.svg' }}"
+                         style="width: 112px; height: 112px;">
+                        <img src="{{ selection_display.illustration_url|default:'/static/img/plates/magnifier.webp' }}"
                              alt="Equipment"
                              class="img-fluid rounded"
-                             style="max-height: 38px; object-fit: contain;">
+                             style="max-height: 104px; object-fit: contain;">
                     </div>
                     <div class="min-w-0 flex-grow-1">
                         <strong class="d-block text-dark small fw-bold text-truncate" x-text="displayEquipmentName">
                             {{ selection_display.type_name|default:"" }}
                         </strong>
-                        <span class="badge bg-light text-secondary border font-sans" style="font-size: 0.675rem;" x-text="displayCategoryName">
+                        <span class="badge bg-light text-secondary border font-sans" style="font-size: 0.675rem;" x-show="displayCategoryName !== displayEquipmentName" x-text="displayCategoryName">
                             {{ selection_display.category_name|default:"" }}
                         </span>
                     </div>
                 </div>
 
-                <div class="p-2.5 rounded bg-light border border-light-subtle small">
+                <div class="p-2 rounded bg-light border border-light-subtle small">
                     <div class="d-flex align-items-center justify-content-between gap-1 mb-1">
                         <span class="text-secondary" style="font-size: 0.775rem;">
                             <i class="bi bi-box-arrow-up-right me-1 text-primary"></i> Pickup:
@@ -63,7 +63,7 @@
                             {{ selection_display.return|default:"" }}
                         </span>
                     </div>
-                    <div class="d-flex align-items-center justify-content-between gap-1 pt-1.5 border-top border-light-subtle">
+                    <div class="d-flex align-items-center justify-content-between gap-1 pt-2 border-top border-light-subtle">
                         <span class="text-secondary" style="font-size: 0.75rem;">
                             <i class="bi bi-hourglass-split me-1 text-muted"></i> Duration:
                         </span>
@@ -79,7 +79,7 @@
         <template x-if="!hasSelection">
             <div class="p-2 text-center text-muted small">
                 <i class="bi bi-calendar-plus fs-4 text-secondary d-block mb-1"></i>
-                <div class="fw-semibold text-dark mb-0.5">No equipment selected yet</div>
+                <div class="fw-semibold text-dark mb-1">No equipment selected yet</div>
                 <p class="mb-2" style="font-size: 0.8rem;">Choose equipment and times below, or browse catalog availability.</p>
                 <a href="{% url 'student_reservations:catalog' %}" class="btn btn-sm btn-outline-primary py-1 px-3" style="font-size: 0.8rem;">
                     <i class="bi bi-arrow-left me-1"></i> Browse Catalog
@@ -102,24 +102,24 @@
         <div>
             <div class="selection-item d-flex align-items-center gap-3 p-3 rounded mb-3 border bg-light">
                 <div class="d-flex align-items-center justify-content-center rounded p-1 border bg-white flex-shrink-0"
-                     style="width: 48px; height: 48px;">
-                    <img src="{{ selection_display.illustration_url|default:'/static/images/student/equipment_generic.svg' }}"
+                     style="width: 112px; height: 112px;">
+                    <img src="{{ selection_display.illustration_url|default:'/static/img/plates/magnifier.webp' }}"
                          alt="Equipment"
                          class="img-fluid rounded"
-                         style="max-height: 42px; object-fit: contain;">
+                         style="max-height: 104px; object-fit: contain;">
                 </div>
                 <div class="min-w-0 flex-grow-1">
                     <strong class="d-block text-dark small fw-bold text-truncate" x-text="displayEquipmentName">
                         {{ selection_display.type_name|default:"" }}
                     </strong>
-                    <span class="badge bg-light text-secondary border font-sans" style="font-size: 0.7rem;" x-text="displayCategoryName">
+                    <span class="badge bg-light text-secondary border font-sans" style="font-size: 0.7rem;" x-show="displayCategoryName !== displayEquipmentName" x-text="displayCategoryName">
                         {{ selection_display.category_name|default:"" }}
                     </span>
                 </div>
             </div>
 
             <!-- Reactive Status Notification when Changed -->
-            <div x-show.important="hasChanged" x-cloak class="alert alert-warning py-2 px-2.5 mb-3 align-items-center gap-2 small rounded border" :class="{ 'd-flex': hasChanged }">
+            <div x-show.important="hasChanged" x-cloak class="alert alert-warning py-2 px-2 mb-3 align-items-center gap-2 small rounded border" :class="{ 'd-flex': hasChanged }">
                 <i class="bi bi-info-circle-fill text-warning flex-shrink-0"></i>
                 <div style="font-size: 0.775rem;">Schedule or equipment changed. Stock will be rechecked on submit.</div>
             </div>
@@ -128,7 +128,7 @@
             <div class="border-top pt-3 mb-3">
                 <div class="d-flex justify-content-between align-items-center mb-2 small">
                     <span class="text-secondary">
-                        <i class="bi bi-box-arrow-up-right me-1.5 text-primary"></i> Pickup
+                        <i class="bi bi-box-arrow-up-right me-2 text-primary"></i> Pickup
                     </span>
                     <strong class="text-dark font-sans" x-text="displayPickup">
                         {{ selection_display.pickup|default:"" }}
@@ -136,7 +136,7 @@
                 </div>
                 <div class="d-flex justify-content-between align-items-center mb-2 small">
                     <span class="text-secondary">
-                        <i class="bi bi-box-arrow-in-down-left me-1.5 text-primary"></i> Return
+                        <i class="bi bi-box-arrow-in-down-left me-2 text-primary"></i> Return
                     </span>
                     <strong class="text-dark font-sans" x-text="displayReturn">
                         {{ selection_display.return|default:"" }}
@@ -144,7 +144,7 @@
                 </div>
                 <div class="d-flex justify-content-between align-items-center pt-2 border-top small">
                     <span class="text-secondary">
-                        <i class="bi bi-hourglass-split me-1.5 text-muted"></i> Duration
+                        <i class="bi bi-hourglass-split me-2 text-muted"></i> Duration
                     </span>
                     <span class="badge bg-primary-subtle text-primary border border-primary-subtle font-mono" x-text="displayDuration">
                         {% if selection_display.duration_hours %}{{ selection_display.duration_hours }} hr{{ selection_display.duration_hours|pluralize }}{% else %}Scheduled{% endif %}
@@ -157,12 +157,12 @@
     <!-- Empty State (When NOT hasSelection) -->
     <template x-if="!hasSelection">
         <div class="p-3 mb-3 rounded border border-dashed bg-light text-center text-muted small">
-            <i class="bi bi-calendar-x fs-3 text-secondary d-block mb-1.5"></i>
+            <i class="bi bi-calendar-x fs-3 text-secondary d-block mb-2"></i>
             <strong class="d-block text-dark mb-1">No equipment selected</strong>
-            <p class="text-secondary small mb-2.5" style="line-height: 1.45;">
+            <p class="text-secondary small mb-2" style="line-height: 1.45;">
                 Please select an equipment category and class schedule in the form, or choose from available units in the catalog.
             </p>
-            <a href="{% url 'student_reservations:catalog' %}" class="btn btn-sm btn-outline-primary py-1.5 px-3 fw-semibold">
+            <a href="{% url 'student_reservations:catalog' %}" class="btn btn-sm btn-outline-primary py-2 px-3 fw-semibold">
                 <i class="bi bi-arrow-left me-1"></i> Browse Catalog
             </a>
         </div>
@@ -181,20 +181,20 @@
 
     <!-- Institutional Custody Guidelines (Always visible) -->
     <div class="p-3 bg-light rounded border border-light-subtle small text-secondary" style="font-size: 0.8rem; line-height: 1.45;">
-        <div class="fw-bold text-dark mb-1.5 d-flex align-items-center gap-1.5">
+        <div class="fw-bold text-dark mb-2 d-flex align-items-center gap-2">
             <i class="bi bi-shield-check text-primary"></i> Counter Guidelines
         </div>
-        <ul class="list-unstyled mb-0 d-flex flex-column gap-1.5">
-            <li class="d-flex align-items-start gap-1.5">
-                <i class="bi bi-check-circle text-success flex-shrink-0 mt-0.5"></i>
+        <ul class="list-unstyled mb-0 d-flex flex-column gap-2">
+            <li class="d-flex align-items-start gap-2">
+                <i class="bi bi-check-circle text-success flex-shrink-0 mt-1"></i>
                 <span>Present your <strong>original School ID</strong> upon equipment pickup.</span>
             </li>
-            <li class="d-flex align-items-start gap-1.5">
-                <i class="bi bi-check-circle text-success flex-shrink-0 mt-0.5"></i>
+            <li class="d-flex align-items-start gap-2">
+                <i class="bi bi-check-circle text-success flex-shrink-0 mt-1"></i>
                 <span><strong>15-minute grace period</strong> from your scheduled pickup time.</span>
             </li>
-            <li class="d-flex align-items-start gap-1.5">
-                <i class="bi bi-check-circle text-success flex-shrink-0 mt-0.5"></i>
+            <li class="d-flex align-items-start gap-2">
+                <i class="bi bi-check-circle text-success flex-shrink-0 mt-1"></i>
                 <span>Save your <strong>tracking token</strong> after submitting.</span>
             </li>
         </ul>

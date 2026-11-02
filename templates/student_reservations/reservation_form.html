@@ -3,10 +3,6 @@
 
 {% block title %}Reserve Equipment — CBA Equipment Reservations{% endblock %}
 
-{% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/student_storefront.css' %}?v=20261028">
-{% endblock %}
-
 {% block content %}
 <div class="cba-page-wrap student-storefront-request">
 
@@ -15,13 +11,12 @@
         <a class="student-back" href="{% url 'student_reservations:catalog' %}">
             <i class="bi bi-arrow-left me-1"></i> Back to equipment
         </a>
-        <div class="storefront-eyebrow mt-3">STEP 2 OF 2 &bull; RESERVATION REQUEST</div>
         <h1 class="h2 fw-bold text-dark mb-2">Complete your reservation</h1>
         <p class="text-secondary mb-3">Review your equipment and pickup times, then tell the CBA Property Office how to contact you. No account required.</p>
         <div class="storefront-checkout-steps" aria-label="Reservation progress">
-            <span class="is-complete"><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Choose equipment</span>
-            <span class="is-current" aria-current="step"><i class="bi bi-pencil-square" aria-hidden="true"></i> Request details</span>
-            <span><i class="bi bi-hourglass-split" aria-hidden="true"></i> Await approval</span>
+            <span class="is-complete">Choose equipment</span>
+            <span class="is-current" aria-current="step">Request details</span>
+            <span>Await approval</span>
         </div>
     </header>
 
@@ -33,11 +28,11 @@
 
         <div class="row g-4 align-items-start">
             <!-- Left Column: Form Details Card -->
-            <div class="col-12 col-lg-7 col-xl-8">
+            <div class="col-12 col-lg-8">
                 <div class="card border shadow-xs p-3 p-md-4 bg-white storefront-form-surface" style="border-radius: 14px;">
 
                     {% if form.non_field_errors %}
-                    <div class="alert alert-danger py-2.5 px-3 mb-4 d-flex align-items-center gap-2 small rounded border" role="alert">
+                    <div class="alert alert-danger py-2 px-3 mb-4 d-flex align-items-center gap-2 small rounded border" role="alert">
                         <i class="bi bi-exclamation-octagon-fill text-danger flex-shrink-0 fs-5"></i>
                         <div>
                             {% for error in form.non_field_errors %}
@@ -61,9 +56,9 @@
                             <summary class="cba-selection-editor__summary d-flex align-items-center justify-content-between">
                                 <span>
                                     {% if selection_prefilled and not form.errors %}
-                                        <i class="bi bi-sliders me-1.5 text-primary"></i> Change equipment or schedule
+                                        <i class="bi bi-sliders me-2 text-primary"></i> Change equipment or schedule
                                     {% else %}
-                                        <i class="bi bi-calendar-event me-1.5 text-primary"></i> Choose equipment and schedule
+                                        <i class="bi bi-calendar-event me-2 text-primary"></i> Choose equipment and schedule
                                     {% endif %}
                                 </span>
                                 <span class="text-muted small fw-normal">
@@ -165,7 +160,6 @@
 
                     <!-- SECTION 2: Student Details -->
                     <div class="mb-4">
-                        <span class="cba-kicker"><i class="bi bi-person-lines-fill me-1" aria-hidden="true"></i> STUDENT INFORMATION</span>
                         <h2 class="h5 fw-bold text-dark mb-3">Your details</h2>
 
                         <div class="row g-3">
@@ -205,19 +199,12 @@
                             <!-- Contact Methods (Email OR Phone: At least one required) -->
                             <div class="col-12">
                                 <div class="p-3 rounded bg-light border border-light-subtle">
-                                    <div class="mb-2">
-                                        <label class="form-label fw-semibold small text-dark mb-1">
-                                            <i class="bi bi-chat-left-dots text-primary me-1"></i> Contact Information <span class="text-danger">*</span>
-                                        </label>
-                                        <p class="text-secondary small mb-0" style="font-size: 0.8rem; line-height: 1.4;">
-                                            Provide an email address or mobile number so Property Office staff can contact you if needed. Automated SMS and email notifications are not sent.
-                                        </p>
-                                    </div>
+                                    
 
                                     <div class="row g-2.5">
                                         <div class="col-12 col-md-6">
                                             <label for="id_email" class="form-label small text-secondary mb-1">
-                                                Email Address <span class="text-muted fw-normal">(Optional if mobile provided)</span>
+                                                Email <span class="text-danger">*</span>
                                             </label>
                                             <input type="email" name="email" id="id_email"
                                                    class="form-control bg-white {% if form.email.errors %}is-invalid{% endif %}"
@@ -230,7 +217,7 @@
 
                                         <div class="col-12 col-md-6">
                                             <label for="id_contact_number" class="form-label small text-secondary mb-1">
-                                                Mobile / Phone Number <span class="text-muted fw-normal">(Optional if email provided)</span>
+                                                Or mobile
                                             </label>
                                             <input type="tel" name="contact_number" id="id_contact_number"
                                                    class="form-control bg-white font-mono {% if form.contact_number.errors %}is-invalid{% endif %}"
@@ -268,7 +255,7 @@
                             <!-- Room / Venue Dropdown & Conditional Details -->
                             <div class="col-12 col-md-6">
                                 <label for="id_room_venue" class="form-label fw-semibold small text-secondary mb-1">
-                                    Room or Venue <span class="text-muted fw-normal">(Optional)</span>
+                                    Room <span class="text-muted fw-normal">(optional)</span>
                                 </label>
                                 <select name="room_venue" id="id_room_venue"
                                         class="form-select {% if form.room_venue.errors %}is-invalid{% endif %}"
@@ -330,11 +317,9 @@
                                     @click="showOptional = !showOptional">
                                 <span class="fw-semibold small">
                                     <i class="bi" :class="showOptional ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
-                                    Additional Details (Optional: Section, Specific Model Note)
+                                    More details (optional)
                                 </span>
-                                <span class="badge bg-white text-secondary border font-sans" style="font-size: 0.725rem;" x-text="showOptional ? 'Collapse' : 'Expand'">
-                                    Expand
-                                </span>
+                                
                             </button>
 
                             <div class="row g-3 mt-1 pt-3 border-top border-light-subtle" x-show.important="showOptional" x-cloak>
@@ -381,7 +366,7 @@
                                 Cancel
                             </a>
                             <button type="submit" class="btn btn-primary-cba px-4 fw-semibold" style="min-height: 44px;" :disabled="submitting">
-                                <span x-show.important="!submitting">Submit request &rarr;</span>
+                                <span x-show.important="!submitting">Submit request</span>
                                 <span x-show.important="submitting" x-cloak>
                                     <span class="spinner-border spinner-border-sm me-1" role="status"></span> Submitting...
                                 </span>
@@ -393,7 +378,7 @@
             </div>
 
             <!-- Right Column: Sticky Selection Summary Card on Desktop (Single summary on desktop) -->
-            <aside class="col-12 col-lg-5 col-xl-4 d-none d-lg-block">
+            <aside class="col-12 col-lg-4 d-none d-lg-block">
                 <div class="position-sticky" style="top: 80px;">
                     {% include "student_reservations/partials/_selection_summary.html" with is_mobile=False %}
                 </div>

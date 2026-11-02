@@ -174,10 +174,10 @@ class Phase3CPublicLandingAndLoginTests(TestCase):
         self.assertTemplateUsed(response, 'accounts/login.html')
         self.assertIsInstance(response.context['form'], LoginForm)
         self.assertContains(response, 'CBA IMS &mdash; Staff Workspace')
-        self.assertContains(response, 'Personnel access')
-        self.assertContains(response, 'Equipment, custody, and accountability.')
+        self.assertContains(response, 'Staff sign in')
+        self.assertContains(response, 'Equipment library')
         self.assertContains(response, 'csrfmiddlewaretoken')
-        self.assertContains(response, 'Sign In to Staff Workspace')
+        self.assertContains(response, 'Sign in')
 
         # Must not contain student reservation actions or forms
         self.assertNotContains(response, 'Browse equipment')

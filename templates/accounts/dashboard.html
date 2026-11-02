@@ -5,19 +5,14 @@
 {% block title %}Equipment Operations — CBA IMS{% endblock %}
 {% block page_title %}Dashboard{% endblock %}
 
-{% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/staff_polish.css' %}?v=20261028">
-{% endblock %}
-
 {% block content %}
 <div class="container-fluid px-0 staff-operations-modern">
 
     <!-- 1. Intro Header & Compact Action Toolbar -->
     <div class="dashboard-intro">
         <div>
-            <div class="eyebrow">Staff workspace / {% now "l, M j, Y" %}</div>
             <h1>Equipment operations</h1>
-            <p>Welcome back, <strong>{{ request.user.get_full_name|default:request.user.username }}</strong>. A clear view of college assets, outstanding tasks, and daily activity.</p>
+            <p>{{ request.user.get_full_name|default:request.user.username }} &middot; {% now "l, F j" %}</p>
         </div>
         <div class="dashboard-actions">
             <a href="{% url 'inventory:asset_scan' %}" class="dashboard-btn primary" id="btn-scan-qr">
@@ -102,9 +97,9 @@
             <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
                 <div class="work-title">
                     {% if total_attention_count > 0 %}
-                    <span class="attention-badge">{{ total_attention_count }} OPEN ITEM{{ total_attention_count|pluralize }}</span>
+                    <span class="attention-badge">{{ total_attention_count }} open item{{ total_attention_count|pluralize }}</span>
                     {% else %}
-                    <span class="attention-badge all-clear">ALL CLEAR</span>
+                    <span class="attention-badge all-clear">All clear</span>
                     {% endif %}
                     <h2 id="work-title">Needs your attention <span class="visually-hidden">Live Operational Queues</span></h2>
                 </div>
@@ -131,7 +126,7 @@
                     <div class="d-flex flex-column justify-content-between h-100">
                         <div>
                             <div class="work-focus-top">
-                                <span class="eyebrow">PRIORITY 01 &bull; GUARD HANDOVER</span>
+                                <span class="eyebrow">Guard handover</span>
                                 <span class="count">{{ guard_returns_count|default:"1" }} item{{ guard_returns_count|pluralize }}</span>
                             </div>
                             <h3>Return awaiting inspection</h3>
@@ -169,7 +164,7 @@
                     <div class="d-flex flex-column justify-content-between h-100">
                         <div>
                             <div class="work-focus-top">
-                                <span class="eyebrow">PRIORITY 02 &bull; OVERDUE LOAN</span>
+                                <span class="eyebrow">Overdue loan</span>
                                 <span class="count">{{ overdue_loans_count|default:"1" }} item{{ overdue_loans_count|pluralize }}</span>
                             </div>
                             <h3>Equipment overdue for return</h3>
@@ -203,7 +198,7 @@
                     <div class="d-flex flex-column justify-content-between h-100">
                         <div>
                             <div class="work-focus-top">
-                                <span class="eyebrow">PRIORITY 03 &bull; RESERVATION REVIEW</span>
+                                <span class="eyebrow">Reservation review</span>
                                 <span class="count">{{ pending_reservations_count|default:"1" }} item{{ pending_reservations_count|pluralize }}</span>
                             </div>
                             <h3>Reservation needs review</h3>
@@ -237,7 +232,7 @@
                     <div class="d-flex flex-column justify-content-between h-100">
                         <div>
                             <div class="work-focus-top">
-                                <span class="eyebrow">PRIORITY 04 &bull; MAINTENANCE</span>
+                                <span class="eyebrow">Maintenance</span>
                                 <span class="count">{{ open_maintenance_count|default:"1" }} item{{ open_maintenance_count|pluralize }}</span>
                             </div>
                             <h3>Repair case is still open</h3>
@@ -271,7 +266,7 @@
                     <div class="d-flex flex-column justify-content-between h-100">
                         <div>
                             <div class="work-focus-top">
-                                <span class="eyebrow">PRIORITY 05 &bull; SUPPLIES</span>
+                                <span class="eyebrow">Supplies</span>
                                 <span class="count">{{ low_stock_supplies_count|default:"1" }} item{{ low_stock_supplies_count|pluralize }}</span>
                             </div>
                             <h3>Stock needs replenishment <span class="visually-hidden">Supply Replenishment Alert</span></h3>
@@ -311,8 +306,8 @@
                     <div class="d-flex flex-column justify-content-between h-100">
                         <div>
                             <div class="work-focus-top">
-                                <span class="eyebrow">OPERATIONAL STATUS</span>
-                                <span class="count text-success" style="background:#eaf8f1;color:#12704d">0 items</span>
+                                <span class="eyebrow">Status</span>
+                                <span class="count text-success" >0 items</span>
                             </div>
                             <h3>Operational queues clear</h3>
                             <p class="sub">All operational queues are clear. No pending items require immediate attention.</p>
@@ -320,7 +315,7 @@
                         <div class="work-bottom">
                             <div class="asset-mini">
                                 <strong>All queues reviewed</strong>
-                                <span>Campus inventory in nominal operational condition</span>
+                                <span>Nothing is waiting on you</span>
                             </div>
                             <a href="{% url 'inventory:asset_list' %}" class="dashboard-btn primary small">
                                 View assets &rarr;
@@ -382,9 +377,8 @@
     <!-- 3. Unified Six-Metric "Inventory at a glance" -->
     <section class="dashboard-panel metrics-panel" aria-labelledby="metric-title">
         <div class="metric-head">
-            <h2 id="metric-title">Inventory at a glance</h2>
-            <span>Current asset register</span>
-        </div>
+            <h2 id="metric-title">Inventory</h2>
+                    </div>
         <div class="metric-grid">
             <!-- 1. Total Assets -->
             <div class="metric-cell">
@@ -470,8 +464,7 @@
             <div class="section-heading">
                 <div>
                     <h2 id="condition-title">Asset condition</h2>
-                    <p>Readable distribution, not oversized charts</p>
-                </div>
+                                    </div>
                 {% if request.user.role != 'FACULTY' %}
                 <a href="{% url 'reports:asset_inventory' %}" class="dashboard-btn ghost small">Full report &rarr;</a>
                 {% endif %}
@@ -512,8 +505,7 @@
             <div class="section-heading">
                 <div>
                     <h2 id="activity-title">Recent activity</h2>
-                    <p>Latest recorded staff operations</p>
-                </div>
+                                    </div>
                 {% if request.user.is_admin %}
                 <a href="{% url 'audit:audit_log_list' %}" class="dashboard-btn ghost small">Audit trail &rarr;</a>
                 {% endif %}

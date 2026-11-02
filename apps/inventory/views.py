@@ -5,13 +5,15 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib import messages
 from django.core.exceptions import PermissionDenied
-from django.db.models import Q, ProtectedError
+from django.db.models import Case, Count, F, IntegerField, OuterRef, ProtectedError, Q, Subquery, Value, When
+from django.db.models.functions import Concat
 from django.utils import timezone
 from datetime import timedelta
 
 from .models import AssetCategory, Brand, Asset, AssetVerification
 from .forms import AssetCategoryForm, BrandForm, AssetForm, AssetUpdateForm, AssetVerificationForm, AssetCodeLookupForm
 from . import qr_services
+from apps.assignments.models import AssetAssignment
 from apps.organizations.models import Department, Location
 from apps.audit.utils import log_action
 
@@ -61,9 +63,45 @@ class AssetListView(InventoryAccessMixin, ListView):
         return [self.template_name]
 
     def get_queryset(self):
+        qs = self._filtered_queryset()
+
+        status = self.request.GET.get('status')
+        if status:
+            qs = qs.filter(status=status)
+        elif not self.request.GET.get('show_disposed'):
+            qs = qs.exclude(status=Asset.Status.DISPOSED)
+
+        sort = self.request.GET.get('sort')
+        if sort == 'item':
+            qs = qs.order_by('item_name')
+        elif sort == 'tag':
+            qs = qs.order_by('asset_code')
+        elif sort == 'need':
+            qs = qs.annotate(
+                needs_rank=Case(
+                    When(status=Asset.Status.DAMAGED, then=Value(0)),
+                    When(status=Asset.Status.LOST, then=Value(0)),
+                    When(status=Asset.Status.MAINTENANCE, then=Value(1)),
+                    When(status=Asset.Status.BORROWED, then=Value(2)),
+                    default=Value(3),
+                    output_field=IntegerField(),
+                )
+            ).order_by('needs_rank', 'asset_code')
+
+        return qs
+
+    def _filtered_queryset(self):
+        """Scoped assets with search and every filter applied except status."""
         user = self.request.user
+        open_assignments = AssetAssignment.objects.filter(returned_date__isnull=True)
         qs = Asset.objects.select_related(
             'category', 'brand', 'department', 'current_location', 'created_by'
+        ).annotate(
+            holder_name=Subquery(
+                open_assignments.filter(asset=OuterRef('pk')).annotate(
+                    holder=Concat(F('employee__first_name'), Value(' '), F('employee__last_name'))
+                ).values('holder')[:1]
+            )
         )
 
         # RBAC Scoping: Department Chairs only see assets in their assigned department
@@ -87,7 +125,10 @@ class AssetListView(InventoryAccessMixin, ListView):
                 Q(item_name__icontains=q) |
                 Q(serial_number__icontains=q) |
                 Q(brand__name__icontains=q) |
-                Q(model__icontains=q)
+                Q(model__icontains=q) |
+                Q(current_location__name__icontains=q) |
+                Q(department__name__icontains=q) |
+                Q(holder_name__icontains=q)
             )
 
         # Combined Multi-Filter
@@ -96,7 +137,6 @@ class AssetListView(InventoryAccessMixin, ListView):
         department = self.request.GET.get('department')
         location = self.request.GET.get('location')
         condition = self.request.GET.get('condition')
-        status = self.request.GET.get('status')
 
         if category:
             qs = qs.filter(category_id=category)
@@ -108,10 +148,6 @@ class AssetListView(InventoryAccessMixin, ListView):
             qs = qs.filter(current_location_id=location)
         if condition:
             qs = qs.filter(condition=condition)
-        if status:
-            qs = qs.filter(status=status)
-        elif not self.request.GET.get('show_disposed'):
-            qs = qs.exclude(status=Asset.Status.DISPOSED)
 
         return qs
 
@@ -133,6 +169,42 @@ class AssetListView(InventoryAccessMixin, ListView):
 
         context['conditions'] = Asset.Condition.choices
         context['statuses'] = Asset.Status.choices
+
+        params = self.request.GET
+        current = {field: params.get(field, '') for field in ('q', 'status', 'category', 'department', 'location', 'condition', 'sort')}
+        context.update({f'current_{field}': value for field, value in current.items()})
+
+        counts = dict(
+            self._filtered_queryset().values_list('status').annotate(total=Count('pk')).order_by()
+        )
+        shown = [
+            (Asset.Status.AVAILABLE, 'Available'), (Asset.Status.BORROWED, 'On loan'),
+            (Asset.Status.ASSIGNED, 'Assigned'), (Asset.Status.MAINTENANCE, 'In repair'),
+            (Asset.Status.DAMAGED, 'Damaged'),
+        ]
+        total = sum(n for status, n in counts.items() if status != Asset.Status.DISPOSED)
+        context['status_tabs'] = [{'value': '', 'label': 'All', 'count': total, 'active': not current['status']}] + [
+            {'value': value, 'label': label, 'count': counts.get(value, 0), 'active': current['status'] == value}
+            for value, label in shown
+        ]
+
+        def label_for(queryset, pk):
+            return str(next((item for item in queryset if str(item.pk) == pk), pk))
+
+        active = []
+        if current['q']:
+            active.append({'field': 'q', 'label': f'"{current["q"]}"'})
+        if current['status']:
+            active.append({'field': 'status', 'label': dict(Asset.Status.choices).get(current['status'], current['status'])})
+        if current['department']:
+            active.append({'field': 'department', 'label': label_for(context['departments'], current['department'])})
+        if current['category']:
+            active.append({'field': 'category', 'label': label_for(context['categories'], current['category'])})
+        if current['condition']:
+            active.append({'field': 'condition', 'label': dict(Asset.Condition.choices).get(current['condition'], current['condition'])})
+        if current['location']:
+            active.append({'field': 'location', 'label': label_for(context['locations'], current['location'])})
+        context['active_filters'] = active
 
         # Build query parameters string for pagination links
         query_params = self.request.GET.copy()

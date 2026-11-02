@@ -878,7 +878,7 @@ class StudentReservationFrontendViewTestCase(StudentReservationBaseTestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'student_reservations/catalog.html')
         self.assertContains(response, 'Audio-Visual')
-        self.assertContains(response, '3 Units Tracked')
+        self.assertContains(response, '3 FREE')
         # Non-reservable category should not appear as a reservable card
         self.assertNotContains(response, 'Office Furniture')
 
@@ -893,7 +893,7 @@ class StudentReservationFrontendViewTestCase(StudentReservationBaseTestCase):
         )
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'student_reservations/partials/_availability_result.html')
-        self.assertContains(response, '3 / 3 Available')
+        self.assertContains(response, '3 FREE')
 
         # 2. Allocate and approve all 3 projectors for this timeslot
         for i, proj in enumerate([self.proj_1, self.proj_2, self.proj_3], start=1):
@@ -1051,7 +1051,7 @@ class StudentReservationFrontendViewTestCase(StudentReservationBaseTestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'student_reservations/partials/_availability_result.html')
         self.assertNotContains(response, '48 consecutive hours')
-        self.assertContains(response, '3 / 3 Available')
+        self.assertContains(response, '3 FREE')
 
 
 class StudentPortalUXSimplificationTestCase(StudentReservationBaseTestCase):
@@ -1189,7 +1189,7 @@ class StudentPortalUXSimplificationTestCase(StudentReservationBaseTestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'Display Equipment')
         self.assertContains(response, 'Not currently available')
-        self.assertContains(response, '0 Units Tracked')
+        self.assertContains(response, 'ALL OUT')
 
     def test_confirmation_page_phone_only_user(self):
         """Phone-only user sees tracking token, copy button, mobile number, and no SMS promise."""

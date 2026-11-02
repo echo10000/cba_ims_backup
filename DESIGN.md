@@ -2,10 +2,23 @@
 **Project:** CBA Asset & Inventory Management System (CBA IMS)  
 **Institution:** College of Business Administration  
 **Audience:** University administrators, department chairs, property custodians, faculty, and administrative staff  
-**Version:** 2.0  
-**Status:** Authoritative Visual Contract (Supersedes v1.0 Dark-Sidebar Direction)  
+**Version:** 3.0  
+**Status:** Authoritative Visual Contract (Loan Desk direction below supersedes earlier colour, type and component rules)  
 
 ---
+
+## Current direction: Loan Desk (v3.0)
+
+Version 3.0 replaces the colours, type and component rules below. The accessibility, RBAC, HTMX, Alpine, scanner and print safeguards in sections 7 and 8 still apply.
+
+- **Idea:** a university equipment library. Manila card, navy ink, red date stamps, ruled lines, index tabs.
+- **Tokens:** `static/css/register.css`, loaded last on every page.
+  Paper `#f5e9c8`, sheet `#fff8e4`, tab `#e9d8a6`, ink `#16294d`, stamp red `#b8261b`, available green `#2f5d27`, repair amber `#7a4b00`.
+- **Type:** Libre Caslon Text for headings, Public Sans for everything else. No third family.
+- **Sizes:** body 18 to 20px, nothing under 16px. Buttons at least 52px, form fields at least 56px.
+- **Art:** engraved plates in `static/img/plates/`, printed with `mix-blend-mode: multiply`. Icons in buttons stay as Bootstrap Icons.
+- **Filters:** index tabs joined to a sheet. Status is a stamped word. Condition is a plain word.
+- **Spacing classes:** Bootstrap has no half steps. Do not use `gap-1.5`, `me-1.5` or similar.
 
 ## 1. Design Philosophy & Aesthetic Identity
 

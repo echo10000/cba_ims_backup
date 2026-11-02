@@ -3,10 +3,6 @@
 
 {% block title %}Request Received — CBA Equipment Reservations{% endblock %}
 
-{% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/student_storefront.css' %}?v=20261028">
-{% endblock %}
-
 {% block content %}
 <section class="student-confirmation storefront-success-hero" aria-labelledby="received-title">
   <div class="storefront-confirmation-icon" aria-hidden="true"><i class="bi bi-check2-circle"></i></div>
@@ -96,7 +92,7 @@
 
 <!-- Concise pickup and School ID guidance -->
 <div class="student-policy-note mb-4 storefront-confirmation-next" style="max-width: 720px; margin-inline: auto;">
-    <h2 class="h6 fw-bold text-dark mb-1.5">What Happens Next?</h2>
+    <h2 class="h6 fw-bold text-dark mb-2">What Happens Next?</h2>
     <p class="mb-0">Bring your original School ID when collecting approved equipment at the CBA Property Office. Pickup has a 15-minute grace period. Return equipment directly or after hours to an authorized security guard.</p>
 </div>
 {% endblock %}

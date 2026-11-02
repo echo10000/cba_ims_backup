@@ -1,23 +1,16 @@
-<!-- Results Summary & Asset List -->
-<div class="cba-panel mb-4">
-    <div class="cba-panel-header py-2.5 px-3">
-        <div class="d-flex align-items-center gap-2">
-            <i class="bi bi-boxes text-primary"></i>
-            <span class="text-secondary small fw-semibold">
-                {% if paginator.count %}
-                    Showing {{ page_obj.start_index }}–{{ page_obj.end_index }} of {{ paginator.count }} asset{{ paginator.count|pluralize }}
-                {% else %}
-                    0 assets found
-                {% endif %}
-            </span>
-        </div>
-        {% if current_q or current_status or current_condition or current_category or current_department or current_location %}
-        <a href="{% url 'inventory:asset_list' %}" class="btn btn-sm btn-link text-decoration-none text-secondary p-0 small">
-            <i class="bi bi-x-circle me-1"></i>Clear Filters
-        </a>
-        {% endif %}
-    </div>
-
+<div class="reg-summary">
+    <strong>{% if paginator.count %}Showing {{ page_obj.start_index }}–{{ page_obj.end_index }} of {{ paginator.count }} asset{{ paginator.count|pluralize }}{% else %}0 assets found{% endif %}</strong>
+    {% for f in active_filters %}
+    <button class="reg-chip" type="button" data-clear="{{ f.field }}" aria-label="Remove filter {{ f.label }}">{{ f.label }}<span aria-hidden="true">&times;</span></button>
+    {% endfor %}
+    {% if active_filters %}<button class="desk-link" type="button" data-clear-all>Clear all</button>{% endif %}
+</div>
+<div class="idxs" role="group" aria-label="Filter by status">
+    {% for tab in status_tabs %}
+    <a class="idx" href="?status={{ tab.value }}" data-set-status="{{ tab.value }}" aria-current="{% if tab.active %}true{% else %}false{% endif %}">{{ tab.label }}<span class="num">{{ tab.count }}</span></a>
+    {% endfor %}
+</div>
+<div class="desk-sheet">
     <div class="cba-panel-body p-0">
         {% if assets %}
         <!-- Desktop Table (Visible on md and up) -->
@@ -27,13 +20,11 @@
                     <thead>
                         <tr>
                             <th class="ps-3">Asset Code</th>
-                            <th>Equipment &amp; Identifiers</th>
-                            <th>Category</th>
-                            <th>Department</th>
-                            <th>Location &amp; Custody</th>
+                            <th>Item</th>
+                            <th>Location</th>
                             <th>Condition</th>
                             <th>Status</th>
-                            <th class="text-end pe-3">Actions</th>
+                            <th class="text-end pe-3"><span class="visually-hidden">Actions</span></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -48,30 +39,13 @@
                                 <a href="{% url 'inventory:asset_detail' asset.asset_code %}" class="fw-semibold text-dark text-decoration-none d-block">
                                     {{ asset.item_name }}
                                 </a>
-                                <div class="text-muted small d-flex flex-wrap gap-2 mt-0.5">
-                                    {% if asset.property_number %}
-                                        <span class="font-monospace" style="font-size: 0.75rem;">Prop #: {{ asset.property_number }}</span>
-                                    {% endif %}
-                                    {% if asset.brand_model %}
-                                        <span>{% if asset.property_number %}&bull; {% endif %}{{ asset.brand_model }}</span>
-                                    {% endif %}
-                                </div>
+                                <span class="reg-row-meta">{{ asset.property_number|default:asset.category.name }}</span>
                             </td>
                             <td>
-                                <span class="cba-status cba-status-muted">{{ asset.category.name }}</span>
-                            </td>
-                            <td>
-                                <span class="fw-semibold text-dark small">{{ asset.department.code }}</span>
-                                <div class="text-muted" style="font-size: 0.75rem;">{{ asset.department.name }}</div>
-                            </td>
-                            <td>
-                                <div class="small text-dark fw-medium">
-                                    <i class="bi bi-geo-alt text-muted me-1"></i>{{ asset.current_location.name|default:"Unassigned" }}
-                                </div>
-                                {% if asset.assigned_to %}
-                                    <div class="text-muted" style="font-size: 0.75rem;">
-                                        <i class="bi bi-person-check text-primary me-1"></i>{{ asset.assigned_to.full_name }}
-                                    </div>
+                                {{ asset.current_location.name|default:"Unassigned" }}
+                                <span class="reg-row-meta">{{ asset.department.code }}</span>
+                                {% if asset.holder_name %}
+                                    <span class="reg-row-meta">{{ asset.holder_name }}</span>
                                 {% endif %}
                             </td>
                             <td>
@@ -97,7 +71,7 @@
                                 {% elif asset.status == 'BORROWED' %}
                                     <span class="cba-status cba-status-borrowed">Borrowed</span>
                                 {% elif asset.status == 'MAINTENANCE' or asset.status == 'UNDER_MAINTENANCE' %}
-                                    <span class="cba-status cba-status-maintenance">Under Maintenance</span>
+                                    <span class="cba-status cba-status-maintenance">In repair</span>
                                 {% elif asset.status == 'TRANSFERRED' or asset.status == 'PENDING_TRANSFER' %}
                                     <span class="cba-status cba-status-transferred">{{ asset.get_status_display }}</span>
                                 {% elif asset.status == 'LOST' or asset.status == 'DAMAGED' %}
@@ -109,21 +83,10 @@
                                 {% endif %}
                             </td>
                             <td class="text-end pe-3">
-                                <div class="d-inline-flex align-items-center gap-1">
-                                    <a href="{% url 'inventory:asset_detail' asset.asset_code %}"
-                                       class="btn btn-secondary-cba btn-sm px-2 py-1" style="min-height: 30px;" title="View Details">
-                                        <i class="bi bi-eye"></i>
-                                        <span class="d-none d-xl-inline">View</span>
-                                    </a>
-                                    <a href="{% url 'inventory:asset_qr_label' asset.asset_code %}"
-                                       class="btn btn-secondary-cba btn-sm px-2 py-1" style="min-height: 30px;" title="QR Code">
-                                        <i class="bi bi-qr-code"></i>
-                                    </a>
+                                <div class="reg-row-actions">
+                                    <a href="{% url 'inventory:asset_qr_label' asset.asset_code %}">QR</a>
                                     {% if user.is_admin %}
-                                    <a href="{% url 'inventory:asset_edit' asset.asset_code %}"
-                                       class="btn btn-secondary-cba btn-sm px-2 py-1" style="min-height: 30px;" title="Edit Asset">
-                                        <i class="bi bi-pencil"></i>
-                                    </a>
+                                    <a href="{% url 'inventory:asset_edit' asset.asset_code %}">Edit</a>
                                     {% endif %}
                                 </div>
                             </td>
@@ -153,7 +116,7 @@
                         {% elif asset.status == 'BORROWED' %}
                             <span class="cba-status cba-status-borrowed">Borrowed</span>
                         {% elif asset.status == 'MAINTENANCE' or asset.status == 'UNDER_MAINTENANCE' %}
-                            <span class="cba-status cba-status-maintenance">Under Maintenance</span>
+                            <span class="cba-status cba-status-maintenance">In repair</span>
                         {% elif asset.status == 'TRANSFERRED' or asset.status == 'PENDING_TRANSFER' %}
                             <span class="cba-status cba-status-transferred">{{ asset.get_status_display }}</span>
                         {% elif asset.status == 'LOST' or asset.status == 'DAMAGED' %}
@@ -166,12 +129,12 @@
 
                 <div class="small text-secondary mb-3 d-flex flex-column gap-1">
                     <div>
-                        <i class="bi bi-tag text-muted me-1.5"></i>{{ asset.category.name }} &bull; <strong class="text-dark">{{ asset.department.code }}</strong>
+                        <i class="bi bi-tag text-muted me-2"></i>{{ asset.category.name }} &bull; <strong class="text-dark">{{ asset.department.code }}</strong>
                     </div>
                     <div>
-                        <i class="bi bi-geo-alt text-muted me-1.5"></i>{{ asset.current_location.name|default:"Unassigned" }}
-                        {% if asset.assigned_to %}
-                            &bull; <span class="text-dark fw-medium">{{ asset.assigned_to.full_name }}</span>
+                        <i class="bi bi-geo-alt text-muted me-2"></i>{{ asset.current_location.name|default:"Unassigned" }}
+                        {% if asset.holder_name %}
+                            &bull; <span class="text-dark fw-medium">{{ asset.holder_name }}</span>
                         {% endif %}
                     </div>
                     <div class="d-flex align-items-center gap-2 mt-1">
@@ -193,10 +156,6 @@
                 </div>
 
                 <div class="d-flex gap-2 pt-2 border-top">
-                    <a href="{% url 'inventory:asset_detail' asset.asset_code %}" class="btn btn-secondary-cba btn-sm flex-grow-1 justify-content-center" style="min-height: 44px; min-width: 44px;">
-                        <i class="bi bi-eye"></i>
-                        <span>Details</span>
-                    </a>
                     <a href="{% url 'inventory:asset_qr_label' asset.asset_code %}" class="btn btn-secondary-cba btn-sm flex-grow-1 justify-content-center" style="min-height: 44px; min-width: 44px;">
                         <i class="bi bi-qr-code"></i>
                         <span>QR Code</span>
@@ -213,9 +172,7 @@
         {% else %}
         <!-- Empty State (Rendered instead of table/card grid when no assets match) -->
         <div class="cba-empty-state py-5 px-3">
-            <div class="cba-empty-icon">
-                <i class="bi bi-inbox"></i>
-            </div>
+            <img class="plate" src="/static/img/plates/magnifier.webp" alt="" style="width: 110px; height: 110px;">
             <h6 class="cba-empty-title">No Assets Found</h6>
             <p class="cba-empty-text mb-3">
                 {% if current_q or current_status or current_condition or current_category or current_department or current_location %}

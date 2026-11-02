@@ -105,7 +105,7 @@
                                             <i class="bi bi-eye"></i>
                                         </a>
                                         {% if user.is_admin %}
-                                        <a href="{% url 'borrowing:borrowing_return' b.pk %}" class="btn btn-primary-cba btn-sm px-2.5 py-1" style="min-height: 30px;" title="Process Equipment Return">
+                                        <a href="{% url 'borrowing:borrowing_return' b.pk %}" class="btn btn-primary-cba btn-sm px-2 py-1" style="min-height: 30px;" title="Process Equipment Return">
                                             <i class="bi bi-arrow-return-left"></i>
                                             <span>Return</span>
                                         </a>
@@ -151,8 +151,8 @@
                         </div>
                     </div>
                     <div class="small text-secondary mb-3 d-flex flex-column gap-1">
-                        <div><i class="bi bi-person text-muted me-1.5"></i><strong class="text-dark">{{ b.borrower.full_name }}</strong> ({{ b.borrower_department.name }})</div>
-                        <div><i class="bi bi-alarm text-muted me-1.5"></i>Due: <strong class="{% if b.is_overdue %}text-danger{% else %}text-dark{% endif %}">{{ b.requested_return|date:"M d, Y H:i" }}</strong></div>
+                        <div><i class="bi bi-person text-muted me-2"></i><strong class="text-dark">{{ b.borrower.full_name }}</strong> ({{ b.borrower_department.name }})</div>
+                        <div><i class="bi bi-alarm text-muted me-2"></i>Due: <strong class="{% if b.is_overdue %}text-danger{% else %}text-dark{% endif %}">{{ b.requested_return|date:"M d, Y H:i" }}</strong></div>
                     </div>
                     <div class="d-flex gap-2 pt-2 border-top">
                         <a href="{% url 'borrowing:borrowing_detail' b.pk %}" class="btn btn-secondary-cba btn-sm flex-grow-1 justify-content-center" style="min-height: 44px; min-width: 44px;">

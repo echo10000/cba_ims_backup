@@ -135,8 +135,8 @@
     <!-- Active State Operational Action Callout -->
     {% if reservation.status == 'APPROVED' %}
         <div class="p-3 rounded mb-3 border border-success-subtle" style="background-color: var(--cba-status-available-bg);">
-            <div class="d-flex align-items-start gap-2.5">
-                <i class="bi bi-bell-fill fs-4 text-success flex-shrink-0 mt-0.5"></i>
+            <div class="d-flex align-items-start gap-2">
+                <i class="bi bi-bell-fill fs-4 text-success flex-shrink-0 mt-1"></i>
                 <div>
                     <h3 class="h6 fw-bold text-success mb-1">Equipment Ready for Pickup!</h3>
                     <p class="text-secondary small mb-2" style="font-size: 0.8125rem;">
@@ -155,8 +155,8 @@
         </div>
     {% elif reservation.status == 'RELEASED' %}
         <div class="p-3 rounded mb-3 border border-primary-subtle" style="background-color: var(--cba-primary-light);">
-            <div class="d-flex align-items-start gap-2.5">
-                <i class="bi bi-box-seam fs-4 text-primary flex-shrink-0 mt-0.5"></i>
+            <div class="d-flex align-items-start gap-2">
+                <i class="bi bi-box-seam fs-4 text-primary flex-shrink-0 mt-1"></i>
                 <div>
                     <h3 class="h6 fw-bold text-primary mb-1">Equipment Currently in Your Custody</h3>
                     <p class="text-secondary small mb-1" style="font-size: 0.8125rem;">
@@ -177,8 +177,8 @@
         </div>
     {% elif reservation.status == 'RETURNED_TO_GUARD' %}
         <div class="p-3 rounded mb-3 border border-warning-subtle" style="background-color: var(--cba-status-warning-bg);">
-            <div class="d-flex align-items-start gap-2.5">
-                <i class="bi bi-shield-lock-fill fs-4 text-warning flex-shrink-0 mt-0.5"></i>
+            <div class="d-flex align-items-start gap-2">
+                <i class="bi bi-shield-lock-fill fs-4 text-warning flex-shrink-0 mt-1"></i>
                 <div>
                     <h3 class="h6 fw-bold text-warning mb-1">Returned to Security Guard (Pending Inspection)</h3>
                     <p class="text-secondary small mb-1" style="font-size: 0.8125rem;">
@@ -193,8 +193,8 @@
         </div>
     {% elif reservation.status == 'REJECTED' %}
         <div class="p-3 rounded mb-3 border border-danger-subtle" style="background-color: var(--cba-status-critical-bg);">
-            <div class="d-flex align-items-start gap-2.5">
-                <i class="bi bi-x-circle-fill fs-4 text-danger flex-shrink-0 mt-0.5"></i>
+            <div class="d-flex align-items-start gap-2">
+                <i class="bi bi-x-circle-fill fs-4 text-danger flex-shrink-0 mt-1"></i>
                 <div>
                     <h3 class="h6 fw-bold text-danger mb-1">Reservation Request Declined</h3>
                     <p class="text-secondary small mb-0" style="font-size: 0.8125rem;">
@@ -205,8 +205,8 @@
         </div>
     {% elif reservation.status == 'NO_SHOW' %}
         <div class="p-3 rounded mb-3 border border-secondary-subtle bg-light">
-            <div class="d-flex align-items-start gap-2.5">
-                <i class="bi bi-clock-history fs-4 text-secondary flex-shrink-0 mt-0.5"></i>
+            <div class="d-flex align-items-start gap-2">
+                <i class="bi bi-clock-history fs-4 text-secondary flex-shrink-0 mt-1"></i>
                 <div>
                     <h3 class="h6 fw-bold text-dark mb-1">Pickup Grace Period Expired</h3>
                     <p class="text-secondary small mb-0" style="font-size: 0.8125rem;">
@@ -316,7 +316,7 @@
 
         <!-- Student Contact (Privacy Masked) -->
         <div class="col-12">
-            <div class="p-2.5 rounded bg-white border border-light-subtle d-flex flex-wrap justify-content-between align-items-center gap-2 small text-secondary">
+            <div class="p-2 rounded bg-white border border-light-subtle d-flex flex-wrap justify-content-between align-items-center gap-2 small text-secondary">
                 <div>
                     Borrower: <strong class="text-dark">{{ reservation.student_name }}</strong>
                     {% if reservation.course_year_section %}

@@ -17,6 +17,27 @@ from . import services
 from .security import mask_contact_info
 
 
+EQUIPMENT_ART = (
+    (('projector',), 'projector'),
+    (('mic',), 'microphone'),
+    (('speaker', 'sound', 'audio'), 'speaker'),
+    (('laptop', 'computer', 'information technology'), 'laptop'),
+    (('hdmi', 'adapter', 'cable', 'accessories'), 'hdmi-adapter'),
+    (('extension', 'cord'), 'extension-cord'),
+    (('printer', 'office equipment'), 'printer'),
+    (('chair', 'furniture'), 'chair'),
+)
+
+
+def equipment_illustration(name):
+    """Return the catalogue illustration for an equipment type or category name."""
+    lowered = name.lower()
+    for keywords, art in EQUIPMENT_ART:
+        if any(keyword in lowered for keyword in keywords):
+            return f'/static/img/plates/{art}.webp'
+    return '/static/img/plates/magnifier.webp'
+
+
 class CustodianRequiredMixin(LoginRequiredMixin):
     """
     Enforces Administrator / Property Custodian authorization for student reservation office actions.
@@ -96,13 +117,7 @@ def _build_catalog_cards(categories, pickup_dt, return_dt):
             type_avail = len(services.get_available_assets_for_category(
                 cat, pickup_dt, return_dt, equipment_type_ref=eq_type
             ))
-            t_name_lower = eq_type.name.lower()
-            if 'projector' in t_name_lower:
-                illustration = '/static/images/student/projector_lcd.svg'
-            elif 'mic' in t_name_lower or 'sound' in t_name_lower or 'audio' in t_name_lower:
-                illustration = '/static/images/student/wireless_mic.svg'
-            else:
-                illustration = '/static/images/student/equipment_generic.svg'
+            illustration = equipment_illustration(eq_type.name)
 
             equipment_types_data.append({
                 'id': eq_type.id,
@@ -119,22 +134,18 @@ def _build_catalog_cards(categories, pickup_dt, return_dt):
         cat_name_lower = cat.name.lower()
         if 'projector' in cat_name_lower or 'av' in cat.code.lower() or 'audio-visual' in cat_name_lower:
             icon = 'bi bi-projector'
-            cat_illustration = '/static/images/student/projector_lcd.svg'
         elif 'speaker' in cat_name_lower or 'sound' in cat_name_lower or 'audio' in cat_name_lower or 'mic' in cat_name_lower:
             icon = 'bi bi-speaker'
-            cat_illustration = '/static/images/student/wireless_mic.svg'
         elif 'laptop' in cat_name_lower or 'it' in cat.code.lower() or 'computer' in cat_name_lower:
             icon = 'bi bi-laptop'
-            cat_illustration = '/static/images/student/equipment_generic.svg'
         elif 'display' in cat_name_lower or 'monitor' in cat_name_lower or 'screen' in cat_name_lower:
             icon = 'bi bi-display'
-            cat_illustration = '/static/images/student/equipment_generic.svg'
         elif 'cable' in cat_name_lower or 'adapter' in cat_name_lower or 'accessories' in cat_name_lower or 'clicker' in cat_name_lower:
             icon = 'bi bi-plug'
-            cat_illustration = '/static/images/student/equipment_generic.svg'
         else:
             icon = 'bi bi-box-seam'
-            cat_illustration = '/static/images/student/equipment_generic.svg'
+
+        cat_illustration = equipment_illustration(cat.name)
 
         catalog_cards.append({
             'category': cat,
@@ -385,13 +396,7 @@ class PublicReservationSubmitView(View):
         is_prefilled = bool(cat and not type_required_and_missing and is_valid_schedule)
 
         display_name = eq_type.name if eq_type else cat.name
-        name_lower = display_name.lower()
-        if 'projector' in name_lower:
-            illustration = '/static/images/student/projector_lcd.svg'
-        elif 'mic' in name_lower or 'sound' in name_lower or 'audio' in name_lower:
-            illustration = '/static/images/student/wireless_mic.svg'
-        else:
-            illustration = '/static/images/student/equipment_generic.svg'
+        illustration = equipment_illustration(display_name)
 
         duration = round((ret_dt - pickup_dt).total_seconds() / 3600, 1) if (pickup_dt and ret_dt) else None
 
@@ -638,11 +643,11 @@ class PublicReservationLookupView(View):
             reservation = services.get_reservation_by_token(lookup_token)
         except ValidationError as e:
             if is_json_request:
-                return JsonResponse({'success': False, 'error': str(e)}, status=404)
+                return JsonResponse({'success': False, 'error': e.messages[0]}, status=404)
             return render(request, 'student_reservations/lookup.html', {
                 'reservation': None,
                 'token': lookup_token,
-                'error': str(e),
+                'error': e.messages[0],
             })
 
         masked_email, masked_phone = mask_contact_info(reservation.email, reservation.contact_number)

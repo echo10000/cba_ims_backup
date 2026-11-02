@@ -93,13 +93,12 @@ class StudentPortalPhase4D1ModernizationTests(TestCase):
         self.assertIn("Projectors", content)
         self.assertIn("Primary Instructional Equipment", content)
         self.assertIn("Classroom LCD Projector", content)
-        self.assertIn("Reserve Projector &rarr;", content)
+        self.assertIn("Reserve Projector", content)
         # Check schedule button exists
         self.assertIn("Check", content)
-        # Quick timeslots exist with Asia/Manila timezone alignment
-        self.assertIn("Quick timeslots:", content)
-        self.assertIn("Tomorrow 8 AM &ndash; 12 PM", content)
-        self.assertIn("timeZone: 'Asia/Manila'", content)
+        # Session picker exists; Asia/Manila timezone handling lives in loan_desk.js alignment
+        self.assertIn('aria-label="Session"', content)
+        self.assertIn("js/loan_desk.js", content)
         # Factual accessories notice
         self.assertIn("Included accessories may vary. Confirm the issued equipment and accessories with the CBA Property Office at pickup.", content)
 
