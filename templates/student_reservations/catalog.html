@@ -3,134 +3,85 @@
 
 {% block title %}Find Equipment — CBA Equipment Reservations{% endblock %}
 
-{% block content %}
-<div class="cba-page-wrap">
-    <header class="student-page-heading mb-3">
-        <span class="cba-kicker">EQUIPMENT CATALOG</span>
-        <h1 class="h2 fw-bold text-dark mb-1">Find equipment</h1>
-        <p class="text-secondary">Choose your pickup and return times to see real-time availability for your class or event.</p>
-    </header>
+{% block extra_js %}
+<script src="{% static 'js/loan_desk.js' %}?v=3"></script>
+{% endblock %}
 
-    <div class="student-policy-note mb-4 d-flex align-items-center gap-2">
-        <i class="bi bi-shield-check text-primary fs-5 flex-shrink-0"></i>
-        <span>Bring your original School ID when collecting approved equipment at the CBA Property Office. Pickup has a 15-minute grace period.</span>
+{% block content %}
+<div class="cba-page-wrap student-storefront-catalog">
+    <div class="desk-top">
+        <h1 id="catalog-title" class="desk-title">Find equipment</h1>
+        <label class="desk-search" for="equipment-search">
+            <i class="bi bi-search" aria-hidden="true"></i>
+            <span class="visually-hidden">Search equipment</span>
+            <input id="equipment-search" type="search" placeholder="Search equipment" autocomplete="off">
+        </label>
     </div>
 
-    <!-- Schedule Selector Card -->
-    <div class="card border shadow-xs mb-4 p-3 p-md-4 bg-white" style="border-radius: 14px; border-color: #cbd5e1;">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <div>
-                <span class="cba-kicker mb-0">STEP 1 OF 2 &bull; CHECK SCHEDULE</span>
-                <h2 class="h5 fw-bold text-dark mb-0">When do you need it?</h2>
-            </div>
-            <div class="spinner-border spinner-border-sm text-primary htmx-indicator" id="availability-spinner" role="status">
-                <span class="visually-hidden">Checking schedule...</span>
-            </div>
-        </div>
+    <div class="desk-layout">
+        <section id="when" class="desk-when" aria-labelledby="when-title">
+            <h2 id="when-title" class="visually-hidden">When do you need it?</h2>
+            <form id="availability-form"
+                  hx-get="{% url 'student_reservations:check_availability' %}"
+                  hx-target="#availability-results-container"
+                  hx-indicator="#availability-spinner"
+                  hx-trigger="submit"
+                  x-data="loanCalendar('{{ default_pickup }}')">
+                <input type="hidden" id="pickup-input" name="pickup" value="{{ default_pickup }}">
+                <input type="hidden" id="return-input" name="return" value="{{ default_return }}">
 
-        <form hx-get="{% url 'student_reservations:check_availability' %}"
-              hx-target="#availability-results-container"
-              hx-indicator="#availability-spinner"
-              hx-trigger="submit, change delay:400ms from:#pickup-input, change delay:400ms from:#return-input"
-              class="row g-3 align-items-end"
-              x-data="{
-                  getManilaNow() {
-                      try {
-                          const str = new Date().toLocaleString('en-US', { timeZone: 'Asia/Manila' });
-                          return new Date(str);
-                      } catch(e) {
-                          return new Date();
-                      }
-                  },
-                  isPast(startH, startM, daysAhead) {
-                      if (daysAhead > 0) return false;
-                      const now = this.getManilaNow();
-                      return now.getHours() > startH || (now.getHours() === startH && now.getMinutes() >= startM);
-                  },
-                  setPreset(startH, startM, endH, endM, daysAhead) {
-                      if (this.isPast(startH, startM, daysAhead)) return;
-                      const now = this.getManilaNow();
-                      now.setDate(now.getDate() + daysAhead);
-                      const s = new Date(now);
-                      s.setHours(startH, startM, 0, 0);
-                      const e = new Date(now);
-                      e.setHours(endH, endM, 0, 0);
-
-                      const formatIso = (d) => {
-                          const pad = (n) => String(n).padStart(2, '0');
-                          return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
-                      };
-
-                      document.getElementById('pickup-input').value = formatIso(s);
-                      document.getElementById('return-input').value = formatIso(e);
-                      htmx.trigger(document.getElementById('availability-form'), 'submit');
-                  }
-              }"
-              id="availability-form">
-
-            <div class="col-12 col-md-5">
-                <label for="pickup-input" class="form-label fw-semibold small text-secondary mb-1">
-                    Pickup date &amp; time <span class="text-danger">*</span>
-                </label>
-                <input type="datetime-local" class="form-control" id="pickup-input" name="pickup" value="{{ default_pickup }}" required>
-            </div>
-
-            <div class="col-12 col-md-5">
-                <label for="return-input" class="form-label fw-semibold small text-secondary mb-1">
-                    Return date &amp; time <span class="text-danger">*</span>
-                </label>
-                <input type="datetime-local" class="form-control" id="return-input" name="return" value="{{ default_return }}" required>
-            </div>
-
-            <!-- Distinct Secondary Tool Action: Check Schedule Button -->
-            <div class="col-12 col-md-2">
-                <button type="submit"
-                        class="btn btn-outline-primary w-100 fw-semibold d-flex align-items-center justify-content-center"
-                        style="min-height: 44px; border-width: 1.5px; background-color: #ffffff;">
-                    <i class="bi bi-search me-1.5"></i> Check
+                <button class="cal-toggle" type="button" @click="open = !open" :aria-expanded="String(open)">
+                    <span x-text="summary"></span>
+                    <span class="cal-toggle-action" x-text="open ? 'Done' : 'Change'"></span>
                 </button>
-            </div>
+                <div class="cal-body" :class="{ 'is-open': open }">
+                <div class="cal-nav">
+                    <button class="cal-step" type="button" @click="move(-1)" :disabled="!canGoBack" aria-label="Previous month">&lsaquo;</button>
+                    <span x-text="monthName"></span>
+                    <button class="cal-step" type="button" @click="move(1)" aria-label="Next month">&rsaquo;</button>
+                </div>
+                <div class="cal-grid" role="group" aria-label="Pickup date">
+                    <template x-for="d in ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa']"><div class="cal-dow" x-text="d"></div></template>
+                    <template x-for="b in blanks" :key="'b' + b"><div class="cal-blank"></div></template>
+                    <template x-for="day in days" :key="day.label">
+                        <button class="cal-day" type="button" @click="pick(day)" :disabled="day.off" :aria-pressed="String(day.sel)" :aria-label="day.label"><span x-text="day.n"></span></button>
+                    </template>
+                </div>
+                <div class="sessions" role="group" aria-label="Session">
+                    <template x-for="s in sessions" :key="s.id">
+                        <button class="session" type="button" @click="choose(s.id)" :aria-pressed="String(session === s.id)">
+                            <span class="session-name" x-text="s.name"></span>
+                            <span x-text="s.time"></span>
+                        </button>
+                    </template>
+                </div>
+                </div>
+                <span class="spinner-border spinner-border-sm htmx-indicator mt-2" id="availability-spinner" role="status"><span class="visually-hidden">Checking schedule...</span></span>
+            </form>
+        </section>
 
-            <!-- Quick-Select Timeslots Presets with Intelligent Past Prevention -->
-            <div class="col-12 mt-2">
-                <div class="d-flex flex-wrap align-items-center gap-1.5 text-secondary" style="font-size: 0.8rem;">
-                    <span class="text-muted me-1 fw-medium"><i class="bi bi-lightning-charge text-warning me-0.5"></i> Quick timeslots:</span>
-                    
-                    <button type="button" class="btn btn-sm py-1 px-2.5 rounded-pill"
-                            :class="isPast(8, 0, 0) ? 'btn-light text-muted opacity-50 border-dashed text-decoration-line-through' : 'btn-light border'"
-                            :disabled="isPast(8, 0, 0)"
-                            @click="setPreset(8, 0, 12, 0, 0)"
-                            :title="isPast(8, 0, 0) ? 'This timeslot has passed for today' : 'Select today 8 AM - 12 PM'">
-                        Today 8 AM &ndash; 12 PM
-                        <template x-if="isPast(8, 0, 0)"><span class="text-muted small ms-1" style="font-size: 0.7rem;">(Past)</span></template>
-                    </button>
-                    
-                    <button type="button" class="btn btn-sm py-1 px-2.5 rounded-pill"
-                            :class="isPast(13, 0, 0) ? 'btn-light text-muted opacity-50 border-dashed text-decoration-line-through' : 'btn-light border'"
-                            :disabled="isPast(13, 0, 0)"
-                            @click="setPreset(13, 0, 17, 0, 0)"
-                            :title="isPast(13, 0, 0) ? 'This timeslot has passed for today' : 'Select today 1 PM - 5 PM'">
-                        Today 1 PM &ndash; 5 PM
-                        <template x-if="isPast(13, 0, 0)"><span class="text-muted small ms-1" style="font-size: 0.7rem;">(Past)</span></template>
-                    </button>
-                    
-                    <button type="button" class="btn btn-sm btn-light border py-1 px-2.5 rounded-pill"
-                            @click="setPreset(8, 0, 12, 0, 1)">
-                        Tomorrow 8 AM &ndash; 12 PM
-                    </button>
-                    
-                    <button type="button" class="btn btn-sm btn-light border py-1 px-2.5 rounded-pill"
-                            @click="setPreset(13, 0, 17, 0, 1)">
-                        Tomorrow 1 PM &ndash; 5 PM
-                    </button>
+        <section class="desk-list" aria-labelledby="equipment-heading">
+            <div class="desk-list-head">
+                <h2 id="equipment-heading">Equipment</h2>
+                <label class="desk-check" for="equipment-free">
+                    <input id="equipment-free" type="checkbox">
+                    Only free
+                </label>
+            </div>
+            <div class="idxs" id="equipment-tabs" role="group" aria-label="Filter by type"></div>
+            <div class="desk-sheet">
+                <div id="availability-results-container" aria-live="polite">
+                    {% include 'student_reservations/partials/_availability_result.html' %}
+                </div>
+                <div class="desk-empty" id="equipment-empty" hidden>
+                    <img class="plate" src="{% static 'img/plates/magnifier.webp' %}" alt="">
+                    <div>
+                        <p>Nothing matches that search</p>
+                        <button class="desk-link" type="button" onclick="resetEquipmentFilter()">Clear search and filters</button>
+                    </div>
                 </div>
             </div>
-        </form>
-
-        <!-- Dynamic Unified Catalog Grid (Updated via HTMX) -->
-        <div id="availability-results-container" class="mt-4 pt-3 border-top border-light-subtle" aria-live="polite">
-            {% include 'student_reservations/partials/_availability_result.html' %}
-        </div>
+        </section>
     </div>
 </div>
 {% endblock %}

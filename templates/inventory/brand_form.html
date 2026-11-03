@@ -1,10 +1,18 @@
 {% extends 'base.html' %}
+{% load static %}
 {% load crispy_forms_tags %}
 
 {% block title %}{% if object %}Edit Brand{% else %}Add Brand{% endif %} - CBA IMS{% endblock %}
 {% block page_title %}{% if object %}Edit Brand: {{ object.name }}{% else %}Add New Brand{% endif %}{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/staff_admin.css' %}?v=20261028">
+{% endblock %}
+
 {% block content %}
+<div class="cba-admin-ui admin-inventory admin-inventory-brand">
+<header class="admin-page-lead"><span class="admin-eyebrow"><i class="bi bi-box-seam" aria-hidden="true"></i> INVENTORY CONFIGURATION</span><h1>{% if object %}Edit equipment brand{% else %}Add equipment brand{% endif %}</h1><p>Keep brand information consistent across physical asset records.</p></header>
+
 <div class="row justify-content-center">
     <div class="col-md-8 col-lg-6">
         <div class="card">
@@ -20,5 +28,6 @@
             </div>
         </div>
     </div>
+</div>
 </div>
 {% endblock %}

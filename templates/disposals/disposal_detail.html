@@ -1,9 +1,16 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Disposal {{ disposal.disposal_number }} - CBA IMS{% endblock %}
 {% block page_title %}Disposal Record: {{ disposal.disposal_number }}{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/staff_admin.css' %}?v=20261028">
+{% endblock %}
+
 {% block content %}
+<div class="cba-admin-ui admin-disposal admin-disposal-detail">
+
 <!-- Page Header -->
 <div class="cba-page-header mb-4">
     <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3">
@@ -337,5 +344,6 @@
             </div>
         </div>
     </div>
+</div>
 </div>
 {% endblock %}

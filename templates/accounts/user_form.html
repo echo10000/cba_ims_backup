@@ -1,10 +1,18 @@
 {% extends 'base.html' %}
+{% load static %}
 {% load crispy_forms_tags %}
 
 {% block title %}{% if object %}Edit User & Profile{% else %}Add User & Employee Profile{% endif %} - CBA IMS{% endblock %}
 {% block page_title %}{% if object %}Edit User: {{ object.username }}{% else %}Add New User & Employee Profile{% endif %}{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/staff_admin.css' %}?v=20261028">
+{% endblock %}
+
 {% block content %}
+<div class="cba-admin-ui admin-settings admin-admin-user-form">
+<header class="admin-page-lead"><span class="admin-eyebrow"><i class="bi bi-shield-check" aria-hidden="true"></i> SYSTEM ADMINISTRATION</span><h1>{% if object %}Edit user account{% else %}Create user account{% endif %}</h1><p>Set account identity, staff profile and permissions carefully.</p></header>
+
 <div class="row justify-content-center">
     <div class="col-lg-10">
         <form method="post" novalidate>
@@ -111,5 +119,6 @@
             </div>
         </form>
     </div>
+</div>
 </div>
 {% endblock %}

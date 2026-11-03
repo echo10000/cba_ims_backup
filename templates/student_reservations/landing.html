@@ -1,149 +1,50 @@
 {% extends 'student_reservations/base_student.html' %}
 {% load static %}
 
-{% block title %}CBA Equipment Reservations — College of Business Administration{% endblock %}
+{% block title %}CBA Equipment Reservations | Negros Oriental State University{% endblock %}
 
 {% block content %}
-<div class="cba-page-wrap">
+<div class="reg-home">
 
-  <!-- Hero Section: Balanced Two-Column Composition -->
-  <section class="student-hero-modern py-2 py-md-4 mb-4" aria-labelledby="student-home-title">
-    <div class="row g-4 g-lg-5 align-items-center">
-      
-      <!-- Left Column: Primary Messaging & CTAs -->
-      <div class="col-12 col-lg-7">
-        <span class="cba-kicker">COLLEGE OF BUSINESS ADMINISTRATION &bull; INSTRUCTIONAL SERVICES</span>
-        <h1 id="student-home-title" class="fw-bold text-dark display-6 mb-3">
-          Reserve equipment for your next class.
-        </h1>
-        <p class="student-lede text-secondary mb-4" style="font-size: 1.05rem; line-height: 1.6; max-width: 52ch;">
-          Check real-time projector availability, pick your schedule, and submit a reservation request in under a minute. No account or password required.
-        </p>
-
-        <div class="d-flex flex-wrap align-items-center gap-3">
-          <a class="btn btn-primary-cba px-4 py-2.5 fw-semibold d-inline-flex align-items-center gap-2 shadow-xs"
-             href="{% url 'student_reservations:catalog' %}"
-             style="min-height: 48px; font-size: 0.95rem;">
-            <span>Browse equipment</span>
-            <i class="bi bi-arrow-right"></i>
-          </a>
-          <a class="btn btn-outline-secondary px-3.5 py-2.5 fw-semibold d-inline-flex align-items-center gap-2"
-             href="{% url 'student_reservations:public_lookup_search' %}"
-             style="min-height: 48px; font-size: 0.95rem; border-color: #cbd5e1; background-color: #ffffff; color: var(--cba-text-primary, #0f172a);">
-            <i class="bi bi-search text-secondary"></i>
-            <span>Track my request</span>
-          </a>
-        </div>
+  <section class="reg-home-lead" aria-labelledby="student-home-title">
+    <div>
+      <h1 id="student-home-title">Reserve equipment for your next class.</h1>
+      <p>Pick your time, send your request, and collect from the CBA Property Office with your School ID. You don't need an account.</p>
+      <div class="reg-actions">
+        <a class="btn btn-primary-cba reg-btn-lg" href="{% url 'student_reservations:catalog' %}">Browse equipment</a>
+        <a class="btn btn-secondary-cba reg-btn-lg" href="{% url 'student_reservations:public_lookup_search' %}">Track my request</a>
       </div>
-
-      <!-- Right Column: Institutional Counter Information Card -->
-      <div class="col-12 col-lg-5">
-        <div class="card border shadow-xs bg-white p-3.5 p-md-4" style="border-radius: 14px; border-color: #cbd5e1;">
-          <div class="d-flex align-items-center gap-2 mb-3 pb-2 border-bottom border-light-subtle">
-            <div class="d-flex align-items-center justify-content-center rounded p-2" style="background: #eff6ff; color: #1d4ed8; width: 38px; height: 38px;">
-              <i class="bi bi-shield-check fs-5"></i>
-            </div>
-            <div>
-              <h2 class="h6 fw-bold text-dark mb-0">CBA Property Office</h2>
-              <span class="text-muted" style="font-size: 0.75rem;">Equipment Counter Guidelines</span>
-            </div>
-          </div>
-
-          <div class="d-flex flex-column gap-3 small">
-            <div class="d-flex align-items-start gap-2.5">
-              <i class="bi bi-projector text-primary mt-0.5 flex-shrink-0 fs-6"></i>
-              <div>
-                <strong class="text-dark d-block">Projector-First Service</strong>
-                <span class="text-secondary" style="font-size: 0.825rem;">Standard classroom LCD projectors reservable for academic lectures, reports, and defenses.</span>
-              </div>
-            </div>
-
-            <div class="d-flex align-items-start gap-2.5">
-              <i class="bi bi-person-badge text-primary mt-0.5 flex-shrink-0 fs-6"></i>
-              <div>
-                <strong class="text-dark d-block">Original School ID Required</strong>
-                <span class="text-secondary" style="font-size: 0.825rem;">You must deposit your physical student School ID at the counter when collecting approved equipment.</span>
-              </div>
-            </div>
-
-            <div class="d-flex align-items-start gap-2.5">
-              <i class="bi bi-clock-history text-primary mt-0.5 flex-shrink-0 fs-6"></i>
-              <div>
-                <strong class="text-dark d-block">15-Minute Pickup Grace Period</strong>
-                <span class="text-secondary" style="font-size: 0.825rem;">Equipment is held for 15 minutes past your scheduled start time before being released.</span>
-              </div>
-            </div>
-
-            <div class="d-flex align-items-start gap-2.5 pt-2 border-top border-light-subtle">
-              <i class="bi bi-calendar3 text-muted mt-0.5 flex-shrink-0 fs-6"></i>
-              <div>
-                <strong class="text-dark d-block">Counter Hours</strong>
-                <span class="text-secondary" style="font-size: 0.825rem;">Monday &ndash; Friday, 8:00 AM &ndash; 5:00 PM</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
     </div>
+    <img class="reg-home-art plate" src="{% static 'img/plates/projector.webp' %}" alt="">
   </section>
 
-  <!-- Three-Step Reservation Process Stepper Cards -->
-  <section class="student-process-steps mb-4 pt-2" aria-label="How reservations work">
-    <div class="d-flex align-items-center justify-content-between mb-3">
-      <div class="d-flex align-items-center gap-2">
-        <span class="cba-kicker mb-0">HOW IT WORKS</span>
-        <span class="text-secondary small">&bull;</span>
-        <span class="fw-semibold text-dark small">How reservations work</span>
-      </div>
-      <span class="text-muted small" style="font-size: 0.775rem;">Three simple steps &bull; No login required</span>
-    </div>
+  <section class="reg-home-steps" aria-labelledby="how-title">
+    <h2 id="how-title">How reservations work</h2>
+    <ol>
+      <li>
+        <span class="reg-step-no">STEP 01</span><strong>Choose equipment</strong>
+        <span>Pick a pickup and return time, then see what is free.</span>
+      </li>
+      <li>
+        <span class="reg-step-no">STEP 02</span><strong>Submit request</strong>
+        <span>Enter your Student ID and contact details. Save the tracking code you get.</span>
+      </li>
+      <li>
+        <span class="reg-step-no">STEP 03</span><strong>Collect after approval</strong>
+        <span>Once approved, bring your original School ID to the counter.</span>
+      </li>
+    </ol>
+  </section>
 
-    <div class="row g-3">
-      <!-- Step 1 -->
-      <div class="col-12 col-md-4">
-        <div class="card h-100 border shadow-xs bg-white p-3 p-md-3.5" style="border-radius: 12px; border-color: #e2e8f0;">
-          <div class="d-flex align-items-center gap-2 mb-2">
-            <span class="badge bg-primary-subtle text-primary-emphasis border border-primary-subtle font-mono px-2 py-1" style="font-size: 0.75rem;">
-              STEP 01
-            </span>
-            <span class="fw-bold text-dark small">Choose equipment</span>
-          </div>
-          <p class="text-secondary small mb-0" style="font-size: 0.85rem; line-height: 1.5;">
-            Select equipment and class timeslot in the catalog to check live projector availability.
-          </p>
-        </div>
-      </div>
-
-      <!-- Step 2 -->
-      <div class="col-12 col-md-4">
-        <div class="card h-100 border shadow-xs bg-white p-3 p-md-3.5" style="border-radius: 12px; border-color: #e2e8f0;">
-          <div class="d-flex align-items-center gap-2 mb-2">
-            <span class="badge bg-primary-subtle text-primary-emphasis border border-primary-subtle font-mono px-2 py-1" style="font-size: 0.75rem;">
-              STEP 02
-            </span>
-            <span class="fw-bold text-dark small">Submit request</span>
-          </div>
-          <p class="text-secondary small mb-0" style="font-size: 0.85rem; line-height: 1.5;">
-            Enter your 9-digit Student ID and contact details. You'll receive a unique tracking code.
-          </p>
-        </div>
-      </div>
-
-      <!-- Step 3 -->
-      <div class="col-12 col-md-4">
-        <div class="card h-100 border shadow-xs bg-white p-3 p-md-3.5" style="border-radius: 12px; border-color: #e2e8f0;">
-          <div class="d-flex align-items-center gap-2 mb-2">
-            <span class="badge bg-primary-subtle text-primary-emphasis border border-primary-subtle font-mono px-2 py-1" style="font-size: 0.75rem;">
-              STEP 03
-            </span>
-            <span class="fw-bold text-dark small">Collect after approval</span>
-          </div>
-          <p class="text-secondary small mb-0" style="font-size: 0.85rem; line-height: 1.5;">
-            Once approved, present your physical School ID at the CBA Property Office counter to collect your unit.
-          </p>
-        </div>
-      </div>
+  <section class="reg-home-rules" aria-labelledby="counter-title">
+    <img class="plate" src="{% static 'img/plates/school-id.webp' %}" alt="">
+    <div>
+      <h2 id="counter-title">CBA Property Office</h2>
+      <dl>
+                <div><dt>Counter Hours</dt><dd>Monday &ndash; Friday, 8:00 AM &ndash; 5:00 PM</dd></div>
+        <div><dt>Original School ID Required</dt><dd>You leave it at the counter when you collect, and get it back on return.</dd></div>
+        <div><dt>15-Minute Pickup Grace Period</dt><dd>Approved items are held for 15 minutes past your pickup time.</dd></div>
+      </dl>
     </div>
   </section>
 

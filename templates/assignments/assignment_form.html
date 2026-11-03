@@ -1,9 +1,15 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Assign Asset - CBA IMS{% endblock %}
 {% block page_title %}Assign Asset{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/staff_workflows.css' %}?v=20261028">
+{% endblock %}
+
 {% block content %}
+<div class="cba-staff-workflow workflow-assignment-form">
 <!-- Page Header -->
 <div class="cba-page-header mb-4">
     <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3">
@@ -192,5 +198,6 @@
             </div>
         </div>
     </div>
+</div>
 </div>
 {% endblock %}

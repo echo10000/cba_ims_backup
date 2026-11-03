@@ -1,9 +1,15 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Consumable Supplies - CBA IMS{% endblock %}
 {% block page_title %}Consumable Supplies{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/staff_workflows.css' %}?v=20261028">
+{% endblock %}
+
 {% block content %}
+<div class="cba-staff-workflow workflow-supplies-catalog">
 <!-- Page Header -->
 <div class="cba-page-header mb-4">
     <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3">
@@ -169,5 +175,6 @@
 <!-- Main Catalog Dynamic Container -->
 <div id="supply-results-container">
     {% include 'supplies/partials/_supply_results.html' %}
+</div>
 </div>
 {% endblock %}

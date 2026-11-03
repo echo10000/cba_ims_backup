@@ -1,10 +1,16 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
+{% load static %}
+
 
 {% block title %}{% if is_create %}Register Asset{% else %}Edit {{ object.asset_code }}{% endif %} - CBA IMS{% endblock %}
 {% block page_title %}{% if is_create %}Register New Asset{% else %}Edit Asset: {{ object.asset_code }}{% endif %}{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/staff_polish.css' %}?v=20261028">
+{% endblock %}
 {% block content %}
+<div class="staff-asset-form-modern">
 <!-- Breadcrumb Navigation -->
 <nav aria-label="breadcrumb" class="mb-3">
     <ol class="breadcrumb">
@@ -281,5 +287,6 @@
             </div>
         </form>
     </div>
+</div>
 </div>
 {% endblock %}

@@ -1,9 +1,15 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Asset Transfer History - CBA IMS{% endblock %}
 {% block page_title %}Asset Transfer History{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/staff_workflows.css' %}?v=20261028">
+{% endblock %}
+
 {% block content %}
+<div class="cba-staff-workflow workflow-transfer-history">
 <!-- Page Header -->
 <div class="cba-page-header">
     <div>
@@ -224,5 +230,6 @@
         </p>
     </div>
     {% endif %}
+</div>
 </div>
 {% endblock %}

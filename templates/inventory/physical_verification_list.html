@@ -1,9 +1,16 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Physical Inventory Verification - CBA IMS{% endblock %}
 {% block page_title %}Physical Inventory Verification{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/staff_admin.css' %}?v=20261028">
+{% endblock %}
+
 {% block content %}
+<div class="cba-admin-ui admin-verify admin-admin-verification">
+
 <!-- Page Header -->
 <div class="page-header d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
     <div>
@@ -327,5 +334,6 @@
         {% include 'includes/pagination.html' %}
     </div>
     {% endif %}
+</div>
 </div>
 {% endblock %}

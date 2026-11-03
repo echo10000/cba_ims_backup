@@ -1,9 +1,16 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Employee Accountability: {{ employee.full_name }} - CBA IMS{% endblock %}
 {% block page_title %}Employee Accountability: {{ employee.full_name }}{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/staff_admin.css' %}?v=20261028">
+{% endblock %}
+
 {% block content %}
+<div class="cba-admin-ui admin-directory admin-directory-employee-detail">
+
 <!-- Breadcrumbs -->
 <nav aria-label="breadcrumb" class="mb-3">
     <ol class="breadcrumb">
@@ -359,5 +366,6 @@
             </div>
         </div>
     </div>
+</div>
 </div>
 {% endblock %}

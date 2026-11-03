@@ -1,9 +1,15 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Stock Transactions History - CBA IMS{% endblock %}
 {% block page_title %}Supply Stock Transactions{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/staff_workflows.css' %}?v=20261028">
+{% endblock %}
+
 {% block content %}
+<div class="cba-staff-workflow workflow-supplies-history">
 <!-- Page Header -->
 <div class="cba-page-header mb-4">
     <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3">
@@ -242,5 +248,6 @@
         <p class="text-muted small mb-0">No stock movements match your query or filter parameters.</p>
     </div>
     {% endif %}
+</div>
 </div>
 {% endblock %}

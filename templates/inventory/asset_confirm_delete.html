@@ -1,9 +1,17 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Delete Asset - CBA IMS{% endblock %}
 {% block page_title %}Confirm Permanent Deletion{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/staff_admin.css' %}?v=20261028">
+{% endblock %}
+
 {% block content %}
+<div class="cba-admin-ui admin-inventory admin-inventory-delete">
+<header class="admin-page-lead"><span class="admin-eyebrow"><i class="bi bi-exclamation-triangle" aria-hidden="true"></i> DANGER ZONE</span><h1>Delete an asset record</h1><p>This action permanently removes the record. Review the asset and implications before confirming.</p></header>
+
 <!-- Breadcrumb Navigation -->
 <nav aria-label="breadcrumb" class="mb-3">
     <ol class="breadcrumb">
@@ -61,5 +69,6 @@
             </div>
         </div>
     </div>
+</div>
 </div>
 {% endblock %}

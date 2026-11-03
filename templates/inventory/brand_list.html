@@ -1,9 +1,17 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Brands - CBA IMS{% endblock %}
 {% block page_title %}Asset Brands{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/staff_admin.css' %}?v=20261028">
+{% endblock %}
+
 {% block content %}
+<div class="cba-admin-ui admin-verify admin-admin-brands">
+<header class="admin-page-lead"><span class="admin-eyebrow"><i class="bi bi-box-seam" aria-hidden="true"></i> INVENTORY CONFIGURATION</span><h1>Equipment brands</h1><p>Maintain the manufacturer and brand references used for asset records.</p></header>
+
 <div class="card">
     <div class="card-body">
         <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
@@ -75,5 +83,6 @@
         
         {% include 'includes/pagination.html' %}
     </div>
+</div>
 </div>
 {% endblock %}

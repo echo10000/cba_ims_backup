@@ -1,9 +1,15 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Borrowing History & Archive - CBA IMS{% endblock %}
 {% block page_title %}Borrowing History & Archive{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/staff_workflows.css' %}?v=20261028">
+{% endblock %}
+
 {% block content %}
+<div class="cba-staff-workflow workflow-borrowing workflow-history">
 <div class="container-fluid px-0">
     <!-- Institutional Page Header -->
     <div class="cba-page-header">
@@ -59,7 +65,7 @@
                                     <a href="{% url 'borrowing:borrowing_detail' b.pk %}" class="cba-code text-decoration-none fw-bold">
                                         #{{ b.pk }}
                                     </a>
-                                    <div class="font-monospace small text-muted mt-0.5">{{ b.asset.asset_code }}</div>
+                                    <div class="font-monospace small text-muted mt-1">{{ b.asset.asset_code }}</div>
                                 </td>
                                 <td>
                                     <div class="fw-semibold text-dark">{{ b.asset.item_name }}</div>
@@ -179,5 +185,6 @@
         </div>
         {% endif %}
     </div>
+</div>
 </div>
 {% endblock %}

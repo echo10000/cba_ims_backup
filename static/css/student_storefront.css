@@ -1,0 +1,226 @@
+/* Student storefront presentation, scoped to public landing and catalog. */
+.student-ui .student-storefront-home,
+.student-ui .student-storefront-catalog { --store-ink:#18314e; --store-border:#dbe6f1; --store-blue:#245edb; }
+.student-ui .student-storefront-home .student-hero-modern {
+  position:relative; padding:clamp(26px,4vw,50px) !important; border-radius:26px;
+  border:1px solid #dae7f7; background:radial-gradient(circle at 95% 0%,#dbeaff,transparent 42%),linear-gradient(130deg,#fff,#f3f8ff);
+}
+.student-ui .student-storefront-home .student-hero-modern h1 { max-width:16ch; font-size:clamp(2.15rem,4vw,3.4rem); letter-spacing:-.045em; line-height:1.1; }
+.student-ui .student-storefront-home .student-hero-modern .card { border-radius:20px !important; box-shadow:0 18px 42px rgba(20,47,88,.075) !important; }
+.student-ui .student-storefront-home .student-hero-modern .btn { border-radius:11px; min-height:46px; }
+.student-ui .storefront-eyebrow { display:block; font-size:.7rem; letter-spacing:.10em; font-weight:800; color:#2455a2; margin-bottom:5px; }
+.student-ui .storefront-section-title { font-size:clamp(1.3rem,2.5vw,1.7rem); font-weight:760; letter-spacing:-.035em; }
+.student-ui .storefront-category {
+  display:flex; align-items:center; gap:18px; height:100%; padding:24px; background:#fff;
+  border:1px solid #dbe6f1; border-radius:20px; color:#18314e; text-decoration:none;
+  transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;
+}
+.student-ui .storefront-category:hover { color:#18314e; border-color:#a2c3f1; box-shadow:0 14px 26px rgba(20,47,88,.08); transform:translateY(-2px); }
+.student-ui .storefront-category:focus-visible { outline:3px solid #2563eb; outline-offset:3px; }
+.student-ui .storefront-category-icon {
+  width:74px; height:78px; flex:0 0 74px; border-radius:18px; display:grid; place-items:center;
+  background:linear-gradient(145deg,#e1efff,#f3f8ff); color:#1c509e; font-size:2rem;
+}
+.student-ui .storefront-category-caption { font-size:.84rem; color:#52677d; line-height:1.55; }
+.student-ui .storefront-category-link { color:#1a52a5; font-weight:750; font-size:.82rem; }
+.student-ui .student-storefront-home .student-process-steps .card { border-radius:17px !important; box-shadow:0 4px 16px rgba(20,47,88,.045) !important; }
+.student-ui .student-storefront-catalog .storefront-catalog-banner {
+  display:flex; align-items:center; justify-content:space-between; gap:24px;
+  padding:clamp(24px,4vw,42px); border-radius:25px;
+  background:linear-gradient(115deg,#142f58,#27518a); color:#fff;
+}
+.student-ui .student-storefront-catalog .storefront-catalog-banner h1 {
+  color:#fff !important; margin:8px 0 10px; letter-spacing:-.04em; font-size:clamp(1.85rem,3.4vw,2.8rem);
+}
+.student-ui .student-storefront-catalog .storefront-catalog-banner p { max-width:55ch; color:#e0ebfb !important; margin-bottom:17px; line-height:1.6; }
+.student-ui .student-storefront-catalog .storefront-eyebrow { color:#c3dbff; }
+.student-ui .storefront-catalog-illustration {
+  flex:0 0 130px; width:130px; height:130px; display:grid; place-items:center;
+  border-radius:26px; color:#d8e9ff; background:rgba(255,255,255,.09); border:1px solid rgba(255,255,255,.22); font-size:4rem;
+}
+.student-ui .storefront-banner-link {
+  display:inline-flex; align-items:center; gap:8px; min-height:42px; padding:10px 16px;
+  border-radius:11px; color:#173d78; background:#fff; font-weight:750; font-size:.85rem; text-decoration:none;
+}
+.student-ui .storefront-banner-link:hover { background:#edf4ff; color:#143771; }
+.student-ui .student-storefront-catalog .student-policy-note { padding:13px 16px; border-radius:13px; border:1px solid #dbe6f1; background:#f6faff; }
+.student-ui .student-storefront-catalog .storefront-schedule-card {
+  border-radius:20px !important; border-color:#dbe6f1 !important; box-shadow:0 10px 28px rgba(20,47,88,.052) !important; scroll-margin-top:20px;
+}
+.student-ui .student-storefront-catalog .storefront-schedule-card .form-control { min-height:44px; border-radius:10px; }
+.student-ui .student-storefront-catalog .storefront-schedule-card .btn { border-radius:10px; }
+.student-ui .student-storefront-catalog .cba-featured-projector-card,
+.student-ui .student-storefront-catalog .cba-secondary-equipment-section .card {
+  border-radius:20px !important; border-color:#dbe5f0 !important; box-shadow:0 5px 20px rgba(20,47,88,.047) !important;
+}
+.student-ui .student-storefront-catalog .cba-featured-image-box {
+  background:linear-gradient(145deg,#eef5ff,#f7faff) !important;
+  border-color:#e0ebfa !important; border-radius:17px !important; min-height:160px !important;
+}
+.student-ui .student-storefront-catalog .cba-choice-row { border-radius:11px !important; }
+.student-ui .student-storefront-catalog .btn-primary-cba { min-height:44px; border-radius:10px; }
+@media(max-width:767.98px) {
+  .student-ui .student-storefront-home .student-hero-modern { border-radius:18px; }
+  .student-ui .student-storefront-catalog .storefront-catalog-banner { border-radius:19px; }
+  .student-ui .storefront-catalog-illustration { display:none; }
+  .student-ui .storefront-category { padding:17px; gap:14px; }
+  .student-ui .storefront-category-icon { width:60px; height:65px; flex-basis:60px; }
+}
+@media(prefers-reduced-motion:reduce) { .student-ui .storefront-category { transition:none; } .student-ui .storefront-category:hover { transform:none; } }
+
+
+/* Storefront checkout and post-request screens — Phase 2 presentation pass. */
+.student-ui .student-storefront-request,
+.student-ui .student-storefront-tracking,
+.student-ui .student-confirmation,
+.student-ui .storefront-confirmation-summary,
+.student-ui .storefront-confirmation-next {
+  --store-blue:#2356a6;
+  --store-line:#dce7f2;
+}
+.student-ui .student-storefront-request .storefront-request-heading {
+  max-width:none; margin:0;
+  padding:clamp(22px,3.2vw,36px);
+  border:1px solid #dce7f5; border-radius:22px;
+  background:linear-gradient(115deg,#fff 2%,#f3f8ff);
+}
+.student-ui .student-storefront-request .storefront-request-heading h1 {
+  font-size:clamp(1.9rem,3.2vw,2.65rem);letter-spacing:-.038em;
+}
+.student-ui .student-storefront-request .storefront-request-heading p { max-width:65ch; line-height:1.6; }
+.student-ui .storefront-checkout-steps {
+  display:flex; flex-wrap:wrap; gap:9px;
+  align-items:center; margin-top:18px;
+}
+.student-ui .storefront-checkout-steps span {
+  display:inline-flex; align-items:center; gap:7px;
+  border:1px solid #dbe5f0; border-radius:999px;
+  padding:7px 12px; color:#5b6c80;
+  background:#fff; font-size:.78rem; font-weight:650;
+}
+.student-ui .storefront-checkout-steps .is-complete {
+  background:#eef9f4;border-color:#bbebd3;color:#176347;
+}
+.student-ui .storefront-checkout-steps .is-current {
+  background:#eaf2ff;border-color:#bbd3fa;color:#184b9c;
+}
+.student-ui .student-storefront-request .storefront-form-surface {
+  border:1px solid #dae5f0 !important; border-radius:21px !important;
+  box-shadow:0 10px 32px rgba(20,47,88,.055) !important;
+}
+.student-ui .student-storefront-request .storefront-form-surface .form-control,
+.student-ui .student-storefront-request .storefront-form-surface .form-select {
+  border-color:#cddbea; border-radius:11px; min-height:45px;
+}
+.student-ui .student-storefront-request .storefront-form-surface .form-control:focus,
+.student-ui .student-storefront-request .storefront-form-surface .form-select:focus,
+.student-ui .student-storefront-tracking .form-control:focus {
+  border-color:#4d83d4;box-shadow:0 0 0 .2rem rgba(53,110,208,.13);
+}
+.student-ui .student-storefront-request .cba-selection-editor {
+  border-radius:14px; border-color:#dbe5f0;
+}
+.student-ui .student-storefront-request .cba-selection-editor__summary {
+  min-height:52px; font-size:.92rem;
+}
+.student-ui .student-storefront-request .storefront-submit-row {
+  background:#f8fbff; padding:18px; border:1px solid #e3ebf4;
+  border-radius:13px;
+}
+.student-ui .student-storefront-request .storefront-submit-row .btn {
+  min-height:46px;border-radius:10px;
+}
+.student-ui .student-storefront-request .selection-card,
+.student-ui .student-storefront-request .cba-mobile-summary {
+  border-radius:19px !important;border-color:#dbe5ef !important;
+  box-shadow:0 7px 28px rgba(20,47,88,.06) !important;
+}
+.student-ui .student-confirmation.storefront-success-hero {
+  max-width:760px; margin-inline:auto; text-align:center;
+  padding:clamp(24px,4vw,42px);
+  background:radial-gradient(circle at 50% 0,#e3f7ed,transparent 54%),linear-gradient(#fff,#fbfefd);
+  border:1px solid #d7e9df; border-radius:24px;
+}
+.student-ui .storefront-confirmation-icon {
+  display:grid;place-items:center; width:66px;height:66px;margin:0 auto 15px;
+  background:#e4f8ef; border:1px solid #bce5ce;border-radius:19px;
+  color:#167448;font-size:2.25rem;
+}
+.student-ui .student-confirmation.storefront-success-hero h1 {
+  font-size:clamp(1.9rem,3.3vw,2.65rem);letter-spacing:-.035em;
+}
+.student-ui .student-confirmation.storefront-success-hero .student-lede {
+  margin-inline:auto;max-width:55ch; font-size:.97rem;
+}
+.student-ui .student-confirmation.storefront-success-hero .student-token {
+  border:1px solid #cddceb; background:#fff;
+  border-radius:15px;text-align:left;max-width:100%;
+}
+.student-ui .student-confirmation.storefront-success-hero .student-token-value {
+  overflow-wrap:anywhere;word-break:break-word;
+}
+.student-ui .student-confirmation.storefront-success-hero .student-actions { justify-content:center; }
+.student-ui .storefront-confirmation-summary {
+  border-radius:19px !important; border-color:#dce7f2 !important;
+  box-shadow:0 7px 28px rgba(20,47,88,.045) !important;
+}
+.student-ui .storefront-confirmation-summary dd {
+  min-width:0;overflow-wrap:anywhere;
+}
+.student-ui .storefront-confirmation-next {
+  border:1px solid #d9e6f5; background:#f5f9ff;
+  border-radius:15px; padding:18px;
+}
+.student-ui .student-storefront-tracking .storefront-tracking-heading {
+  padding:clamp(22px,3.2vw,36px);
+  border-radius:21px;border:1px solid #dbe7f4;
+  background:linear-gradient(115deg,#fff,#f3f8ff);
+}
+.student-ui .student-storefront-tracking .storefront-tracking-heading h1 {
+  font-size:clamp(1.85rem,3vw,2.5rem);letter-spacing:-.035em;
+}
+.student-ui .student-storefront-tracking .storefront-tracking-heading p {
+  line-height:1.6;max-width:60ch;
+}
+.student-ui .student-storefront-tracking .storefront-tracking-search {
+  border-color:#dbe5f0 !important;border-radius:19px !important;
+  box-shadow:0 10px 30px rgba(20,47,88,.055) !important;
+}
+.student-ui .student-storefront-tracking .storefront-tracking-search input {
+  border-color:#cddbea;border-radius:10px;min-width:0;
+}
+.student-ui .student-storefront-tracking .storefront-tracking-search .btn {
+  border-radius:10px;min-height:46px;
+}
+.student-ui .student-storefront-tracking .storefront-tracking-empty,
+.student-ui .student-storefront-tracking .storefront-tracking-result {
+  border-radius:19px !important; border-color:#dce5ef !important;
+  box-shadow:0 6px 22px rgba(20,47,88,.04) !important;
+}
+.student-ui .student-storefront-tracking .storefront-tracking-result .badge {
+  white-space:normal;overflow-wrap:anywhere;text-align:left;line-height:1.4;
+}
+.student-ui .student-storefront-tracking .storefront-tracking-result .row > div {
+  min-width:0;
+}
+.student-ui .student-storefront-tracking .storefront-tracking-policy {
+  padding:16px;border:1px solid #dbe7f4;border-radius:13px;background:#f5f9ff;
+}
+@media(max-width:767.98px) {
+  .student-ui .student-storefront-request .storefront-request-heading,
+  .student-ui .student-storefront-tracking .storefront-tracking-heading { border-radius:16px; }
+  .student-ui .student-storefront-request .storefront-form-surface { border-radius:15px !important; }
+  .student-ui .student-storefront-request .storefront-submit-row { flex-direction:column;align-items:stretch !important; }
+  .student-ui .student-storefront-request .storefront-submit-row .d-flex { width:100%; }
+  .student-ui .student-storefront-request .storefront-submit-row .btn { flex:1; }
+  .student-ui .student-confirmation.storefront-success-hero { border-radius:18px; }
+}
+@media(max-width:575.98px) {
+  .student-ui .student-storefront-request .storefront-submit-row .d-flex { flex-direction:column; }
+  .student-ui .storefront-checkout-steps span { font-size:.72rem; }
+  .student-ui .student-storefront-tracking .storefront-tracking-search .btn { width:100%; }
+}
+@media(prefers-reduced-motion:reduce) {
+  .student-ui .student-storefront-request .storefront-form-surface,
+  .student-ui .student-storefront-tracking .storefront-tracking-result { transition:none; }
+}

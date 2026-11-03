@@ -1,9 +1,15 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Asset {{ asset.asset_code }} - CBA IMS{% endblock %}
 {% block page_title %}Asset QR Lookup{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/staff_admin.css' %}?v=20261028">
+{% endblock %}
+
 {% block content %}
+<div class="cba-admin-ui admin-inventory admin-inventory-qr-lookup">
 <div class="row justify-content-center">
     <div class="col-12 col-md-10 col-lg-8 col-xl-7">
         <!-- Breadcrumb Navigation -->
@@ -362,5 +368,6 @@
             </div>
         </div>
     </div>
+</div>
 </div>
 {% endblock %}

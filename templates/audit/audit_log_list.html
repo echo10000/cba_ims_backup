@@ -1,9 +1,17 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Audit Logs - CBA IMS{% endblock %}
 {% block page_title %}System Audit Logs{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/staff_admin.css' %}?v=20261028">
+{% endblock %}
+
 {% block content %}
+<div class="cba-admin-ui admin-settings admin-admin-audit">
+<header class="admin-page-lead"><span class="admin-eyebrow"><i class="bi bi-shield-check" aria-hidden="true"></i> SYSTEM ACCOUNTABILITY</span><h1>Audit log</h1><p>Review recorded changes and actions across the inventory management system.</p></header>
+
 <div class="card">
     <div class="card-body">
         <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
@@ -101,5 +109,6 @@
         
         {% include 'includes/pagination.html' %}
     </div>
+</div>
 </div>
 {% endblock %}

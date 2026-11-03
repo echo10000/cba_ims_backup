@@ -1,10 +1,16 @@
 {% extends 'base.html' %}
+{% load static %}
 {% load crispy_forms_tags %}
 
 {% block title %}{{ page_title }} - CBA IMS{% endblock %}
 {% block page_title %}{{ page_title }}{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/staff_workflows.css' %}?v=20261028">
+{% endblock %}
+
 {% block content %}
+<div class="cba-staff-workflow workflow-supplies-form">
 <nav aria-label="breadcrumb" class="mb-3">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{% url 'dashboard' %}" class="text-decoration-none">Dashboard</a></li>
@@ -99,5 +105,6 @@
             </div>
         </div>
     </div>
+</div>
 </div>
 {% endblock %}

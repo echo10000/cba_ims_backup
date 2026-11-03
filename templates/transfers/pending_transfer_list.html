@@ -1,9 +1,15 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Pending Asset Transfers - CBA IMS{% endblock %}
 {% block page_title %}Pending Asset Transfers{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/staff_workflows.css' %}?v=20261028">
+{% endblock %}
+
 {% block content %}
+<div class="cba-staff-workflow workflow-transfer-pending">
 <!-- Page Header -->
 <div class="cba-page-header">
     <div>
@@ -285,5 +291,6 @@
         {% endif %}
     </div>
     {% endif %}
+</div>
 </div>
 {% endblock %}

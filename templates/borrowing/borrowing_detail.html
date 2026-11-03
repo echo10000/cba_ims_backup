@@ -1,10 +1,15 @@
 {% extends 'base.html' %}
+{% load static %}
+
 
 {% block title %}Borrowing Record #{{ borrowing.pk }} - CBA IMS{% endblock %}
 {% block page_title %}Borrowing Record #{{ borrowing.pk }}{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/staff_polish.css' %}?v=20261028">
+{% endblock %}
 {% block content %}
-<div class="row justify-content-center">
+<div class="row justify-content-center staff-borrowing-detail-modern">
     <div class="col-12 col-xl-10">
         <!-- Breadcrumb Navigation -->
         <nav aria-label="breadcrumb" class="mb-3">
@@ -120,32 +125,32 @@
                     <div class="cba-panel-body">
                         <table class="table table-sm table-borderless mb-0">
                             <tr>
-                                <th class="text-muted fw-medium py-1.5" style="width: 40%;">Asset Code:</th>
-                                <td class="py-1.5">
+                                <th class="text-muted fw-medium py-2" style="width: 40%;">Asset Code:</th>
+                                <td class="py-2">
                                     <a href="{% url 'inventory:asset_detail' borrowing.asset.asset_code %}" class="cba-code text-decoration-none fw-bold">
                                         {{ borrowing.asset.asset_code }}
                                     </a>
                                 </td>
                             </tr>
                             <tr>
-                                <th class="text-muted fw-medium py-1.5">Item Name:</th>
-                                <td class="fw-semibold text-dark py-1.5">{{ borrowing.asset.item_name }}</td>
+                                <th class="text-muted fw-medium py-2">Item Name:</th>
+                                <td class="fw-semibold text-dark py-2">{{ borrowing.asset.item_name }}</td>
                             </tr>
                             <tr>
-                                <th class="text-muted fw-medium py-1.5">Category:</th>
-                                <td class="py-1.5">{{ borrowing.asset.category.name }}</td>
+                                <th class="text-muted fw-medium py-2">Category:</th>
+                                <td class="py-2">{{ borrowing.asset.category.name }}</td>
                             </tr>
                             <tr>
-                                <th class="text-muted fw-medium py-1.5">Department:</th>
-                                <td class="py-1.5">{{ borrowing.asset.department.name }}</td>
+                                <th class="text-muted fw-medium py-2">Department:</th>
+                                <td class="py-2">{{ borrowing.asset.department.name }}</td>
                             </tr>
                             <tr>
-                                <th class="text-muted fw-medium py-1.5">Current Location:</th>
-                                <td class="py-1.5">{{ borrowing.asset.current_location.name|default:"Department Storage" }}</td>
+                                <th class="text-muted fw-medium py-2">Current Location:</th>
+                                <td class="py-2">{{ borrowing.asset.current_location.name|default:"Department Storage" }}</td>
                             </tr>
                             <tr>
-                                <th class="text-muted fw-medium py-1.5">Current Condition:</th>
-                                <td class="py-1.5">
+                                <th class="text-muted fw-medium py-2">Current Condition:</th>
+                                <td class="py-2">
                                     {% if borrowing.asset.condition == 'NEW' %}
                                         <span class="cba-status cba-condition-new">{{ borrowing.asset.get_condition_display }}</span>
                                     {% elif borrowing.asset.condition == 'GOOD' %}
@@ -160,8 +165,8 @@
                                 </td>
                             </tr>
                             <tr>
-                                <th class="text-muted fw-medium py-1.5">Current Status:</th>
-                                <td class="py-1.5">
+                                <th class="text-muted fw-medium py-2">Current Status:</th>
+                                <td class="py-2">
                                     {% if borrowing.asset.status == 'AVAILABLE' %}
                                         <span class="cba-status cba-status-available">{{ borrowing.asset.get_status_display }}</span>
                                     {% elif borrowing.asset.status == 'ASSIGNED' %}
@@ -189,33 +194,33 @@
                     <div class="cba-panel-body">
                         <table class="table table-sm table-borderless mb-0">
                             <tr>
-                                <th class="text-muted fw-medium py-1.5" style="width: 40%;">Borrower:</th>
-                                <td class="fw-semibold text-dark py-1.5">{{ borrowing.borrower.full_name }}</td>
+                                <th class="text-muted fw-medium py-2" style="width: 40%;">Borrower:</th>
+                                <td class="fw-semibold text-dark py-2">{{ borrowing.borrower.full_name }}</td>
                             </tr>
                             <tr>
-                                <th class="text-muted fw-medium py-1.5">Department:</th>
-                                <td class="py-1.5">{{ borrowing.borrower_department.name }}</td>
+                                <th class="text-muted fw-medium py-2">Department:</th>
+                                <td class="py-2">{{ borrowing.borrower_department.name }}</td>
                             </tr>
                             <tr>
-                                <th class="text-muted fw-medium py-1.5">Employee ID:</th>
-                                <td class="py-1.5"><span class="cba-code">{{ borrowing.borrower.employee_id }}</span></td>
+                                <th class="text-muted fw-medium py-2">Employee ID:</th>
+                                <td class="py-2"><span class="cba-code">{{ borrowing.borrower.employee_id }}</span></td>
                             </tr>
                             <tr>
-                                <th class="text-muted fw-medium py-1.5">Position:</th>
-                                <td class="py-1.5">{{ borrowing.borrower.position|default:"Faculty / Staff" }}</td>
+                                <th class="text-muted fw-medium py-2">Position:</th>
+                                <td class="py-2">{{ borrowing.borrower.position|default:"Faculty / Staff" }}</td>
                             </tr>
                             <tr>
-                                <th class="text-muted fw-medium py-1.5">Email:</th>
-                                <td class="py-1.5">{{ borrowing.borrower.email|default:"-" }}</td>
+                                <th class="text-muted fw-medium py-2">Email:</th>
+                                <td class="py-2">{{ borrowing.borrower.email|default:"-" }}</td>
                             </tr>
                             <tr>
-                                <th class="text-muted fw-medium py-1.5">Purpose:</th>
-                                <td class="py-1.5">{{ borrowing.purpose }}</td>
+                                <th class="text-muted fw-medium py-2">Purpose:</th>
+                                <td class="py-2">{{ borrowing.purpose }}</td>
                             </tr>
                             {% if borrowing.remarks %}
                             <tr>
-                                <th class="text-muted fw-medium py-1.5">Notes:</th>
-                                <td class="py-1.5"><small class="text-secondary">{{ borrowing.remarks|linebreaksbr }}</small></td>
+                                <th class="text-muted fw-medium py-2">Notes:</th>
+                                <td class="py-2"><small class="text-secondary">{{ borrowing.remarks|linebreaksbr }}</small></td>
                             </tr>
                             {% endif %}
                         </table>

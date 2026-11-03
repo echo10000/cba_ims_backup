@@ -3,165 +3,82 @@
 {% block title %}{{ page_title }} - CBA IMS{% endblock %}
 {% block page_title %}{{ page_title }}{% endblock %}
 
+{% load static %}
 {% block content %}
-<div class="container-fluid px-0">
-    <!-- Institutional Page Header -->
-    <div class="cba-page-header">
-        <div>
-            <div class="d-flex align-items-center gap-2 mb-1">
-                <span class="text-uppercase fw-bold text-muted" style="font-size: 0.7rem; letter-spacing: 0.06em;">Inventory Registry</span>
-                {% if user.role == 'DEPT_CHAIR' and user.employee_profile and user.employee_profile.department %}
-                <span class="cba-code">{{ user.employee_profile.department.code|default:user.employee_profile.department.name }}</span>
+<div class="container-fluid px-0 reg-assets">
+    <div class="reg-top">
+        <div class="reg-top-title">
+            {% if user.role == 'DEPT_CHAIR' and user.employee_profile and user.employee_profile.department %}
+            <span class="d-block fw-bold">{{ user.employee_profile.department.code|default:user.employee_profile.department.name }}</span>
+            {% endif %}
+            <h1 class="cba-header-title">Asset register</h1>
+        </div>
+        <label class="desk-search" for="search-input">
+            <i class="bi bi-search" aria-hidden="true"></i>
+            <span class="visually-hidden">Search assets</span>
+            <input type="search" id="search-input" name="q" form="assetFilterForm" value="{{ current_q }}" placeholder="Search tag, item, serial, room or person" autocomplete="off">
+        </label>
+        <a href="{% url 'inventory:asset_scan' %}" class="btn btn-primary-cba reg-scan">Scan Asset</a>
+    </div>
+
+    <form method="get" id="assetFilterForm"
+          hx-get="{% url 'inventory:asset_list' %}"
+          hx-target="#asset-results-container"
+          hx-push-url="true"
+          hx-indicator="#asset-loading-indicator"
+          hx-trigger="submit, change from:.filter-select, keyup changed delay:350ms from:#search-input">
+        <input type="hidden" name="status" value="{{ current_status }}">
+        <button class="btn btn-secondary-cba d-md-none mt-2 w-100" type="button" data-bs-toggle="collapse" data-bs-target="#filterPanel" aria-expanded="false" aria-controls="filterPanel">Filters</button>
+        <div class="collapse d-md-block" id="filterPanel">
+            <div class="reg-filters">
+                {% if user.role != 'DEPT_CHAIR' %}
+                <div>
+                    <label for="filter-department" class="visually-hidden">Department</label>
+                    <select id="filter-department" name="department" class="form-select filter-select">
+                        <option value="">All departments</option>
+                        {% for d in departments %}<option value="{{ d.pk }}" {% if current_department == d.pk|stringformat:"s" %}selected{% endif %}>{{ d.name }}</option>{% endfor %}
+                    </select>
+                </div>
+                {% endif %}
+                <div>
+                    <label for="filter-category" class="visually-hidden">Category</label>
+                    <select id="filter-category" name="category" class="form-select filter-select">
+                        <option value="">All categories</option>
+                        {% for c in categories %}<option value="{{ c.pk }}" {% if current_category == c.pk|stringformat:"s" %}selected{% endif %}>{{ c.name }}</option>{% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <label for="filter-condition" class="visually-hidden">Condition</label>
+                    <select id="filter-condition" name="condition" class="form-select filter-select">
+                        <option value="">Any condition</option>
+                        {% for val, label in conditions %}<option value="{{ val }}" {% if current_condition == val %}selected{% endif %}>{{ label }}</option>{% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <label for="filter-location" class="visually-hidden">Location</label>
+                    <select id="filter-location" name="location" class="form-select filter-select">
+                        <option value="">All locations</option>
+                        {% for l in locations %}<option value="{{ l.pk }}" {% if current_location == l.pk|stringformat:"s" %}selected{% endif %}>{{ l.name }}</option>{% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <label for="filter-sort" class="visually-hidden">Sort by</label>
+                    <select id="filter-sort" name="sort" class="form-select filter-select">
+                        <option value="" {% if not current_sort %}selected{% endif %}>Sort: newest</option>
+                        <option value="tag" {% if current_sort == 'tag' %}selected{% endif %}>Sort: tag number</option>
+                        <option value="item" {% if current_sort == 'item' %}selected{% endif %}>Sort: item name</option>
+                        <option value="need" {% if current_sort == 'need' %}selected{% endif %}>Sort: needs attention</option>
+                    </select>
+                </div>
+            </div>
+            <div class="reg-links">
+                {% if user.is_admin %}
+                <a class="desk-action" href="{% url 'inventory:asset_create' %}">Add Asset</a>
+                <a class="desk-action" href="{% url 'inventory:qr_labels_bulk' %}">Bulk QR Labels</a>
                 {% endif %}
             </div>
-            <h1 class="cba-header-title">Physical Assets &amp; Equipment</h1>
-            <p class="cba-header-subtitle">Manage institutional property numbers, accountability custody, operational status, and physical locations.</p>
         </div>
-        <div class="cba-header-actions">
-            <a href="{% url 'inventory:asset_scan' %}" class="btn btn-secondary-cba">
-                <i class="bi bi-qr-code-scan text-primary"></i>
-                <span>Scan Asset</span>
-            </a>
-            {% if user.is_admin %}
-            <a href="{% url 'inventory:qr_labels_bulk' %}" class="btn btn-secondary-cba">
-                <i class="bi bi-printer text-secondary"></i>
-                <span>Bulk QR Labels</span>
-            </a>
-            <a href="{% url 'inventory:asset_create' %}" class="btn btn-primary-cba">
-                <i class="bi bi-plus-lg"></i>
-                <span>Add Asset</span>
-            </a>
-            {% endif %}
-        </div>
-    </div>
-
-    <!-- Search & Filter Control Panel -->
-    <div class="cba-panel mb-4">
-        <div class="cba-panel-body p-3">
-            <form method="get" id="assetFilterForm"
-                  hx-get="{% url 'inventory:asset_list' %}"
-                  hx-target="#asset-results-container"
-                  hx-push-url="true"
-                  hx-indicator="#asset-loading-indicator"
-                  hx-trigger="submit, change from:.filter-select, keyup changed delay:350ms from:#search-input">
-                <!-- Primary Search & Mobile Filter Toggle -->
-                <div class="row g-2 align-items-center">
-                    <div class="col-12 col-md-6 col-lg-5">
-                        <label for="search-input" class="visually-hidden">Search assets</label>
-                        <div class="input-group">
-                            <span class="input-group-text bg-white border-end-0 text-muted">
-                                <i class="bi bi-search"></i>
-                            </span>
-                            <input type="text" id="search-input" name="q" value="{{ current_q }}"
-                                   class="form-control border-start-0 ps-0"
-                                   placeholder="Search code, item name, property #, serial, brand...">
-                            {% if current_q %}
-                            <a href="{% url 'inventory:asset_list' %}" class="btn btn-outline-secondary border-start-0" title="Clear search" aria-label="Clear search">
-                                <i class="bi bi-x-lg"></i>
-                            </a>
-                            {% endif %}
-                        </div>
-                    </div>
-
-                    <div class="col-12 col-md-6 col-lg-7 d-flex justify-content-between justify-content-md-end align-items-center gap-2">
-                        <!-- Active Filter Summary Pills (Desktop) -->
-                        <div class="d-none d-lg-flex align-items-center flex-wrap gap-1">
-                            {% if current_status or current_condition or current_category or current_department or current_location %}
-                            <span class="text-muted small me-1"><i class="bi bi-funnel-fill text-primary me-1"></i>Filtered</span>
-                            <a href="{% url 'inventory:asset_list' %}" class="btn btn-sm btn-link text-decoration-none text-danger p-0 ms-1 small fw-medium">
-                                Reset all
-                            </a>
-                            {% endif %}
-                        </div>
-
-                        <div class="d-flex align-items-center gap-2 ms-auto">
-                            <button class="btn btn-secondary-cba d-md-none" type="button"
-                                    data-bs-toggle="collapse" data-bs-target="#filterPanel"
-                                    aria-expanded="false" aria-controls="filterPanel">
-                                <i class="bi bi-sliders2"></i>
-                                <span>Filters</span>
-                                {% if current_status or current_condition or current_category or current_department or current_location %}
-                                <span class="cba-status cba-status-assigned ms-1">Active</span>
-                                {% endif %}
-                            </button>
-                            <button type="submit" class="btn btn-primary-cba d-md-none">
-                                <i class="bi bi-check2"></i>
-                                <span>Apply</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Collapsible Filter Selects (Always visible on md+, collapsible on mobile) -->
-                <div class="collapse d-md-block mt-3 pt-3 border-top" id="filterPanel">
-                    <div class="row g-2 align-items-end">
-                        {% if user.role != 'DEPT_CHAIR' %}
-                        <div class="col-12 col-sm-6 col-md-3 col-xl-2">
-                            <label for="filter-department" class="form-label small text-muted fw-semibold mb-1">Department</label>
-                            <select id="filter-department" name="department" class="form-select form-select-sm filter-select">
-                                <option value="">All Departments</option>
-                                {% for d in departments %}
-                                    <option value="{{ d.pk }}" {% if current_department == d.pk|stringformat:"s" %}selected{% endif %}>{{ d.code }} - {{ d.name }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                        {% endif %}
-
-                        <div class="col-12 col-sm-6 col-md-3 col-xl-2">
-                            <label for="filter-category" class="form-label small text-muted fw-semibold mb-1">Category</label>
-                            <select id="filter-category" name="category" class="form-select form-select-sm filter-select">
-                                <option value="">All Categories</option>
-                                {% for c in categories %}
-                                    <option value="{{ c.pk }}" {% if current_category == c.pk|stringformat:"s" %}selected{% endif %}>{{ c.name }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-
-                        <div class="col-6 col-sm-4 col-md-2 col-xl-2">
-                            <label for="filter-status" class="form-label small text-muted fw-semibold mb-1">Status</label>
-                            <select id="filter-status" name="status" class="form-select form-select-sm filter-select">
-                                <option value="">All Statuses</option>
-                                {% for val, label in statuses %}
-                                    <option value="{{ val }}" {% if current_status == val %}selected{% endif %}>{{ label }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-
-                        <div class="col-6 col-sm-4 col-md-2 col-xl-2">
-                            <label for="filter-condition" class="form-label small text-muted fw-semibold mb-1">Condition</label>
-                            <select id="filter-condition" name="condition" class="form-select form-select-sm filter-select">
-                                <option value="">All Conditions</option>
-                                {% for val, label in conditions %}
-                                    <option value="{{ val }}" {% if current_condition == val %}selected{% endif %}>{{ label }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-
-                        <div class="col-12 col-sm-4 col-md-2 col-xl-2">
-                            <label for="filter-location" class="form-label small text-muted fw-semibold mb-1">Location</label>
-                            <select id="filter-location" name="location" class="form-select form-select-sm filter-select">
-                                <option value="">All Locations</option>
-                                {% for l in locations %}
-                                    <option value="{{ l.pk }}" {% if current_location == l.pk|stringformat:"s" %}selected{% endif %}>{{ l.name }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-
-                        <div class="col-12 col-xl-2 d-flex gap-2 mt-2 mt-xl-0">
-                            <button type="submit" class="btn btn-secondary-cba btn-sm flex-grow-1 justify-content-center">
-                                <i class="bi bi-funnel"></i>
-                                <span>Filter</span>
-                            </button>
-                            <a href="{% url 'inventory:asset_list' %}" class="btn btn-secondary-cba btn-sm justify-content-center" title="Clear Filters">
-                                <i class="bi bi-arrow-counterclockwise"></i>
-                                <span class="d-xl-none">Clear Filters</span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
+    </form>
 
     <!-- HTMX Loading Indicator -->
     <div id="asset-loading-indicator" class="htmx-indicator text-center py-3">
@@ -176,4 +93,8 @@
         {% include 'inventory/partials/_asset_results.html' %}
     </div>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/loan_desk.js' %}?v=3"></script>
 {% endblock %}

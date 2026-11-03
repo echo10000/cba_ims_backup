@@ -1,9 +1,15 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Issue Supplies (Stock Out) - CBA IMS{% endblock %}
 {% block page_title %}Issue Supplies{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/staff_workflows.css' %}?v=20261028">
+{% endblock %}
+
 {% block content %}
+<div class="cba-staff-workflow workflow-supplies-stock-out">
 <nav aria-label="breadcrumb" class="mb-3">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{% url 'dashboard' %}" class="text-decoration-none">Dashboard</a></li>
@@ -124,5 +130,6 @@
             </div>
         </div>
     </div>
+</div>
 </div>
 {% endblock %}

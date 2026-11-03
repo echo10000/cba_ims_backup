@@ -1,10 +1,18 @@
 {% extends 'base.html' %}
+{% load static %}
 {% load crispy_forms_tags %}
 
 {% block title %}{% if object %}Edit Category{% else %}Add Category{% endif %} - CBA IMS{% endblock %}
 {% block page_title %}{% if object %}Edit Category: {{ object.name }}{% else %}Add New Category{% endif %}{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/staff_admin.css' %}?v=20261028">
+{% endblock %}
+
 {% block content %}
+<div class="cba-admin-ui admin-inventory admin-inventory-category">
+<header class="admin-page-lead"><span class="admin-eyebrow"><i class="bi bi-box-seam" aria-hidden="true"></i> INVENTORY CONFIGURATION</span><h1>{% if object %}Edit equipment category{% else %}Add equipment category{% endif %}</h1><p>Maintain the categories students and Staff use to find equipment.</p></header>
+
 <div class="row justify-content-center">
     <div class="col-md-8 col-lg-6">
         <div class="card">
@@ -20,5 +28,6 @@
             </div>
         </div>
     </div>
+</div>
 </div>
 {% endblock %}

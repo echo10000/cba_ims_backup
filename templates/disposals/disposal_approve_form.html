@@ -1,10 +1,18 @@
 {% extends 'base.html' %}
+{% load static %}
 {% load crispy_forms_tags %}
 
 {% block title %}Approve Disposal {{ disposal.disposal_number }} - CBA IMS{% endblock %}
 {% block page_title %}Approve Disposal: {{ disposal.disposal_number }}{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/staff_admin.css' %}?v=20261028">
+{% endblock %}
+
 {% block content %}
+<div class="cba-admin-ui admin-disposal admin-disposal-approve">
+<header class="admin-page-lead"><span class="admin-eyebrow"><i class="bi bi-clipboard-check" aria-hidden="true"></i> REVIEW AND AUTHORIZATION</span><h1>Approve disposal request</h1><p>Confirm the asset and justification before authorizing physical disposal.</p></header>
+
 <div class="row justify-content-center">
     <div class="col-12 col-md-8 col-lg-6">
         <div class="mb-3">
@@ -32,5 +40,6 @@
             </div>
         </div>
     </div>
+</div>
 </div>
 {% endblock %}

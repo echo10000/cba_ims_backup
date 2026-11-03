@@ -1,0 +1,301 @@
+/* CBA IMS — scoped administrative and inventory utilities design
+   Progressive enhancement only. Keeps warning, error and approval semantics intact. */
+.cba-admin-ui {
+  --admin-ink:#17314c;
+  --admin-muted:#5a6d81;
+  --admin-line:#dbe5ef;
+  --admin-blue:#2456a0;
+  --admin-surface:#f5f9ff;
+  min-width:0;
+  color:var(--admin-ink);
+}
+.cba-admin-ui .admin-page-lead,
+.cba-admin-ui .cba-page-header,
+.cba-admin-ui .page-header {
+  padding:clamp(19px,2.8vw,30px);
+  border:1px solid #dce7f5;
+  border-radius:19px;
+  background:radial-gradient(circle at 95% 3%,#e2efff,transparent 37%),
+             linear-gradient(120deg,#fff,#f7faff);
+  margin:0 0 22px;
+  min-width:0;
+}
+.cba-admin-ui .admin-page-lead .admin-eyebrow {
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:.68rem;font-weight:800;letter-spacing:.1em;
+  text-transform:uppercase;color:#24569f;margin-bottom:7px;
+}
+.cba-admin-ui .admin-page-lead h1,
+.cba-admin-ui .cba-page-header .cba-header-title,
+.cba-admin-ui .page-header h4 {
+  margin:0 0 7px;
+  color:var(--admin-ink);
+  font-weight:760;
+  letter-spacing:-.035em;
+  line-height:1.2;
+  font-size:clamp(1.45rem,2.6vw,1.95rem);
+}
+.cba-admin-ui .admin-page-lead p {
+  color:var(--admin-muted);font-size:.84rem;
+  line-height:1.6;max-width:70ch;margin:0;
+}
+.cba-admin-ui .cba-header-subtitle {line-height:1.6;max-width:70ch;}
+.cba-admin-ui .card:not(.stat-card),
+.cba-admin-ui .cba-panel {
+  /* Keep contextual red, amber, green and blue borders on records and forms. */
+  border-radius:17px;
+  box-shadow:0 5px 22px rgba(20,47,88,.045);
+  min-width:0;
+}
+.cba-admin-ui .card:not(.stat-card):not(.border-danger):not(.border-warning):not(.border-primary):not(.border-success):not(.border-info),
+.cba-admin-ui .cba-panel:not(.border-danger):not(.border-warning):not(.border-primary):not(.border-success):not(.border-info) {
+  border-color:var(--admin-line);
+}
+.cba-admin-ui .card-header {
+  border-color:#e3ecf5;
+  border-radius:17px 17px 0 0 !important;
+}
+.cba-admin-ui .card-header.bg-white {
+  background:linear-gradient(110deg,#fff,#f8fbff) !important;
+}
+.cba-admin-ui .card-body {min-width:0;}
+.cba-admin-ui .form-label {
+  color:#37506a;
+  font-size:.84rem;
+  font-weight:650;
+}
+.cba-admin-ui .form-control,
+.cba-admin-ui .form-select,
+.cba-admin-ui .input-group-text {
+  border-color:#d2deea;
+  border-radius:9px;
+  min-height:43px;
+}
+.cba-admin-ui .input-group > .form-control,
+.cba-admin-ui .input-group > .input-group-text {
+  border-radius:0;
+}
+.cba-admin-ui .input-group > :first-child {
+  border-top-left-radius:9px;
+  border-bottom-left-radius:9px;
+}
+.cba-admin-ui .input-group > :last-child {
+  border-top-right-radius:9px;
+  border-bottom-right-radius:9px;
+}
+.cba-admin-ui .form-control:focus,
+.cba-admin-ui .form-select:focus {
+  border-color:#6296da;
+  box-shadow:0 0 0 .19rem rgba(42,104,198,.12);
+}
+.cba-admin-ui .btn {border-radius:10px;min-height:40px;}
+.cba-admin-ui .btn-sm {min-height:37px;}
+.cba-admin-ui .table-responsive {
+  max-width:100%;
+  border-radius:12px;
+}
+.cba-admin-ui .table thead th {
+  background-color:#f5f8fc;
+  color:#536780;
+  border-bottom-color:#dce5ef;
+  font-size:.72rem;
+  font-weight:750;
+  letter-spacing:.035em;
+}
+.cba-admin-ui .table tbody td {
+  vertical-align:middle;
+  border-bottom-color:#edf2f7;
+}
+.cba-admin-ui .badge {
+  max-width:100%;
+  white-space:normal;
+  line-height:1.4;
+}
+.cba-admin-ui .alert {border-radius:12px;line-height:1.5;}
+.cba-admin-ui .breadcrumb {font-size:.81rem;overflow-wrap:anywhere;}
+.cba-admin-ui .breadcrumb a {color:#315e99;text-underline-offset:3px;}
+.cba-admin-ui .form-actions {
+  display:flex;gap:10px;flex-wrap:wrap;
+  padding-top:15px;
+  border-top:1px solid #e4ebf2;
+}
+.cba-admin-ui .admin-form-help {
+  display:flex;align-items:flex-start;gap:10px;
+  padding:13px 16px;background:#f3f8ff;
+  border:1px solid #dce8f6;border-radius:12px;
+  margin-bottom:18px;color:#4b637d;font-size:.84rem;
+}
+.cba-admin-ui .admin-form-help i {color:#225caa;font-size:1.1rem;}
+.cba-admin-ui :is(button,a,input,select,textarea,summary):focus-visible {
+  outline:3px solid #87b4ed;outline-offset:2px;
+}
+.cba-admin-ui .invalid-feedback,.cba-admin-ui .text-danger {overflow-wrap:anywhere;}
+.cba-admin-ui.admin-disposal .alert-danger,
+.cba-admin-ui.admin-disposal .border-danger {
+  /* Preserve danger styling for irreversible disposal execution. */
+  border-color:var(--bs-danger-border-subtle,#f1aeb5);
+}
+.cba-admin-ui.admin-disposal .alert-warning,
+.cba-admin-ui.admin-disposal .border-warning {
+  border-color:var(--bs-warning-border-subtle,#ffe69c);
+}
+.cba-admin-ui.admin-disposal .card-header .text-danger {color:#9f2538 !important;}
+.cba-admin-ui.admin-directory .card-body > .d-flex:first-child {
+  gap:12px !important;
+}
+.cba-admin-ui.admin-directory .card-body > .d-flex:first-child form {
+  min-width:0;
+}
+.cba-admin-ui.admin-directory .card-body > .d-flex:first-child .input-group {
+  min-width:0;
+}
+.cba-admin-ui.admin-directory .desktop-table {max-width:100%;}
+.cba-admin-ui.admin-settings .card-header h5 {font-size:.99rem;}
+.cba-admin-ui.admin-verify .stat-card {
+  border-radius:15px;
+  box-shadow:0 5px 20px rgba(19,48,85,.055);
+}
+@media(max-width:767.98px) {
+  .cba-admin-ui .admin-page-lead,
+  .cba-admin-ui .cba-page-header,
+  .cba-admin-ui .page-header {padding:18px;border-radius:15px;}
+  .cba-admin-ui .card {border-radius:13px;}
+  .cba-admin-ui .card-body {padding:17px;}
+  .cba-admin-ui .card-body > .d-flex:first-child {align-items:stretch !important;}
+  .cba-admin-ui .card-body > .d-flex:first-child form {max-width:100% !important;flex-wrap:wrap;}
+  .cba-admin-ui .card-body > .d-flex:first-child .btn {min-height:42px;}
+  .cba-admin-ui .form-actions .btn {flex:1 1 auto;}
+  .cba-admin-ui .cba-header-actions {width:100%;flex-wrap:wrap;gap:9px;}
+  .cba-admin-ui .cba-header-actions .btn {flex:1 1 auto;}
+}
+@media(prefers-reduced-motion:reduce) {
+ .cba-admin-ui .btn,.cba-admin-ui .card {transition:none !important;}
+}
+
+
+/* Distinctive final confirmation view for irreversible property disposal. */
+.cba-admin-ui.admin-disposal-complete .admin-page-lead {
+  background:linear-gradient(120deg,#fff,#fff7f7);
+  border-color:#f1c2c8;
+}
+.cba-admin-ui.admin-disposal-complete .admin-eyebrow {color:#a02c3c;}
+.cba-admin-ui.admin-disposal-complete .card {
+  border-color:#e9c5ca;
+}
+.cba-admin-ui.admin-disposal-complete .alert-danger {
+  border-width:1px 1px 1px 4px !important;
+  border-left-color:#b4233d !important;
+}
+.cba-admin-ui.admin-user-form .card-header,
+.cba-admin-ui.admin-directory-employee-form .card-header {
+  background:linear-gradient(120deg,#fff,#f5faff) !important;
+}
+
+
+/* Inventory actions: high-stakes deletion, QR lookup, physical verification and scanner. */
+.cba-admin-ui.admin-inventory .card-header.bg-dark {
+  background:linear-gradient(115deg,#183858,#275388) !important;
+  border-radius:16px 16px 0 0 !important;
+}
+.cba-admin-ui.admin-inventory .card-header.bg-danger {
+  background:linear-gradient(115deg,#98283b,#b93f51) !important;
+  border-radius:16px 16px 0 0 !important;
+  color:#fff;
+}
+.cba-admin-ui.admin-inventory-delete .admin-page-lead {
+  border-color:#efbdc5;
+  background:linear-gradient(120deg,#fff,#fff6f7);
+}
+.cba-admin-ui.admin-inventory-delete .admin-eyebrow {color:#ae2a41;}
+.cba-admin-ui.admin-inventory-delete .card.border-danger {
+  border-color:#e5a3ae !important;
+  overflow:hidden;
+}
+.cba-admin-ui.admin-inventory-delete .card-body .bg-light {
+  background:#f8fbff !important;
+  border-radius:12px !important;
+}
+.cba-admin-ui.admin-inventory-delete .card-body .col-8 {
+  min-width:0;
+  overflow-wrap:anywhere;
+}
+.cba-admin-ui.admin-inventory-delete form .btn-danger {min-height:44px;}
+.cba-admin-ui.admin-inventory-verify .card.border-primary {
+  border-color:#bfd5ef !important;
+}
+.cba-admin-ui.admin-inventory-verify .card-body > .bg-light {
+  background-color:#f4f8ff !important;
+  border-color:#dce8f5 !important;
+  border-radius:13px !important;
+}
+.cba-admin-ui.admin-inventory-verify .card-body > .bg-light img {
+  flex:0 0 auto;
+  object-fit:cover;
+}
+.cba-admin-ui.admin-inventory-scanner .scanner-viewport {
+  border-radius:17px;
+  border-color:#173651;
+  box-shadow:0 12px 25px rgba(12,31,56,.14);
+}
+.cba-admin-ui.admin-inventory-scanner .scanner-overlay {
+  max-width:calc(100% - 48px);
+}
+.cba-admin-ui.admin-inventory-scanner #scanner-feedback,
+.cba-admin-ui.admin-inventory-scanner #scanner-error {
+  border:1px solid #d9e6f1;
+  border-radius:11px;
+}
+.cba-admin-ui.admin-inventory-scanner #btn-start-camera {
+  border-radius:11px;
+  min-height:50px;
+}
+.cba-admin-ui.admin-inventory-scanner .card-footer {
+  background:#f5f9fe !important;
+  border-top-color:#e4ebf3;
+}
+.cba-admin-ui.admin-inventory-qr-lookup .bg-dark.text-white {
+  background:linear-gradient(115deg,#163451,#28558a) !important;
+}
+.cba-admin-ui.admin-inventory-qr-lookup .card.overflow-hidden {
+  border:1px solid #d8e6f3 !important;
+}
+.cba-admin-ui.admin-inventory-qr-lookup .card-body .row > div {
+  min-width:0;
+}
+.cba-admin-ui.admin-inventory-qr-lookup .font-monospace {
+  overflow-wrap:anywhere;
+}
+.cba-admin-ui.admin-inventory-bulk-qr .card .form-control,
+.cba-admin-ui.admin-inventory-bulk-qr .card .form-select {
+  min-width:0;
+}
+.cba-admin-ui.admin-inventory-bulk-qr .page-header {
+  flex-wrap:wrap;
+  gap:14px;
+}
+.cba-admin-ui.admin-inventory-bulk-qr .page-header .btn {
+  min-height:44px;
+}
+.cba-admin-ui.admin-inventory-bulk-qr .card img {
+  max-width:100%;
+  height:auto;
+}
+.cba-admin-ui.admin-inventory-brand .admin-form-help,
+.cba-admin-ui.admin-inventory-category .admin-form-help {
+  padding:14px;
+}
+@media(max-width:767.98px) {
+  .cba-admin-ui.admin-inventory-delete .card-body .row .col-4 {
+    width:38%;
+  }
+  .cba-admin-ui.admin-inventory-delete .card-body .row .col-8 {
+    width:62%;
+  }
+  .cba-admin-ui.admin-inventory-scanner .scanner-viewport {
+    min-height:245px;
+  }
+  .cba-admin-ui.admin-inventory-scanner .card-header {
+    flex-wrap:wrap;
+    gap:8px;
+  }
+}

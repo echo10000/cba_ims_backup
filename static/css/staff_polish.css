@@ -1,0 +1,59 @@
+/* Scoped visual polish for the Staff dashboard and asset register only. */
+.staff-operations-modern,.staff-inventory-modern { --work-border:#dce6ef; }
+.staff-operations-modern .dashboard-intro {
+  align-items:center; padding:clamp(20px,3vw,32px); border:1px solid #dce7f5; border-radius:20px;
+  background:radial-gradient(circle at 95% 10%,#dceafe,transparent 38%),linear-gradient(125deg,#fff,#f4f8ff);
+  margin-bottom:24px;
+}
+.staff-operations-modern .dashboard-intro .eyebrow { color:#1e55a4; font-size:.68rem; }
+.staff-operations-modern .dashboard-intro h1 { font-size:clamp(1.65rem,2.7vw,2.2rem); letter-spacing:-.04em; margin:8px 0; }
+.staff-operations-modern .dashboard-intro p { max-width:58ch; color:#54687e; font-size:.84rem; line-height:1.6; }
+.staff-operations-modern .dashboard-intro .dashboard-btn { min-height:43px; border-radius:10px; padding-inline:14px; }
+.staff-operations-modern .dashboard-panel { border-color:var(--work-border); border-radius:16px; box-shadow:0 4px 18px rgba(20,47,88,.04); }
+.staff-operations-modern .kpi-card { border-color:var(--work-border) !important; border-radius:15px; box-shadow:0 4px 16px rgba(20,47,88,.04); }
+.staff-operations-modern .kpi-card.kpi-interactive:hover { border-color:#a0bfe9 !important; box-shadow:0 10px 25px rgba(20,47,88,.07); }
+.staff-inventory-modern .cba-page-header {
+  padding:clamp(20px,3vw,30px); border:1px solid #dce7f4; border-radius:20px;
+  background:linear-gradient(115deg,#fff 7%,#f4f8ff);
+}
+.staff-inventory-modern .cba-header-title { font-size:clamp(1.4rem,2.4vw,1.9rem); letter-spacing:-.035em; }
+.staff-inventory-modern .cba-header-subtitle { max-width:68ch; line-height:1.6; }
+.staff-inventory-modern .cba-page-header .btn { min-height:43px; border-radius:10px; }
+.staff-inventory-modern .cba-panel { border-color:var(--work-border); border-radius:16px; box-shadow:0 5px 22px rgba(20,47,88,.04); }
+.staff-inventory-modern #assetFilterForm .form-control,
+.staff-inventory-modern #assetFilterForm .form-select,
+.staff-inventory-modern #assetFilterForm .input-group-text { min-height:43px; border-color:#d5e0eb; }
+.staff-operations-modern .dashboard-btn:focus-visible,
+.staff-inventory-modern .btn:focus-visible,
+.staff-inventory-modern .form-control:focus-visible { outline:3px solid #8bb6f5; outline-offset:2px; }
+@media(max-width:767.98px) {
+  .staff-operations-modern .dashboard-intro { flex-direction:column; align-items:stretch; border-radius:16px; }
+  .staff-operations-modern .dashboard-actions { width:100%; }
+  .staff-inventory-modern .cba-page-header { border-radius:15px; }
+}
+
+
+/* Scoped staff asset, borrowing and maintenance workspace polish */
+.staff-asset-detail-modern,.staff-asset-form-modern,.staff-borrowing-modern,.staff-borrowing-detail-modern,.staff-maintenance-modern { --workspace-line:#dbe5ef; --workspace-ink:#1a3049; }
+.staff-asset-detail-modern .cba-panel,.staff-asset-form-modern .card,.staff-borrowing-modern .cba-panel,.staff-borrowing-detail-modern .cba-panel,.staff-maintenance-modern .card,.staff-maintenance-modern .kpi-card { border:1px solid var(--workspace-line) !important; border-radius:16px !important; box-shadow:0 5px 19px rgba(20,47,88,.045); }
+.staff-asset-detail-modern .cba-header-title,.staff-asset-form-modern h1,.staff-borrowing-modern .cba-header-title,.staff-borrowing-detail-modern .cba-header-title,.staff-maintenance-modern .cba-header-title { font-weight:760; line-height:1.2; letter-spacing:-.035em; color:var(--workspace-ink); }
+.staff-asset-form-modern .card-header { border-bottom:1px solid #e5edf5; border-radius:16px 16px 0 0 !important; }
+.staff-asset-form-modern .card-header h6 { color:#193f7b !important; letter-spacing:-.01em; font-size:.96rem; }
+.staff-asset-form-modern .form-control,.staff-asset-form-modern .form-select,.staff-asset-form-modern input[type="file"] { border-color:#d2deea; border-radius:9px; min-height:42px; }
+.staff-asset-form-modern .form-actions { padding:15px 18px; background:#f5f9ff; border:1px solid #dce7f4; border-radius:13px; }
+.staff-asset-form-modern .form-actions .btn { min-height:44px; border-radius:10px; }
+.staff-borrowing-modern .cba-page-header,.staff-maintenance-modern .cba-page-header { padding:clamp(20px,2.8vw,30px); border:1px solid #dce7f4; border-radius:18px; background:linear-gradient(120deg,#fff,#f3f8ff); margin-bottom:22px; }
+.staff-borrowing-modern .cba-page-header .btn,.staff-maintenance-modern .cba-page-header .btn { border-radius:10px; min-height:42px; }
+.staff-borrowing-modern .cba-panel-header,.staff-borrowing-detail-modern .cba-panel-header { border-bottom-color:#e5edf5; }
+.staff-borrowing-detail-modern .cba-panel:first-child .cba-header-title { font-size:clamp(1.3rem,2.5vw,1.85rem); }
+.staff-borrowing-detail-modern .btn { min-height:39px; border-radius:9px; }
+.staff-maintenance-modern .kpi-card { min-height:125px; }
+.staff-maintenance-modern .card .form-control,.staff-maintenance-modern .card .form-select { min-height:40px; border-color:#d2deea; border-radius:9px; }
+.staff-maintenance-modern .card .btn { min-height:40px; border-radius:9px; }
+.staff-asset-detail-modern a:focus-visible,.staff-asset-form-modern input:focus-visible,.staff-borrowing-modern a:focus-visible,.staff-borrowing-detail-modern button:focus-visible,.staff-maintenance-modern button:focus-visible { outline:3px solid #8bb6f5; outline-offset:2px; }
+@media(max-width:767.98px) {
+.staff-borrowing-modern .cba-page-header,.staff-maintenance-modern .cba-page-header { padding:18px; border-radius:14px; }
+.staff-asset-form-modern .form-actions { flex-wrap:wrap; }
+.staff-asset-form-modern .form-actions .btn { flex:1 1 auto; }
+.staff-borrowing-detail-modern .cba-panel { border-radius:12px !important; }
+}

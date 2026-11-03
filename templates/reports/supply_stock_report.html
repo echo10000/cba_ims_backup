@@ -1,9 +1,16 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}{{ page_title }} - CBA IMS{% endblock %}
 {% block page_title %}{{ page_title }}{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/staff_reports.css' %}?v=20261028">
+{% endblock %}
+
 {% block content %}
+<div class="cba-staff-report">
+
 <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4">
     <div>
         <nav aria-label="breadcrumb">
@@ -233,5 +240,6 @@
     <div class="card-footer bg-white py-3">
         {% include 'includes/pagination.html' %}
     </div>
+</div>
 </div>
 {% endblock %}

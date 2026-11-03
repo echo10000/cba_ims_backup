@@ -244,34 +244,31 @@
       }
     }
   </style>
+  <link rel="stylesheet" href="{% static 'css/staff_login.css' %}?v=20261028">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:wght@400;700&family=Public+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/register.css' %}?v=19">
 </head>
-<body>
+<body class="cba-staff-login">
+  <a class="login-skip" href="#staff-login-form">Skip to sign in</a>
   <main class="shell">
     <section class="intro">
       <div class="brand">
-        <span aria-hidden="true">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="3" y="3" width="7" height="7"/>
-            <rect x="14" y="3" width="7" height="7"/>
-            <rect x="14" y="14" width="7" height="7"/>
-            <rect x="3" y="14" width="7" height="7"/>
-          </svg>
-        </span>
+        <img class="register-seal" src="{% static 'img/brand/norsu_seal.png' %}" alt="Negros Oriental State University seal">
         CBA IMS &mdash; Staff Workspace
       </div>
       <div class="intro-main">
-        <div class="eyebrow">Internal college workspace</div>
-        <h1>Equipment, custody, and accountability.</h1>
-        <p>One secure workspace for CBA personnel managing institutional equipment and reservations.</p>
+        <h1>Equipment library</h1>
+        <p>For CBA faculty, department chairs, the dean and property custodians.</p>
       </div>
       <footer>College of Business Administration &middot; Authorized users only</footer>
     </section>
 
     <section class="login-section">
       <div class="login">
-        <div class="label">Personnel access</div>
-        <h2>Welcome back.</h2>
-        <p class="sub">Sign in using your authorized CBA IMS credentials.</p>
+        <h2>Staff sign in</h2>
+        <p class="sub">Use your CBA IMS username and password.</p>
 
         {% if messages %}
           {% for message in messages %}
@@ -294,7 +291,7 @@
           </div>
         {% endif %}
 
-        <form method="post" novalidate>
+        <form id="staff-login-form" method="post" novalidate>
           {% csrf_token %}
           {% if next %}
             <input type="hidden" name="next" value="{{ next }}">
@@ -317,13 +314,9 @@
           </div>
 
           <button type="submit" class="action">
-            Sign In to Staff Workspace &rarr;
+            Sign in
           </button>
         </form>
-
-        <div class="secure">
-          <strong>Secure access</strong> &middot; Authorized CBA personnel only. Institutional session authentication with CSRF protection and role-based workspace routing.
-        </div>
       </div>
     </section>
   </main>

@@ -1,10 +1,18 @@
 {% extends 'base.html' %}
+{% load static %}
 {% load crispy_forms_tags %}
 
 {% block title %}Complete Disposal {{ disposal.disposal_number }} - CBA IMS{% endblock %}
 {% block page_title %}Complete Disposal: {{ disposal.disposal_number }}{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/staff_admin.css' %}?v=20261028">
+{% endblock %}
+
 {% block content %}
+<div class="cba-admin-ui admin-disposal admin-disposal-complete">
+<header class="admin-page-lead"><span class="admin-eyebrow"><i class="bi bi-shield-exclamation" aria-hidden="true"></i> FINAL DISPOSAL RECORD</span><h1>Complete physical disposal</h1><p>Record the final execution details. This action retires the asset from active inventory.</p></header>
+
 <div class="row justify-content-center">
     <div class="col-12 col-lg-8">
         <div class="mb-3">
@@ -37,5 +45,6 @@
             </div>
         </div>
     </div>
+</div>
 </div>
 {% endblock %}

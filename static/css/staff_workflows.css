@@ -1,0 +1,363 @@
+/* CBA IMS Operational Workflows — scoped, progressive presentation only.
+   No backend/state semantics, forms, endpoints, or permissions are changed here. */
+.cba-staff-workflow {
+  --wf-ink: #172e4a;
+  --wf-quiet: #5c7086;
+  --wf-border: #dbe5ef;
+  --wf-tint: #f4f8ff;
+  --wf-shadow: 0 6px 24px rgba(19,48,85,.045);
+  color: var(--wf-ink);
+  min-width: 0;
+}
+.cba-staff-workflow .breadcrumb {
+  margin-bottom: 14px;
+  font-size: .82rem;
+}
+.cba-staff-workflow .breadcrumb-item a {
+  color: #315f9c;
+  text-underline-offset: 3px;
+}
+.cba-staff-workflow .cba-page-header {
+  padding: clamp(19px, 2.6vw, 30px);
+  background: radial-gradient(circle at 96% 7%, #e2eefe 0, transparent 38%),
+              linear-gradient(115deg, #fff, #f8fbff);
+  border: 1px solid var(--wf-border);
+  border-radius: 19px;
+  margin-bottom: 22px;
+}
+.cba-staff-workflow .cba-page-header .cba-header-title,
+.cba-staff-workflow .cba-header-title {
+  font-size: clamp(1.45rem, 2.5vw, 1.95rem);
+  font-weight: 760;
+  letter-spacing: -.035em;
+  line-height: 1.18;
+  color: var(--wf-ink);
+}
+.cba-staff-workflow .cba-header-subtitle {
+  max-width: 68ch;
+  line-height: 1.55;
+  color: var(--wf-quiet);
+  font-size: .85rem;
+}
+.cba-staff-workflow .card,
+.cba-staff-workflow .cba-panel {
+  /* Keep semantic Bootstrap/status border widths and inline overdue borders. */
+  border-color: var(--wf-border);
+  border-radius: 16px;
+  box-shadow: var(--wf-shadow);
+  min-width: 0;
+}
+.cba-staff-workflow .card-header,
+.cba-staff-workflow .cba-panel-header {
+  padding: 15px 18px;
+  border-bottom-color: #e2eaf3;
+  border-radius: 16px 16px 0 0 !important;
+}
+.cba-staff-workflow .card-header.bg-dark {
+  background: linear-gradient(115deg, #193758, #265389) !important;
+  color: #fff !important;
+}
+.cba-staff-workflow .card-header.bg-primary {
+  background: linear-gradient(115deg, #174b99, #2769bb) !important;
+  color: #fff !important;
+}
+.cba-staff-workflow .card-header.bg-success {
+  background: linear-gradient(115deg, #146e52, #21836b) !important;
+  color: #fff !important;
+}
+.cba-staff-workflow .card-header.bg-danger {
+  background: linear-gradient(115deg, #9b283b, #bc4251) !important;
+  color: #fff !important;
+}
+.cba-staff-workflow .card-header .card-title {
+  font-size: 1rem;
+  letter-spacing: -.012em;
+  line-height: 1.35;
+}
+.cba-staff-workflow .card-header .badge {
+  flex-shrink: 0;
+  border-radius: 8px;
+  padding: 7px 10px;
+}
+.cba-staff-workflow .card-body { min-width: 0; }
+.cba-staff-workflow .card-body > .bg-light.rounded.border,
+.cba-staff-workflow .card-body > .bg-light.rounded,
+.cba-staff-workflow .card-body > .alert-light,
+.cba-staff-workflow .card-body .bg-light.rounded.border {
+  border-color: #dde8f4 !important;
+  border-radius: 12px !important;
+  background-color: #f7faff !important;
+}
+.cba-staff-workflow .form-label {
+  color: #334c68;
+  font-size: .83rem;
+  font-weight: 650;
+}
+.cba-staff-workflow :is(.form-control,.form-select,textarea,input[type="date"],input[type="datetime-local"]) {
+  border-color: #d2dfeb;
+  border-radius: 10px;
+  min-height: 43px;
+}
+.cba-staff-workflow :is(.form-control,.form-select):focus {
+  border-color: #4d82c8;
+  box-shadow: 0 0 0 .2rem rgba(45,105,187,.12);
+}
+.cba-staff-workflow .form-text { color: #61758a; }
+.cba-staff-workflow .btn { border-radius: 10px; min-height: 40px; }
+.cba-staff-workflow .btn-sm { min-height: 38px; }
+.cba-staff-workflow .btn-primary-cba {
+  box-shadow: 0 4px 12px rgba(29,78,216,.10);
+}
+.cba-staff-workflow .kpi-card {
+  border-radius: 15px !important;
+  border-color: var(--wf-border) !important;
+  box-shadow: var(--wf-shadow);
+}
+.cba-staff-workflow .cba-table-container {
+  max-width: 100%;
+  overflow-x: auto;
+}
+.cba-staff-workflow .cba-panel-footer { border-radius: 0 0 16px 16px; }
+.cba-staff-workflow :is(a,button,input,select,textarea,summary):focus-visible {
+  outline: 3px solid #87b2ed;
+  outline-offset: 2px;
+}
+.cba-staff-workflow .alert {
+  border-radius: 12px;
+  line-height: 1.55;
+}
+.cba-staff-workflow .text-danger,
+.cba-staff-workflow .invalid-feedback { overflow-wrap: anywhere; }
+.cba-staff-workflow .badge {
+  max-width: 100%;
+  white-space: normal;
+  line-height: 1.3;
+}
+.cba-staff-workflow.workflow-borrowing.workflow-request .card,
+.cba-staff-workflow.workflow-borrowing.workflow-release .card,
+.cba-staff-workflow.workflow-borrowing.workflow-return .card,
+.cba-staff-workflow.workflow-borrowing.workflow-reject .card { overflow: hidden; }
+.cba-staff-workflow.workflow-borrowing.workflow-release .alert-info {
+  background-color: #f0f7ff;
+  border-color: #cfe2f6;
+  color: #1a4e84;
+}
+.cba-staff-workflow.workflow-borrowing.workflow-return .alert-warning {
+  background-color: #fff9ee;
+  border-color: #f3dfb3;
+  color: #81530c;
+}
+@media (max-width: 767.98px) {
+  .cba-staff-workflow .cba-page-header { padding: 18px; border-radius: 15px; }
+  .cba-staff-workflow .cba-page-header .cba-header-actions { width: 100%; gap: 8px; }
+  .cba-staff-workflow .cba-page-header .cba-header-actions .btn { flex: 1 1 auto; }
+  .cba-staff-workflow .card, .cba-staff-workflow .cba-panel { border-radius: 13px; }
+  .cba-staff-workflow .card-header, .cba-staff-workflow .cba-panel-header { padding: 14px; border-radius: 13px 13px 0 0 !important; }
+  .cba-staff-workflow .btn-sm { min-height: 44px; }
+  .cba-staff-workflow .form-actions { flex-wrap: wrap; gap: 10px; }
+  .cba-staff-workflow .form-actions .btn { flex: 1 1 auto; }
+  .cba-staff-workflow .search-filter-bar, .cba-staff-workflow .filter-controls { min-width: 0; }
+  .cba-staff-workflow .search-input { min-width: 0 !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cba-staff-workflow .card,
+  .cba-staff-workflow .cba-panel,
+  .cba-staff-workflow .btn { transition: none !important; }
+}
+
+
+/* Assignment custody and maintenance inspection workflows. */
+.cba-staff-workflow[class*="workflow-assignment"] .cba-page-header {
+  border-color: #d8e6f2;
+}
+.cba-staff-workflow[class*="workflow-assignment"] .card-header.bg-white,
+.cba-staff-workflow[class*="workflow-maintenance"] .card-header.bg-white {
+  background: linear-gradient(115deg, #fff, #f8fbff) !important;
+  border-bottom: 1px solid #e2eaf3 !important;
+}
+.cba-staff-workflow[class*="workflow-assignment"] .card-header h5,
+.cba-staff-workflow[class*="workflow-maintenance"] .card-header h5 {
+  line-height: 1.45;
+  letter-spacing: -.015em;
+}
+.cba-staff-workflow[class*="workflow-assignment"] .table td,
+.cba-staff-workflow[class*="workflow-assignment"] .table th {
+  padding-block: 9px;
+  overflow-wrap: anywhere;
+}
+.cba-staff-workflow.workflow-assignment-current .search-filter-bar {
+  padding: 2px;
+}
+.cba-staff-workflow.workflow-assignment-current .search-filter-bar .input-group {
+  min-width: 0;
+}
+.cba-staff-workflow.workflow-assignment-current #assignmentFilterControls {
+  min-width: 0;
+  row-gap: 10px;
+}
+.cba-staff-workflow.workflow-assignment-current #assignmentFilterControls .form-select {
+  min-height: 42px;
+}
+.cba-staff-workflow.workflow-assignment-return .card-body > .bg-light,
+.cba-staff-workflow.workflow-assignment-form .card-body > .bg-light {
+  background: #f4f8ff !important;
+}
+.cba-staff-workflow.workflow-assignment-personal .card-body > .row h4 {
+  color: #183a66;
+  letter-spacing: -.015em;
+}
+.cba-staff-workflow[class*="workflow-maintenance"] .card > .card-body > .alert {
+  border: 1px solid #dce6f0 !important;
+  border-radius: 12px;
+  box-shadow: none !important;
+}
+.cba-staff-workflow.workflow-maintenance-start .alert-warning {
+  background-color: #fff9ee !important;
+  border-color: #efdfb8 !important;
+}
+.cba-staff-workflow.workflow-maintenance-complete .alert-info {
+  background-color: #f0f7ff !important;
+  border-color: #cfe2f5 !important;
+}
+.cba-staff-workflow.workflow-maintenance-detail .card-body .row.g-4,
+.cba-staff-workflow.workflow-assignment-history .card-body {
+  min-width: 0;
+}
+.cba-staff-workflow.workflow-maintenance-detail .badge,
+.cba-staff-workflow.workflow-assignment-return .badge {
+  word-break: normal;
+  overflow-wrap: anywhere;
+}
+@media (max-width: 767.98px) {
+  .cba-staff-workflow.workflow-assignment-current #assignmentFilterControls .form-select {
+    max-width: 100%;
+    min-width: 0 !important;
+  }
+  .cba-staff-workflow.workflow-assignment-return .table th {
+    width: auto !important;
+  }
+  .cba-staff-workflow[class*="workflow-maintenance"] .card-header {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+}
+
+
+/* Supply stock-control and institutional transfer workflows. */
+.cba-staff-workflow[class*="workflow-supplies"] .cba-page-header,
+.cba-staff-workflow[class*="workflow-transfer"] .cba-page-header {
+  border-color: #d8e4f0;
+}
+.cba-staff-workflow[class*="workflow-supplies"] .card-header.bg-white,
+.cba-staff-workflow[class*="workflow-transfer"] .card-header.bg-white {
+  background: linear-gradient(115deg, #fff 4%, #f6faff) !important;
+  border-bottom: 1px solid #e2eaf3 !important;
+}
+.cba-staff-workflow[class*="workflow-supplies"] .cba-page-header .btn,
+.cba-staff-workflow[class*="workflow-transfer"] .cba-page-header .btn {
+  border-radius: 10px;
+  min-height: 44px;
+}
+.cba-staff-workflow.workflow-supplies-low .card,
+.cba-staff-workflow.workflow-supplies-history .card,
+.cba-staff-workflow.workflow-transfer-pending .card,
+.cba-staff-workflow.workflow-transfer-history .card {
+  border-color: #dbe5ef !important;
+}
+.cba-staff-workflow.workflow-supplies-low .alert-warning,
+.cba-staff-workflow.workflow-supplies-adjust .alert-warning {
+  background-color: #fff9ee !important;
+  border-color: #f0ddb6 !important;
+  color: #82530b;
+}
+.cba-staff-workflow.workflow-supplies-stock-in .card.border-success {
+  border-color: #aadcc7 !important;
+}
+.cba-staff-workflow.workflow-supplies-stock-out .card.border-primary {
+  border-color: #b5d0f4 !important;
+}
+.cba-staff-workflow.workflow-supplies-adjust .card.border-warning {
+  border-color: #f1d8a5 !important;
+}
+.cba-staff-workflow.workflow-supplies-detail .cba-code,
+.cba-staff-workflow.workflow-transfer-detail .cba-code {
+  overflow-wrap: anywhere;
+}
+.cba-staff-workflow.workflow-transfer-detail .card .badge,
+.cba-staff-workflow.workflow-transfer-pending .card .badge,
+.cba-staff-workflow.workflow-supplies-detail .card .badge {
+  white-space: normal;
+  line-height: 1.4;
+}
+.cba-staff-workflow.workflow-transfer-request .form-control,
+.cba-staff-workflow.workflow-transfer-request .form-select {
+  min-height: 44px;
+}
+.cba-staff-workflow.workflow-transfer-pending .cba-panel,
+.cba-staff-workflow.workflow-supplies-catalog .cba-panel {
+  overflow: visible;
+}
+@media (max-width: 767.98px) {
+  .cba-staff-workflow[class*="workflow-supplies"] .cba-page-header .cba-header-actions,
+  .cba-staff-workflow[class*="workflow-transfer"] .cba-page-header .cba-header-actions {
+    flex-wrap: wrap;
+  }
+  .cba-staff-workflow[class*="workflow-supplies"] .card-body,
+  .cba-staff-workflow[class*="workflow-transfer"] .card-body {
+    overflow-wrap: anywhere;
+  }
+}
+
+
+/* Closing the maintenance loop: cancellation, replacement, reporting and archive. */
+.cba-staff-workflow.workflow-maintenance-cancel .card.border-secondary,
+.cba-staff-workflow.workflow-maintenance-replacement .card.border-danger {
+  border-top-width:4px !important;
+}
+.cba-staff-workflow.workflow-maintenance-cancel .card.border-secondary {
+  border-top-color:#738398 !important;
+}
+.cba-staff-workflow.workflow-maintenance-replacement .card.border-danger {
+  border-top-color:#c33e51 !important;
+}
+.cba-staff-workflow.workflow-maintenance-replacement .alert-danger {
+  background-color:#fff2f3;
+  border-color:#f1c4ca;
+  color:#822437;
+}
+.cba-staff-workflow.workflow-maintenance-cancel .alert-light,
+.cba-staff-workflow.workflow-maintenance-report .alert-info {
+  background-color:#f3f8ff !important;
+  border-color:#d9e7f5 !important;
+}
+.cba-staff-workflow.workflow-maintenance-history .cba-page-header,
+.cba-staff-workflow.workflow-maintenance-personal .cba-page-header {
+  padding:clamp(20px,2.8vw,30px);
+  border:1px solid #dce7f4;
+  border-radius:18px;
+  background:linear-gradient(120deg,#fff,#f3f8ff);
+  margin-bottom:22px;
+}
+.cba-staff-workflow.workflow-maintenance-history .card .form-select,
+.cba-staff-workflow.workflow-maintenance-history .card .form-control {
+  min-height:42px;
+}
+.cba-staff-workflow.workflow-maintenance-personal .kpi-card {
+  border:1px solid #dbe5ef;
+  border-radius:15px;
+  box-shadow:0 5px 20px rgba(20,47,88,.045);
+}
+.cba-staff-workflow.workflow-maintenance-report .card-header.bg-white {
+  background:linear-gradient(115deg,#fff,#f8fbff) !important;
+}
+.cba-staff-workflow.workflow-maintenance-report .card-header .text-danger,
+.cba-staff-workflow.workflow-maintenance-replacement .card-header .text-danger {
+  color:#a32843 !important;
+}
+@media(max-width:767.98px) {
+  .cba-staff-workflow.workflow-maintenance-history .cba-page-header,
+  .cba-staff-workflow.workflow-maintenance-personal .cba-page-header {
+    padding:18px;
+    border-radius:14px;
+  }
+}

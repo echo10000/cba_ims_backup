@@ -1,9 +1,15 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}{{ supply.item_name }} ({{ supply.supply_code }}) - CBA IMS{% endblock %}
 {% block page_title %}Supply Item Details{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/staff_workflows.css' %}?v=20261028">
+{% endblock %}
+
 {% block content %}
+<div class="cba-staff-workflow workflow-supplies-detail">
 <!-- Breadcrumb Navigation -->
 <nav aria-label="breadcrumb" class="mb-3">
     <ol class="breadcrumb">
@@ -264,5 +270,6 @@
             {% endif %}
         </div>
     </div>
+</div>
 </div>
 {% endblock %}

@@ -1,9 +1,17 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Users - CBA IMS{% endblock %}
 {% block page_title %}Users Management{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/staff_admin.css' %}?v=20261028">
+{% endblock %}
+
 {% block content %}
+<div class="cba-admin-ui admin-settings admin-admin-users">
+<header class="admin-page-lead"><span class="admin-eyebrow"><i class="bi bi-shield-check" aria-hidden="true"></i> SYSTEM ADMINISTRATION</span><h1>User accounts</h1><p>Manage authorized CBA IMS users, roles and account access.</p></header>
+
 <div class="card">
     <div class="card-body">
         <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
@@ -147,5 +155,6 @@
         
         {% include 'includes/pagination.html' %}
     </div>
+</div>
 </div>
 {% endblock %}

@@ -1,4 +1,6 @@
 {% extends 'base.html' %}
+{% load static %}
+
 
 {% block title %}{{ asset.asset_code }} - {{ asset.item_name }} - CBA IMS{% endblock %}
 {% block page_title %}Asset Details{% endblock %}
@@ -98,7 +100,7 @@
 {% endblock %}
 
 {% block content %}
-<div class="asset-detail-shell container-fluid px-0">
+<div class="asset-detail-shell container-fluid px-0 staff-asset-detail-modern">
 <!-- Breadcrumb Navigation -->
 <nav aria-label="breadcrumb" class="mb-3">
     <ol class="breadcrumb small mb-0">
@@ -116,20 +118,15 @@
 <div class="cba-panel mb-4">
     <div class="cba-panel-body p-4">
         <div class="row align-items-center g-3">
-            <!-- Asset Photo / Placeholder -->
+            {% if asset.asset_image %}
+            <!-- Asset Photo -->
             <div class="col-12 col-sm-4 col-md-3 col-lg-2 text-center">
-                {% if asset.asset_image %}
                     <img src="{{ asset.asset_image.url }}" alt="{{ asset.item_name }}" class="img-fluid rounded-3 border" style="max-height: 130px; width: 100%; object-fit: cover;">
-                {% else %}
-                    <div class="rounded-3 bg-light border d-flex flex-column align-items-center justify-content-center py-3 text-muted" style="min-height: 112px;">
-                        <i class="bi bi-box-seam fs-2 opacity-50 mb-1"></i>
-                        <small class="text-muted" style="font-size: 0.75rem;">No photo uploaded</small>
-                    </div>
-                {% endif %}
             </div>
+            {% endif %}
 
             <!-- Asset Title, Primary Badges & Metadata -->
-            <div class="col-12 col-sm-8 col-md-9 col-lg-10">
+            <div class="col-12 {% if asset.asset_image %}col-sm-8 col-md-9 col-lg-10{% endif %}">
                 <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-start gap-3">
                     <div>
                         <div class="d-flex flex-wrap align-items-center gap-2 mb-2">
@@ -337,11 +334,11 @@
             <div class="card-body">
                 <table class="table table-sm table-borderless mb-0">
                     <tr>
-                        <th class="text-muted" style="width: 40%;">System Code:</th>
+                        <th class="text-muted" style="width: 40%;">System Code</th>
                         <td><span class="font-monospace fw-bold">{{ asset.asset_code }}</span></td>
                     </tr>
                     <tr>
-                        <th class="text-muted">Property #:</th>
+                        <th class="text-muted">Property #</th>
                         <td>
                             {% if asset.property_number %}
                                 <span class="badge bg-light text-dark font-monospace border">{{ asset.property_number }}</span>
@@ -351,7 +348,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <th class="text-muted">Serial #:</th>
+                        <th class="text-muted">Serial #</th>
                         <td>
                             {% if asset.serial_number %}
                                 <span class="font-monospace">{{ asset.serial_number }}</span>
@@ -359,10 +356,6 @@
                                 <span class="text-muted small">None recorded</span>
                             {% endif %}
                         </td>
-                    </tr>
-                    <tr>
-                        <th class="text-muted">Internal UUID:</th>
-                        <td><small class="font-monospace text-muted" style="font-size: 0.75rem;">{{ asset.uuid }}</small></td>
                     </tr>
                 </table>
             </div>
@@ -378,21 +371,21 @@
             <div class="card-body">
                 <table class="table table-sm table-borderless mb-0">
                     <tr>
-                        <th class="text-muted" style="width: 40%;">Category:</th>
+                        <th class="text-muted" style="width: 40%;">Category</th>
                         <td><strong>{{ asset.category.name }}</strong> <small class="text-muted">({{ asset.category.code }})</small></td>
                     </tr>
-                    <tr>
-                        <th class="text-muted">Brand:</th>
-                        <td>{{ asset.brand.name|default:"Unspecified" }}</td>
-                    </tr>
-                    <tr>
-                        <th class="text-muted">Model:</th>
-                        <td>{{ asset.model|default:"Unspecified" }}</td>
-                    </tr>
-                    <tr>
-                        <th class="text-muted">Description:</th>
-                        <td><small>{{ asset.description|default:"No description provided."|linebreaksbr }}</small></td>
-                    </tr>
+                    {% if asset.brand.name %}<tr>
+                        <th class="text-muted">Brand</th>
+                        <td>{{ asset.brand.name }}</td>
+                    </tr>{% endif %}
+                    {% if asset.model %}<tr>
+                        <th class="text-muted">Model</th>
+                        <td>{{ asset.model }}</td>
+                    </tr>{% endif %}
+                    {% if asset.description %}<tr>
+                        <th class="text-muted">Description</th>
+                        <td>{{ asset.description|linebreaksbr }}</td>
+                    </tr>{% endif %}
                 </table>
             </div>
         </div>
@@ -407,11 +400,11 @@
             <div class="card-body">
                 <table class="table table-sm table-borderless mb-0">
                     <tr>
-                        <th class="text-muted" style="width: 40%;">Department:</th>
+                        <th class="text-muted" style="width: 40%;">Department</th>
                         <td><strong>{{ asset.department.name }}</strong></td>
                     </tr>
                     <tr>
-                        <th class="text-muted">Current Location:</th>
+                        <th class="text-muted">Current Location</th>
                         <td>
                             {% if asset.current_location %}
                                 {{ asset.current_location.name }}
@@ -424,7 +417,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <th class="text-muted">Current Custody:</th>
+                        <th class="text-muted">Current Custody</th>
                         <td>
                             {% if asset.status == 'AVAILABLE' %}
                                 <span class="text-muted small">In department storage / available</span>
@@ -447,23 +440,23 @@
             <div class="card-body">
                 <table class="table table-sm table-borderless mb-0">
                     <tr>
-                        <th class="text-muted" style="width: 40%;">Acquisition Date:</th>
+                        <th class="text-muted" style="width: 40%;">Acquisition Date</th>
                         <td>{{ asset.acquisition_date|default:"Unknown" }}</td>
                     </tr>
                     <tr>
-                        <th class="text-muted">Acquisition Cost:</th>
+                        <th class="text-muted">Acquisition Cost</th>
                         <td>
                             {% if asset.acquisition_cost is not None %}
-                                <strong class="text-success">PHP {{ asset.acquisition_cost|floatformat:2 }}</strong>
+                                <strong>PHP {{ asset.acquisition_cost|floatformat:2 }}</strong>
                             {% else %}
                                 <span class="text-muted small">Not recorded</span>
                             {% endif %}
                         </td>
                     </tr>
-                    <tr>
-                        <th class="text-muted">Supplier / Vendor:</th>
-                        <td>{{ asset.supplier|default:"Unspecified" }}</td>
-                    </tr>
+                    {% if asset.supplier %}<tr>
+                        <th class="text-muted">Supplier / Vendor</th>
+                        <td>{{ asset.supplier }}</td>
+                    </tr>{% endif %}
                 </table>
             </div>
         </div>
@@ -492,15 +485,15 @@
             <div class="card-body">
                 <table class="table table-sm table-borderless mb-0">
                     <tr>
-                        <th class="text-muted" style="width: 40%;">Registered By:</th>
+                        <th class="text-muted" style="width: 40%;">Registered By</th>
                         <td>{% if asset.created_by %}{{ asset.created_by.get_full_name|default:asset.created_by.username }}{% else %}System{% endif %}</td>
                     </tr>
                     <tr>
-                        <th class="text-muted">Created:</th>
+                        <th class="text-muted">Created</th>
                         <td><small>{{ asset.created_at|date:"Y-m-d H:i" }}</small></td>
                     </tr>
                     <tr>
-                        <th class="text-muted">Last Updated:</th>
+                        <th class="text-muted">Last Updated</th>
                         <td><small>{{ asset.updated_at|date:"Y-m-d H:i" }}</small></td>
                     </tr>
                 </table>
@@ -509,7 +502,8 @@
     </div>
 </div>
 
-<!-- Visual Reserved Sections for Future Phases -->
+<details class="reg-records">
+<summary>Assignments, history and records</summary>
 <div class="row g-3">
     <!-- Current Assignment (Phase 3) -->
     <div class="col-lg-6 mb-3">
@@ -549,11 +543,11 @@
 
                     <table class="table table-sm table-borderless mb-3">
                         <tr>
-                            <th class="text-muted" style="width: 40%;">Assigned Date:</th>
+                            <th class="text-muted" style="width: 40%;">Assigned Date</th>
                             <td>{{ current_assignment.assigned_date|date:"F d, Y" }}</td>
                         </tr>
                         <tr>
-                            <th class="text-muted">Expected Return:</th>
+                            <th class="text-muted">Expected Return</th>
                             <td>
                                 {% if current_assignment.expected_return_date %}
                                     {{ current_assignment.expected_return_date|date:"F d, Y" }}
@@ -563,18 +557,18 @@
                             </td>
                         </tr>
                         <tr>
-                            <th class="text-muted">Issued Condition:</th>
+                            <th class="text-muted">Issued Condition</th>
                             <td>
                                 <span class="badge bg-light text-dark border">{{ current_assignment.get_condition_at_assignment_display }}</span>
                             </td>
                         </tr>
                         <tr>
-                            <th class="text-muted">Purpose:</th>
+                            <th class="text-muted">Purpose</th>
                             <td><small>{{ current_assignment.purpose|default:"General Institutional Use" }}</small></td>
                         </tr>
                         {% if current_assignment.remarks %}
                         <tr>
-                            <th class="text-muted">Turnover Notes:</th>
+                            <th class="text-muted">Turnover Notes</th>
                             <td><small class="text-muted">{{ current_assignment.remarks|linebreaksbr }}</small></td>
                         </tr>
                         {% endif %}
@@ -961,11 +955,11 @@
 
                     <table class="table table-sm table-borderless mb-3">
                         <tr>
-                            <th class="text-muted" style="width: 40%;">Released At:</th>
+                            <th class="text-muted" style="width: 40%;">Released At</th>
                             <td>{{ current_borrowing.released_at|date:"M d, Y, g:i a" }}</td>
                         </tr>
                         <tr>
-                            <th class="text-muted">Scheduled Return:</th>
+                            <th class="text-muted">Scheduled Return</th>
                             <td>
                                 <strong>{{ current_borrowing.requested_return|date:"M d, Y, g:i a" }}</strong>
                                 {% if current_borrowing.is_overdue %}
@@ -974,11 +968,11 @@
                             </td>
                         </tr>
                         <tr>
-                            <th class="text-muted">Release Condition:</th>
+                            <th class="text-muted">Release Condition</th>
                             <td><span class="badge bg-light text-dark border">{{ current_borrowing.get_condition_at_release_display }}</span></td>
                         </tr>
                         <tr>
-                            <th class="text-muted">Purpose:</th>
+                            <th class="text-muted">Purpose</th>
                             <td><small>{{ current_borrowing.purpose }}</small></td>
                         </tr>
                     </table>
@@ -1016,11 +1010,11 @@
 
                     <table class="table table-sm table-borderless mb-3">
                         <tr>
-                            <th class="text-muted" style="width: 40%;">Released At:</th>
+                            <th class="text-muted" style="width: 40%;">Released At</th>
                             <td>{{ current_student_loan.released_at|date:"M d, Y, g:i a"|default:"-" }}</td>
                         </tr>
                         <tr>
-                            <th class="text-muted">Scheduled Return:</th>
+                            <th class="text-muted">Scheduled Return</th>
                             <td>
                                 <strong>{{ current_student_loan.requested_return|date:"M d, Y, g:i a" }}</strong>
                                 {% if current_student_loan.is_overdue %}
@@ -1029,12 +1023,12 @@
                             </td>
                         </tr>
                         <tr>
-                            <th class="text-muted">Purpose:</th>
+                            <th class="text-muted">Purpose</th>
                             <td><small>{{ current_student_loan.purpose }}</small></td>
                         </tr>
                         {% if current_student_loan.room_venue %}
                         <tr>
-                            <th class="text-muted">Venue:</th>
+                            <th class="text-muted">Venue</th>
                             <td><small>{{ current_student_loan.room_venue }}</small></td>
                         </tr>
                         {% endif %}
@@ -1441,5 +1435,6 @@
     </div>
 </div>
 {% endif %}
+</details>
 </div>
 {% endblock %}

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <meta name="theme-color" content="#ffffff">
+    <meta name="theme-color" content="#f5e9c8">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="csrf-token" content="{{ csrf_token }}">
@@ -31,6 +31,12 @@
         /* Minimal FOUC guard for Alpine before custom.css loads */
         [x-cloak] { display: none !important; }
     </style>
+
+    <!-- Property Register design layer: fonts, then styles, loaded last so they win -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:wght@400;700&family=Public+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/register.css' %}?v=19">
 </head>
 <body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
 
@@ -46,11 +52,9 @@
     <div class="offcanvas offcanvas-start sidebar-offcanvas d-lg-none" tabindex="-1" id="sidebarMenu" aria-labelledby="sidebarMenuLabel">
         <div class="offcanvas-header">
             <div class="d-flex align-items-center gap-2">
-                <div class="sidebar-brand-mark">
-                    <i class="bi bi-grid-3x3-gap-fill text-white"></i>
-                </div>
+                <img class="register-seal" src="{% static 'img/brand/norsu_seal.png' %}" alt="Negros Oriental State University seal">
                 <div class="d-flex flex-column lh-1">
-                    <span class="sidebar-brand-title" id="sidebarMenuLabel">CBA IMS</span>
+                    <span class="sidebar-brand-title" id="sidebarMenuLabel">CBA Equipment Library</span>
                     <span class="sidebar-brand-subtitle">College of Business Administration</span>
                 </div>
             </div>
@@ -72,7 +76,6 @@
                     <i class="bi bi-list fs-5"></i>
                 </button>
                 <div class="d-flex align-items-center gap-2">
-                    <span class="topbar-badge font-mono d-none d-sm-inline-block">NORSU CBA</span>
                     <span class="topbar-page-title h6 mb-0 text-truncate fw-bold text-dark">{% block page_title %}Dashboard{% endblock %}</span>
                 </div>
             </div>

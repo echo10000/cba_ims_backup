@@ -1,9 +1,15 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}My Property Accountability - CBA IMS{% endblock %}
 {% block page_title %}My Property Accountability{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/staff_workflows.css' %}?v=20261028">
+{% endblock %}
+
 {% block content %}
+<div class="cba-staff-workflow workflow-assignment-personal">
 {% if not employee %}
 <div class="row justify-content-center">
     <div class="col-md-8 col-lg-6">
@@ -539,4 +545,5 @@
 </div>
 
 {% endif %}
+</div>
 {% endblock %}

@@ -1,9 +1,15 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}{{ page_title }} - CBA IMS{% endblock %}
 {% block page_title %}{{ page_title }}{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/staff_workflows.css' %}?v=20261028">
+{% endblock %}
+
 {% block content %}
+<div class="cba-staff-workflow workflow-maintenance-start">
 <div class="row justify-content-center">
     <div class="col-12 col-lg-8">
         <div class="mb-3">
@@ -109,5 +115,6 @@
             </div>
         </div>
     </div>
+</div>
 </div>
 {% endblock %}

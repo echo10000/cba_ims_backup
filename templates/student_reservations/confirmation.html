@@ -4,10 +4,11 @@
 {% block title %}Request Received — CBA Equipment Reservations{% endblock %}
 
 {% block content %}
-<section class="student-confirmation" aria-labelledby="received-title">
-  <p class="student-confirmation-state">✓ Request submitted</p>
+<section class="student-confirmation storefront-success-hero" aria-labelledby="received-title">
+  <div class="storefront-confirmation-icon" aria-hidden="true"><i class="bi bi-check2-circle"></i></div>
+  <p class="student-confirmation-state"><i class="bi bi-check-circle-fill me-1" aria-hidden="true"></i> Request submitted</p>
   <h1 id="received-title">Request received.</h1>
-  <p class="student-lede">Waiting for approval. Save your tracking code to check for updates.</p>
+  <p class="student-lede">Your request is in the Property Office review queue. Save your private tracking code and check back for approval before pickup.</p>
 
   <div class="student-token" x-data="{ copied: false }">
     <span class="student-token-label">Your tracking code</span>
@@ -30,7 +31,7 @@
 </section>
 
 <!-- Concise Summary Card -->
-<div class="bg-white p-3 p-md-4 rounded border border-light-subtle shadow-xs my-4" style="max-width: 720px; margin-inline: auto;">
+<div class="bg-white p-3 p-md-4 rounded border border-light-subtle shadow-xs my-4 storefront-confirmation-summary" style="max-width: 720px; margin-inline: auto;">
     <h2 class="h6 fw-bold text-dark mb-3 pb-2 border-bottom border-light-subtle">
         Reservation Summary
     </h2>
@@ -90,8 +91,8 @@
 </div>
 
 <!-- Concise pickup and School ID guidance -->
-<div class="student-policy-note mb-4" style="max-width: 720px; margin-inline: auto;">
-    <h2 class="h6 fw-bold text-dark mb-1.5">What Happens Next?</h2>
+<div class="student-policy-note mb-4 storefront-confirmation-next" style="max-width: 720px; margin-inline: auto;">
+    <h2 class="h6 fw-bold text-dark mb-2">What Happens Next?</h2>
     <p class="mb-0">Bring your original School ID when collecting approved equipment at the CBA Property Office. Pickup has a 15-minute grace period. Return equipment directly or after hours to an authorized security guard.</p>
 </div>
 {% endblock %}

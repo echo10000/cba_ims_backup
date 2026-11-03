@@ -1,0 +1,141 @@
+/* CBA Student shared storefront chrome — loaded by base_student after existing inline CSS. */
+.student-ui {
+  --student-shell-ink:#18304e;
+  --student-shell-line:#dbe6f1;
+  --student-shell-accent:#1d4f9a;
+}
+.student-ui .student-skip-link {
+  position:fixed;
+  z-index:3000;
+  left:16px;
+  top:-90px;
+  display:inline-flex;
+  align-items:center;
+  min-height:44px;
+  padding:10px 18px;
+  border-radius:0 0 11px 11px;
+  background:#fff;
+  color:#153b75;
+  border:2px solid #245bd1;
+  text-decoration:none;
+  font-weight:750;
+  box-shadow:0 8px 28px rgba(20,47,88,.19);
+}
+.student-ui .student-skip-link:focus {
+  top:0;
+  outline:3px solid #5d98ed;
+  outline-offset:2px;
+}
+.student-ui .student-portal-header {
+  background-color:rgba(255,255,255,.97);
+  border-bottom:1px solid #dce6f0;
+  box-shadow:0 6px 24px rgba(21,48,80,.045);
+  backdrop-filter:saturate(1.15) blur(12px);
+}
+.student-ui .student-portal-header .student-brand {
+  min-width:0;
+  text-decoration:none;
+}
+.student-ui .student-portal-header .student-brand-title {
+  color:var(--student-shell-ink);
+  font-weight:800;
+  letter-spacing:-.025em;
+}
+.student-ui .student-portal-header .student-brand-subtitle {
+  color:#697b8f;
+}
+.student-ui .student-portal-header .student-public-nav {
+  gap:5px;
+}
+.student-ui .student-portal-header .student-public-nav a,
+.student-ui #studentNavOffcanvas .student-public-nav a {
+  border:1px solid transparent;
+  border-radius:11px;
+  min-height:42px;
+  display:inline-flex;
+  align-items:center;
+  padding:9px 14px;
+  font-size:.85rem;
+  color:#45607c;
+  font-weight:650;
+  text-decoration:none;
+  transition:background .18s ease,border-color .18s ease,color .18s ease;
+}
+.student-ui .student-portal-header .student-public-nav a:hover,
+.student-ui #studentNavOffcanvas .student-public-nav a:hover {
+  color:#1b4f99;
+  background:#f1f6fe;
+}
+.student-ui .student-portal-header .student-public-nav a.active,
+.student-ui #studentNavOffcanvas .student-public-nav a.active {
+  color:#174b96;
+  background:#eaf2ff;
+  border-color:#c8dcfa;
+  font-weight:750;
+}
+.student-ui .student-portal-header .student-public-nav a:focus-visible,
+.student-ui #studentNavOffcanvas .student-public-nav a:focus-visible,
+.student-ui .student-portal-header button:focus-visible,
+.student-ui .student-brand:focus-visible {
+  outline:3px solid #5792e4;
+  outline-offset:3px;
+}
+.student-ui #studentNavOffcanvas {
+  border-left:1px solid #dce6f0;
+  box-shadow:-14px 0 50px rgba(20,47,88,.14);
+}
+.student-ui #studentNavOffcanvas .offcanvas-title {
+  color:var(--student-shell-ink);
+  letter-spacing:-.025em;
+}
+.student-ui #studentNavOffcanvas .student-public-nav {
+  gap:7px !important;
+}
+.student-ui #studentNavOffcanvas .student-public-nav a {
+  width:100%;
+  min-height:48px;
+}
+.student-ui #studentNavOffcanvas .student-policy-note {
+  padding:16px;
+  border:1px solid #d8e6f5;
+  border-radius:13px;
+  background:#f6faff;
+  color:#516781;
+  line-height:1.6;
+}
+.student-ui main#student-main {
+  scroll-margin-top:90px;
+}
+.student-ui footer {
+  border-top:1px solid #e0e9f2 !important;
+  color:#62758a !important;
+  line-height:1.6;
+}
+@media(max-width:767.98px) {
+  .student-ui .student-portal-header {
+    padding-inline:12px !important;
+  }
+  .student-ui .student-portal-header .container-xl {
+    min-width:0;
+    gap:10px;
+  }
+  .student-ui .student-portal-header .student-brand {
+    gap:8px;
+  }
+  .student-ui .student-portal-header .student-brand-title {
+    font-size:.88rem;
+    line-height:1.3;
+  }
+  .student-ui .student-portal-header button[data-bs-toggle="offcanvas"] {
+    min-width:44px;
+    min-height:44px;
+    border:1px solid #dbe5ef !important;
+    border-radius:11px;
+    background:#f8fbff;
+  }
+  .student-ui footer {padding:18px 0 !important;}
+}
+@media(prefers-reduced-motion:reduce) {
+  .student-ui .student-portal-header .student-public-nav a,
+  .student-ui #studentNavOffcanvas .student-public-nav a {transition:none;}
+}

@@ -1,9 +1,15 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Bulk QR Asset Labels - CBA IMS{% endblock %}
 {% block page_title %}Bulk QR Asset Labels{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/staff_admin.css' %}?v=20261028">
+{% endblock %}
+
 {% block content %}
+<div class="cba-admin-ui admin-inventory admin-inventory-bulk-qr">
 <div x-data="{
     selected: [],
     allCodes: [{% for item in assets_with_qr %}'{{ item.asset.asset_code }}'{% if not forloop.last %}, {% endif %}{% endfor %}],
@@ -208,5 +214,6 @@
             {% endif %}
         </div>
     </form>
+</div>
 </div>
 {% endblock %}

@@ -1,10 +1,17 @@
 {% extends 'base.html' %}
+{% load static %}
 {% load crispy_forms_tags %}
 
 {% block title %}Verify Physical Asset - {{ asset.asset_code }} - CBA IMS{% endblock %}
 {% block page_title %}Physical Asset Verification{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/staff_admin.css' %}?v=20261028">
+{% endblock %}
+
 {% block content %}
+<div class="cba-admin-ui admin-inventory admin-inventory-verify">
+
 <div class="row justify-content-center">
     <div class="col-12 col-md-10 col-lg-8">
         <!-- Breadcrumb Navigation -->
@@ -147,5 +154,6 @@
             </div>
         </div>
     </div>
+</div>
 </div>
 {% endblock %}

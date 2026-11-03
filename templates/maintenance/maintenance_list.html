@@ -1,9 +1,15 @@
 {% extends 'base.html' %}
+{% load static %}
+
 
 {% block title %}{{ page_title }} - CBA IMS{% endblock %}
 {% block page_title %}{{ page_title }}{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/staff_polish.css' %}?v=20261028">
+{% endblock %}
 {% block content %}
+<div class="staff-maintenance-modern">
 <!-- Page Header -->
 <div class="cba-page-header">
     <div>
@@ -311,5 +317,6 @@
         {% include 'includes/pagination.html' %}
     </div>
     {% endif %}
+</div>
 </div>
 {% endblock %}

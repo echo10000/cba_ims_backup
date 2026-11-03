@@ -1,9 +1,15 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}{{ page_title }} - CBA IMS{% endblock %}
 {% block page_title %}{{ page_title }}{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/staff_workflows.css' %}?v=20261028">
+{% endblock %}
+
 {% block content %}
+<div class="cba-staff-workflow workflow-maintenance-history">
 <!-- Page Header -->
 <div class="cba-page-header">
     <div>
@@ -234,5 +240,6 @@
         {% include 'includes/pagination.html' %}
     </div>
     {% endif %}
+</div>
 </div>
 {% endblock %}

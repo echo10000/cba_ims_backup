@@ -1,9 +1,15 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}My Equipment Borrowings - CBA IMS{% endblock %}
 {% block page_title %}My Equipment Borrowings{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/staff_workflows.css' %}?v=20261028">
+{% endblock %}
+
 {% block content %}
+<div class="cba-staff-workflow workflow-borrowing workflow-personal">
 <div class="container-fluid px-0">
     <!-- Institutional Page Header -->
     <div class="cba-page-header">
@@ -132,11 +138,11 @@
                                 </div>
                             </div>
                             <div class="small text-secondary mb-3 d-flex flex-column gap-1">
-                                <div><i class="bi bi-calendar-check text-muted me-1.5"></i>Released: {{ b.released_at|date:"M d, H:i" }}</div>
+                                <div><i class="bi bi-calendar-check text-muted me-2"></i>Released: {{ b.released_at|date:"M d, H:i" }}</div>
                                 <div class="{% if b.is_overdue %}text-danger fw-bold{% endif %}">
-                                    <i class="bi bi-alarm {% if not b.is_overdue %}text-muted{% endif %} me-1.5"></i>Due: {{ b.requested_return|date:"M d, Y H:i" }}
+                                    <i class="bi bi-alarm {% if not b.is_overdue %}text-muted{% endif %} me-2"></i>Due: {{ b.requested_return|date:"M d, Y H:i" }}
                                 </div>
-                                <div><i class="bi bi-info-circle text-muted me-1.5"></i>Purpose: {{ b.purpose }}</div>
+                                <div><i class="bi bi-info-circle text-muted me-2"></i>Purpose: {{ b.purpose }}</div>
                             </div>
                             <div class="mt-auto pt-2 border-top d-flex justify-content-between align-items-center">
                                 <small class="text-muted fw-medium">Return to Custodian</small>
@@ -180,9 +186,9 @@
                                 <span class="cba-status cba-status-assigned">Approved</span>
                             </div>
                             <div class="small text-secondary mb-3 d-flex flex-column gap-1">
-                                <div><i class="bi bi-clock text-muted me-1.5"></i>Start: {{ b.requested_start|date:"M d, Y H:i" }}</div>
-                                <div><i class="bi bi-arrow-return-left text-muted me-1.5"></i>Return: {{ b.requested_return|date:"M d, Y H:i" }}</div>
-                                <div><i class="bi bi-geo-alt text-muted me-1.5"></i>Pickup: {{ b.asset.current_location.name|default:"Department Storage" }}</div>
+                                <div><i class="bi bi-clock text-muted me-2"></i>Start: {{ b.requested_start|date:"M d, Y H:i" }}</div>
+                                <div><i class="bi bi-arrow-return-left text-muted me-2"></i>Return: {{ b.requested_return|date:"M d, Y H:i" }}</div>
+                                <div><i class="bi bi-geo-alt text-muted me-2"></i>Pickup: {{ b.asset.current_location.name|default:"Department Storage" }}</div>
                             </div>
                             <div class="mt-auto pt-2 border-top d-flex justify-content-between align-items-center">
                                 <span class="cba-status cba-status-available">Ready for pickup</span>
@@ -226,8 +232,8 @@
                                 <span class="cba-status cba-status-warning">Under Review</span>
                             </div>
                             <div class="small text-secondary mb-3 d-flex flex-column gap-1">
-                                <div><i class="bi bi-calendar text-muted me-1.5"></i>Requested Period: {{ b.requested_start|date:"M d, H:i" }} &rarr; {{ b.requested_return|date:"M d, H:i" }}</div>
-                                <div><i class="bi bi-info-circle text-muted me-1.5"></i>Purpose: {{ b.purpose }}</div>
+                                <div><i class="bi bi-calendar text-muted me-2"></i>Requested Period: {{ b.requested_start|date:"M d, H:i" }} &rarr; {{ b.requested_return|date:"M d, H:i" }}</div>
+                                <div><i class="bi bi-info-circle text-muted me-2"></i>Purpose: {{ b.purpose }}</div>
                             </div>
                             <div class="mt-auto pt-2 border-top d-flex justify-content-between align-items-center gap-2">
                                 <form method="post" action="{% url 'borrowing:borrowing_cancel' b.pk %}">
@@ -351,5 +357,6 @@
     </div>
 
     {% endif %}
+</div>
 </div>
 {% endblock %}
